@@ -1,0 +1,77 @@
+<ion-content padding>
+        <!--     <div style="width:100%" style="text-align:center">
+             <img width="40%"  src="assets/imgs/icono.png"/>
+          </div>
+       -->
+        <ion-title color="pesto-dark">
+          <h2 color="pesto-dark" style="color:#009688;text-align:center">Pets</h2>
+        </ion-title>
+        <form #form="ngForm" (ngSubmit)="registrar(form.value)" novalidate>
+            <ion-list>
+                <ion-item style="border-color: white;">
+                    <ion-label color="pesto-scondary-text" floating>Nombre</ion-label>
+                    <ion-input type="text" name='nombre' ngModel required #nombre="ngModel" [class.invalid]="nombre.errors && nombre.dirty"></ion-input>
+                </ion-item>
+                <ion-item class="error-message" no-lines *ngIf="nombre.errors?.required && nombre.dirty">
+                    <p *ngIf="nombre.errors?.required && nombre.dirty " style="color:red">First name required </p>
+                </ion-item>
+                <ion-item style="border-color: white;">
+                    <ion-label color="pesto-scondary-text" floating>Raza</ion-label>
+                    <ion-input type="text" name='raza' ngModel required #raza="ngModel" [class.invalid]="raza.errors && raza.dirty"></ion-input>
+                </ion-item>
+                <ion-item class="error-message" no-lines *ngIf="raza.errors?.required && raza.dirty">
+                    <p *ngIf="raza.errors?.required && raza.dirty " style="color:red">Last name required </p>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label color="pesto-scondary-text" >Sexo</ion-label>
+                    <ion-select  name="sexo" interface="action-sheet" cancelText="cancelar" ngModel required #sexo="ngModel"
+                    [class.invalid]="sexo.errors && sexo.dirty">
+                      <ion-option [value]="1">Hembra</ion-option>
+                      <ion-option [value]="2">Macho</ion-option>
+                    </ion-select>
+                  </ion-item>
+
+                  
+                <ion-item style="border-color: white;">
+                    <ion-label color="pesto-scondary-text" floating>color</ion-label>
+                    <ion-input type="text" name='color' ngModel  required #color="ngModel" [class.invalid]="color.errors && color.dirty"></ion-input>
+                </ion-item>
+                <ion-item class="error-message" no-lines *ngIf="color.errors?.required && color.dirty">
+                    <p *ngIf="color.errors?.required && color.dirty " style="color:red">color required </p>
+                </ion-item>
+
+    
+                <ion-item>
+                    <ion-label color="pesto-scondary-text" floating>microchip</ion-label>
+                    <ion-input type="number" name='microchip' ngModel required number #microchip="ngModel" [class.invalid]="microchip.errors && microchip.dirty"
+                         ></ion-input>
+                </ion-item>
+    
+                <ion-item class="error-message" no-lines *ngIf="microchip.errors?.required && microchip.dirty">
+                    <p style="color:red">microchip required</p>
+                </ion-item>
+               
+                <ion-item no-lines>
+                        <ion-label color="pesto-scondary-text">Disponible para la venta</ion-label>
+                        <ion-checkbox name='vender' ngModel  #vender="ngModel"></ion-checkbox>
+                </ion-item>
+               
+                <br>
+                <ion-item>
+                        <ion-label color="pesto-scondary-text" floating>Precio de venta</ion-label>
+                        <ion-input type="number" name='precio' ngModel  number #precio="ngModel" 
+                             ></ion-input>
+                </ion-item>
+    
+                <div style="text-align:center">
+                    <button ion-button type="submit" [disabled]="!form.valid">Registrar !!!</button>
+                </div>
+    
+                <div style="text-align:center">
+                    <button ion-button outline color="danger" type="button" (click)="cancelar()">Regresar</button>
+                </div>
+    
+            </ion-list>
+        </form>
+      </ion-content>

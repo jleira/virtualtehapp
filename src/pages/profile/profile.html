@@ -1,0 +1,109 @@
+<ion-header>
+
+  <ion-navbar color="primary-pets" hideBackButton="true">
+    <ion-title color="white">{{name}}</ion-title>
+    <ion-buttons start *ngIf="visitante">
+      <button ion-button (click)="cancelar()" color="secondary-pets-l">
+        Back
+      </button>
+    </ion-buttons>
+    <ion-buttons start *ngIf="!visitante">
+        <button ion-button (click)="configuraciones()" color="secondary-pets-l">
+            <ion-icon name="cog"></ion-icon>  
+        </button>
+      </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-toolbar style="position: relative;margin:0px;padding:0px">
+    <img src="assets/img/tapiz2.jpg" />
+    <div style="width: 100%;position: absolute;bottom:40%;text-align: center">
+      <img src="assets/img/usuario.png" style="width: 100px;" />
+    </div>
+    <ion-item style="position: absolute;bottom:0px;background-color:transparent;" no-lines>
+      <ion-grid>
+        <ion-row *ngIf="visitante">
+          <div style="text-align:center">
+            <button ion-btn ion-button color="secondary-pets-l" small outline (click)="seguirusuario(seguir)">
+              {{(seguir)?'Seguir':'Dejar de seguir'}}
+            </button>
+          </div>
+        </ion-row>
+        <ion-row color="secondary-pets-l">
+          <ion-col style="text-align:center">
+            <h3>{{datospersonales.seguidores}}</h3>
+            <p class="subtitulo">seguidores</p>
+          </ion-col>
+          <ion-col style="text-align:center">
+            <h3>{{datospersonales.seguidos}}</h3>
+            <p class="subtitulo">seguidos</p>
+          </ion-col>
+          <ion-col style="text-align:center">
+            <h3>{{datospersonales.ejemplares}}</h3>
+            <p class="subtitulo">Ejemplares</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+  </ion-toolbar>
+
+  <div *ngIf="visitante">
+      <ion-list >
+          <button ion-item no-lines *ngFor="let mascota of mismascotas" (click)="detallesmascota(mascota)">
+            <ion-avatar item-start>
+              <img src="assets/img/usuario.png" />
+            </ion-avatar>
+            <h2>{{mascota.nombre}}</h2>
+            <p> {{mascota.raza}}</p>
+          </button>
+        </ion-list>
+  </div>
+  <div *ngIf="!visitante">
+      <div padding>
+          <ion-segment [(ngModel)]="pet" color="secondary-pets">
+            <ion-segment-button value="misejemplares">
+              Mis Ejemplares
+            </ion-segment-button>
+            <ion-segment-button value="puppies">
+              Favoritos
+            </ion-segment-button>
+          </ion-segment>
+        </div>
+    
+        <div [ngSwitch]="pet">
+          <div *ngSwitchCase="'misejemplares'">
+            <div style="text-align:center">
+              <button ion-button (click)="crearmascota()" color="primary-pets" round type="button">
+                <ion-icon name="paw" color="secondary-pets-l">Añadir</ion-icon>
+              </button>
+            </div>
+    
+            <ion-list >
+              <button  no-lines ion-item *ngFor="let mascota of mismascotas" (click)="detallesmascota(mascota)">
+                <ion-avatar item-start>
+                  <img src="assets/img/usuario.png" />
+                </ion-avatar>
+                <h2>{{mascota.nombre}}</h2>
+                <p> {{mascota.raza}}</p>
+              </button>
+            </ion-list>
+    
+          </div>
+    
+          <ion-list *ngSwitchCase="'puppies'">
+            <ion-item>
+              <ion-thumbnail item-start>
+                <img src="assets/img/card-amsterdam.png">
+              </ion-thumbnail>
+              <h2>Coming soon</h2>
+            </ion-item>
+          </ion-list>
+        </div>
+    
+    </div>
+
+</ion-content>

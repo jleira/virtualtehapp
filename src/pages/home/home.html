@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-navbar color="primary-pets" >
+    <ion-title >Discovery
+      
+    </ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only *ngIf="!logeado" (click)="login()" color="secondary-pets-l">
+          <ion-icon name="log-in"></ion-icon>
+        </button>
+        <button ion-button icon-only *ngIf="logeado" (click)="logout()" color="secondary-pets-l">
+          <ion-icon name="log-out"></ion-icon>
+        </button>
+      </ion-buttons>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+
+
+      <ion-col col-6>
+        <ion-card (click)="findevery()">
+          <img src="assets/img/tapiz.jpg" />
+          <div class="card-title">
+            <ion-icon name="search" style="font-size: 3em;"></ion-icon>
+          </div>
+          <div class="card-subtitle">Everything</div>
+
+        </ion-card>
+
+      </ion-col>
+      <ion-col col-6>
+        <ion-card (click)="findpeople()">
+          <img src="assets/img/people.jpg" />
+          <div class="card-subtitle">People</div>
+        </ion-card>
+      </ion-col>
+      <ion-col col-6>
+          <ion-card (click)="findpets()">
+            <img src="assets/img/pets.jpg" />
+            <div class="card-subtitle">Pets</div>
+          </ion-card>
+  
+        </ion-col>
+        <ion-col col-6>
+          <ion-card>
+            <img src="assets/img/tapiz.jpg" />
+            <div class="card-subtitle">Accesories and products</div>
+          </ion-card>
+        </ion-col>
+        <ion-col col-6>
+            <ion-card>
+              <img src="assets/img/tapiz.jpg" />
+              <div class="card-subtitle">Pet services</div>
+            </ion-card>
+    
+          </ion-col>
+          <ion-col col-6>
+            <ion-card>
+              <img src="assets/img/tapiz.jpg" />
+              <div class="card-subtitle">Adoption</div>
+            </ion-card>
+          </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+
+</ion-content>

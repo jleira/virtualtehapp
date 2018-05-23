@@ -1,0 +1,35 @@
+page-login {
+
+    ion-content{
+    background-image: url('../assets/img/tapizlogin.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.itemi{
+    background-color: transparent !important;
+}
+$text-input-highlight-color-valid:#32db64;
+$text-input-highlight-color-invalid:red;
+.text-input{
+    color:white;
+}
+}
+
+page-register{
+
+    ion-content{
+    background-image: url('../assets/img/tapizlogin.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.itemi{
+    background-color: transparent !important;
+}
+$text-input-highlight-color-valid:#32db64;
+$text-input-highlight-color-invalid:red;
+.text-input{
+    color:white;
+}
+}

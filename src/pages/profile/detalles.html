@@ -1,0 +1,61 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title style="z-index:-1">{{nombre}}</ion-title>
+        <ion-buttons end *ngIf="!visitante">
+
+            <button ion-button icon-only>
+                <ion-icon name="camera"></ion-icon>
+            </button>
+
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+<ion-content>
+
+    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="!visitante" (click)="imagenes()" >
+        <img src="assets/img/tapiz2.jpg" />
+    </ion-toolbar>
+    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="visitante"  (click)="imagenes()">
+            <img src="assets/img/mascota.png" />
+        </ion-toolbar>
+    <ion-list>
+        <ion-item no-lines>
+            <ion-grid>
+                <ion-row color="secondary-pets-l">
+                    <ion-col>
+                        <p>Raza</p>
+                        <div style="text-align:center">
+                            <h2>{{raza}}</h2>
+                        </div>
+                    </ion-col>
+                    <ion-col>
+                        <p>Sexo</p>
+                        <div style="text-align:center">
+                            <h2>{{sexo}}</h2>
+                        </div>
+                    </ion-col>
+                    <ion-col>
+                        <p>Color</p>
+                        <div style="text-align:center">
+                            <h2>{{color}}</h2>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                        <ion-col style="text-align:center" *ngIf="vender>0">
+                                <p>Precio</p>
+                                <h2 class="subtitulo">{{formatDollar(precio)}}</h2>
+                            </ion-col>
+        
+                    <ion-col style="text-align:center">
+                        <p>Microchip</p>
+                        <h2 class="subtitulo">{{microchip}}</h2>
+                    </ion-col>
+                </ion-row>
+
+            </ion-grid>
+        </ion-item>
+    </ion-list>
+</ion-content>

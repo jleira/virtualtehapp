@@ -1,0 +1,56 @@
+<ion-header>
+
+    <ion-navbar>
+        <ion-title style="z-index:-1">Ajustes</ion-title>
+        <ion-buttons end *ngIf="!visitante">
+
+            <button ion-button icon-only>
+                <ion-icon name="camera"></ion-icon>
+            </button>
+
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+<ion-content>
+
+    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="!visitante" (click)="getPicture()">
+            <img  *ngIf="foto!=''" src="{{'data:image/png;base64,'+foto}}" />
+
+        <img *ngIf="foto==''" src="assets/img/tapiz2.jpg" />
+    </ion-toolbar>
+    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="visitante" (click)="getPicture()">
+        
+        <img  *ngIf="foto!=''" src="{{'data:image/png;base64,'+foto}}" />
+        <img *ngIf="foto==''" src="assets/img/mascota.png" />
+    </ion-toolbar>
+    <ion-list>
+        <ion-item no-lines>
+            <ion-grid>
+                <ion-row color="secondary-pets-l">
+                    <ion-col>
+                        <p>nombre</p>
+                        <div style="text-align:center">
+                            <h2>{{nombre}}</h2>
+                        </div>
+                    </ion-col>
+                    <ion-col>
+                        <p>Apellido</p>
+                        <div style="text-align:center">
+                            <h2>{{apellido}}</h2>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                        <p>Correo</p>
+                        <div style="text-align:center">
+                            <h2>{{email}}</h2>
+                        </div>
+                    </ion-col>
+                </ion-row>
+
+            </ion-grid>
+        </ion-item>
+    </ion-list>
+</ion-content>

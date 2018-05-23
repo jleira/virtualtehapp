@@ -1,0 +1,40 @@
+page-home {
+
+
+    ion-card {
+        position: relative;
+        text-align: center;
+      }
+    
+      .card-title {
+        position: absolute;
+        top: 36%;
+        font-size: 1.0em;
+        width: 100%;
+        font-weight: bold;
+        color: #fff;
+      }
+    
+      .card-subtitle {
+        font-size: 1.1em;
+        background-color: rgba(20, 26, 77, 0.65);
+        position: absolute;
+        bottom: 0%;
+        width: 100%;
+        color: #fff;
+    
+      }
+}
+.ToastAlert{
+  .toast-wrapper {
+    background: red;
+    opacity: 0.9;
+//    border-radius: 5px;
+//    text-align: center;
+  }
+  .toast-message {
+//    font-size: 3.0rem;
+    color: white;
+  }
+}
+

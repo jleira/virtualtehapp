@@ -1,0 +1,88 @@
+<!--
+  Generated template for the FinderPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar hideBackButton="true">
+    <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
+    </ion-searchbar>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+  <h5 *ngIf="vacio">No hay se encuentras datos, intente con otro nombre</h5>
+
+  <ion-list *ngIf="caso=='people'">
+
+    <button ion-item *ngFor="let item of items" no-lines (click)="detallesitem(item.id)">
+      <ion-avatar item-start>
+        <img src="assets/img/usuario.png">
+      </ion-avatar>
+      <h2 item-start>{{item.first_name}} {{item.last_name}}</h2>
+      <!--       <h2 (click)="detallesitem(item.id)" item-start>{{item.first_name}} {{item.last_name}}</h2>
+        <button ion-button outline item-end icon-left  (click)="seguir(item.id)">
+            Follow
+          </button>
+ -->
+    </button>
+
+  </ion-list>
+  <ion-list *ngIf="caso=='chat'">
+
+    <button ion-item *ngFor="let item of items" no-lines (click)="chat(item)">
+      <ion-avatar item-start>
+        <img src="assets/img/usuario.png">
+      </ion-avatar>
+      <h2 item-start>{{item.first_name}} {{item.last_name}}</h2>
+      <!--       <h2 (click)="detallesitem(item.id)" item-start>{{item.first_name}} {{item.last_name}}</h2>
+        <button ion-button outline item-end icon-left  (click)="seguir(item.id)">
+            Follow
+          </button>
+ -->
+    </button>
+
+  </ion-list>
+
+<!--   <ion-list *ngIf="caso=='mascotas'">
+    <button ion-item *ngFor="let item of items" no-lines (click)="detallesitem(item)">
+      <ion-avatar item-start>
+        <img src="assets/img/mascota.png">
+      </ion-avatar>
+      <h2>{{item.nombre}} - {{formatDollar(item.precio)}}</h2>
+      <p>
+        {{item.raza}} - {{(item.sexo==1)? 'Macho':'hembra'}}
+      </p>
+    </button>
+
+  </ion-list> -->
+
+
+  <ion-grid *ngIf="caso=='mascotas'">
+    <ion-row>
+      <ion-col col-6 *ngFor="let item of items"  (click)="detallesitem(item)" style="
+    width:  100%;
+    margin-left:  0;
+    padding-left:  3px;
+    padding-right:  3px;
+    padding-top: 0px;
+">
+        <ion-card  style="    margin-left: 0;
+        margin-right: 0;
+        width: 100%;">
+          <img src="assets/img/pets.jpg" />
+          <div class="card-subtitle">
+              <h4 style="color:#f59805">{{item.nombre}}</h4>
+              <p style="color:white">{{formatDollar(item.precio)}}</p>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
