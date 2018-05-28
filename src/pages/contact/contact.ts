@@ -4,6 +4,7 @@ import { Socket } from 'ng-socket-io';
 import { ChatRoomPage} from '../chat-room/chat-room';
 import { Storage } from "@ionic/storage";
 import {FinderPage} from '../finder/finder';
+import { ModalController } from 'ionic-angular';
 
 
 @Component({
@@ -11,7 +12,7 @@ import {FinderPage} from '../finder/finder';
   templateUrl: 'contact.html'
 })
 export class ContactPage {
-  constructor(public navCtrl: NavController, private socket: Socket, private storage:Storage) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController, private socket: Socket, private storage:Storage) {
 
   }
 
@@ -27,6 +28,9 @@ export class ContactPage {
   }
   newchat(){
     this.navCtrl.push(FinderPage,{case:'chat'});
+
+
+    
   }
 
 

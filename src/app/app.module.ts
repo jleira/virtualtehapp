@@ -29,8 +29,7 @@ import { Camera } from '@ionic-native/camera';
 import { AuthProvider } from '../providers/auth/auth';
 
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-const config: SocketIoConfig = { url: 'http://localhost:3001', options: {} };
-
+const config: SocketIoConfig = { url: 'http://167.114.185.216:3000', options: {} };
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions, storage: Storage) {

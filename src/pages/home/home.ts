@@ -7,7 +7,7 @@ import {FinderPage} from '../finder/finder';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html' 
 })
 export class HomePage {
   logeado:boolean;

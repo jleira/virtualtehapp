@@ -29,6 +29,7 @@ export class ChatRoomPage {
     this.nickname = this.navParams.get('nickname');
     this.id=this.navParams.get('user').id;
     this.miid=this.navParams.get('miid');
+  console.log('id',this.id,'miid',this.miid);
     this.authservice.mensajes(this.id).subscribe((mensajes)=>{
       let msjs=mensajes.json();
       console.log(msjs);
@@ -38,7 +39,11 @@ export class ChatRoomPage {
     });
     this.getMessages().subscribe(message => {
       console.log(message);
-      this.messages.push({usuario_envia:this.miid,usuario_recibe:this.id,mensaje:message['text']});
+      if(message['usuario_envia']==this.miid){
+        this.messages.push({usuario_envia:this.miid,usuario_recibe:this.id,mensaje:message['text']});
+      }else{
+        this.messages.push({usuario_envia:this.id,usuario_recibe:this.miid,mensaje:message['text']});        
+      }
     });  
 
 
@@ -60,7 +65,7 @@ export class ChatRoomPage {
   sendMessage() {
     let data={usuario_recibe:this.id,mensaje:this.message};
     this.authservice.enviarmensaje(data).subscribe((dat)=>{
-      this.socket.emit('add-message', { text: this.message });
+      this.socket.emit('add-message', { text: this.message, usuario_envia:this.miid });
       this.message = '';
     });
   }
