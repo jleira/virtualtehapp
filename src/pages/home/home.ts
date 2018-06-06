@@ -4,13 +4,14 @@ import { ModalController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { LoginPage } from '../tabs/login';
 import {FinderPage} from '../finder/finder';
-
+import {SERVER_URL} from '../../config';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html' 
 })
 export class HomePage {
   logeado:boolean;
+  urlimg=SERVER_URL;
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
     public authService: AuthProvider, public toastmsj: ToastController
   ) {
@@ -57,16 +58,19 @@ export class HomePage {
       toast.present();  
     }
     else{
-      console.log('si enteo');
       this.navCtrl.push(FinderPage,{case:'people'});
     }
 
   }
-  findpets(){
-    console.log('findpets');
-    this.navCtrl.push(FinderPage,{case:'mascotas'});
-
+  findpets(caso){
+    this.navCtrl.push(FinderPage,{case:caso});
+  }
+  findaccesories(){
+    this.navCtrl.push(FinderPage,{case:'accesorios'});    
   }
 
-
+findservices(){
+  this.navCtrl.push(FinderPage,{case:'servicios'});    
+  
+}
 }

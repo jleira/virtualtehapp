@@ -16,6 +16,8 @@ import {FinderPage} from '../pages/finder/finder';
 import {ImagenesPage} from '../pages/profile/imagenes';
 import { DetallesusuarioPage } from '../pages/profile/detalleusuario';
 import {ChatRoomPage} from '../pages/chat-room/chat-room';
+import { NewPedigreePage } from '../pages/about/new-pedigree';
+
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -29,7 +31,7 @@ import { Camera } from '@ionic-native/camera';
 import { AuthProvider } from '../providers/auth/auth';
 
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-const config: SocketIoConfig = { url: 'http://167.114.185.216:3000', options: {} };
+const config: SocketIoConfig = { url: 'http://192.168.100.60:3001', options: {} };
 
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions, storage: Storage) {
@@ -54,7 +56,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     FinderPage,
     ImagenesPage,
     DetallesusuarioPage,
-    ChatRoomPage
+    ChatRoomPage,
+    NewPedigreePage
   ],
   imports: [
     BrowserModule,
@@ -80,7 +83,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     FinderPage,
     ImagenesPage,
     DetallesusuarioPage,
-    ChatRoomPage
+    ChatRoomPage,
+    NewPedigreePage
   ],
   providers: [
     StatusBar,

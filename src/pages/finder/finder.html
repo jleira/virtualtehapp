@@ -49,7 +49,7 @@
 
   </ion-list>
 
-<!--   <ion-list *ngIf="caso=='mascotas'">
+  <!--   <ion-list *ngIf="caso=='mascotas'">
     <button ion-item *ngFor="let item of items" no-lines (click)="detallesitem(item)">
       <ion-avatar item-start>
         <img src="assets/img/mascota.png">
@@ -63,26 +63,55 @@
   </ion-list> -->
 
 
-  <ion-grid *ngIf="caso=='mascotas'">
+  <ion-grid *ngIf="caso=='mascotas' || caso=='adopcion'">
     <ion-row>
-      <ion-col col-6 *ngFor="let item of items"  (click)="detallesitem(item)" style="
+      <ion-col col-6 *ngFor="let item of items" (click)="detallesitem(item)" style="
     width:  100%;
     margin-left:  0;
     padding-left:  3px;
     padding-right:  3px;
-    padding-top: 0px;
-">
-        <ion-card  style="    margin-left: 0;
+    padding-top: 0px;">
+        <ion-card style="    margin-left: 0;
         margin-right: 0;
         width: 100%;">
           <img src="assets/img/pets.jpg" />
           <div class="card-subtitle">
-              <h4 style="color:#f59805">{{item.nombre}}</h4>
-              <p style="color:white">{{formatDollar(item.precio)}}</p>
+            <h4 style="color:#f59805">{{item.nombre}}</h4>
+            <p style="color:white">{{(item.vender==1)? formatDollar(item.precio):'$ 0'}}</p>
           </div>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
+
+
+  <ion-list *ngIf="caso=='accesorios' || caso=='servicios'">
+
+    <button ion-item *ngFor="let item of items" no-lines (click)="detallesitem(item.id)">
+      <ion-avatar item-start>
+
+        <img [src]="(caso == 'accesorios')?'assets/img/arnes.png':'assets/img/inyeccion.png'">
+      </ion-avatar>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+{{item.nombre}}
+          </ion-col>
+          <ion-col>
+{{formatDollar(item.precio)}}
+          </ion-col>
+        </ion-row>
+      </ion-grid> <p>
+{{item.descripcion}}
+      </p>
+      <!--       <h2 (click)="detallesitem(item.id)" item-start>{{item.first_name}} {{item.last_name}}</h2>
+        <button ion-button outline item-end icon-left  (click)="seguir(item.id)">
+            Follow
+          </button>
+ -->
+    </button>
+
+  </ion-list>
+
 
 </ion-content>

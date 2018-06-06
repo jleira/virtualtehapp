@@ -3,26 +3,39 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject, Observable } from "rxjs";
 import { Storage } from "@ionic/storage";
 import { SERVER_URL } from "../../config";
-import { AuthHttp } from "angular2-jwt";
+import { AuthHttp,JwtHelper } from "angular2-jwt";
 
 import 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
-let apiUrl = SERVER_URL;
+let apiUrl = SERVER_URL+'public/';
 
 @Injectable()
 export class AuthProvider {
 
   authUser = new ReplaySubject<any>(1);
+  tokenexpired;
   constructor(
     private tokenhttp: AuthHttp,
     public http: HttpClient,
-    private storage: Storage
+    private storage: Storage,
+    private helper: JwtHelper
   ) {
+    this.checkLogin();
   }
   checkLogin() {
     this.storage.get('jwt').then(token => {
-      this.authUser.next(token);
+      this.tokenexpired = this.helper.isTokenExpired(token);
+      if(this.tokenexpired){
+        this.storage.remove('jwt');
+        this.authUser.next(null);
+      }else{
+        this.authUser.next(token);
+      }
+    }).catch(()=>{
+      this.storage.remove('jwt');
+      this.authUser.next(null);
+      this.tokenexpired=true;
     });
   }
   login(values: any): Observable<any> {
@@ -83,19 +96,79 @@ export class AuthProvider {
    }
   
    buscar(key,values:any): Observable<any> {
+     console.log(key,this.tokenexpired);
     let endpoint;
-    if(key=='people'){
-      endpoint='api/find/people';
+    if(this.tokenexpired){
+      if(key=='people'){
+        endpoint='api/find/people';
+      }
+      if(key=='mascotas'){
+        endpoint='api/find/mascotas2';
+        values.vender=[1];
+  
+      }
+      if(key=='accesorios'){
+        endpoint='api/find/accesoriosyservicios';
+        values.categoria=[1];      
+      }
+      if(key=='servicios'){
+        endpoint='api/find/accesoriosyservicios';
+        values.categoria=[2];
+      }
+      if(key=='todos'){
+        endpoint='api/find/todos';
+        values.categoria=[1,2];
+      }
+      if(key=='adopcion'){
+        endpoint='api/find/mascotas';
+        values.vender=[2];
+      }
+
+      return this.http.post(`${apiUrl}/${endpoint}`, values).finally(()=>{
+        console.log('salio');
+      }).map((resp) => {
+        console.log('resp',resp);
+          return resp;
+        }, err => {
+          console.log(err);
+          return err;
+        })
+    }else{
+      if(key=='people'){
+        endpoint='api/find/people';
+      }
+      if(key=='mascotas'){
+        endpoint='api/find/mascotas';
+        values.vender=[1];
+  
+      }
+      if(key=='accesorios'){
+        endpoint='api/find/accesoriosyservicios';
+        values.categoria=[1];      
+      }
+      if(key=='servicios'){
+        endpoint='api/find/accesoriosyservicios';
+        values.categoria=[2];
+      }
+      if(key=='todos'){
+        endpoint='api/find/todos';
+        values.categoria=[1,2];
+      }
+      if(key=='adopcion'){
+        endpoint='api/find/mascotas';
+        values.vender=[2];
+      }
+      return this.tokenhttp.post(`${apiUrl}/${endpoint}`, values).finally(()=>{
+        console.log('salio');
+      }).map((resp) => {
+        console.log('resp',resp);
+          return resp;
+        }, err => {
+          console.log(err);
+          return err;
+        })
     }
-    if(key=='mascotas'){
-      endpoint='api/find/mascotas';
-    }
-    return this.tokenhttp.post(`${apiUrl}/${endpoint}`, values).map((resp) => {
-        return resp;
-      }, err => {
-        console.log(err);
-        return err;
-      })
+
   
    }
  
@@ -120,6 +193,7 @@ export class AuthProvider {
    })
   }
   mensajes(idrecibe){
+    console.log('se ejecuta');
     return this.tokenhttp.get(`${SERVER_URL}api/chat/mensajes/${idrecibe}`).map((data)=>{
       return data;
    },err=>{

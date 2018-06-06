@@ -5,6 +5,17 @@ page-home {
         position: relative;
         text-align: center;
       }
+      .card-pedigree{
+        margin: 0px;
+        width: 100%;
+        background-color: map-get($colors, primary-pets);
+        text-align: center;
+        h4{
+            color: map-get($colors , secondary-pets-l );
+            font-weight: bold;
+        }
+    
+    }
     
       .card-title {
         position: absolute;

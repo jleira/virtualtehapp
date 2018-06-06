@@ -7,14 +7,6 @@ import { Socket } from 'ng-socket-io';
 import { Storage } from "@ionic/storage";
 import { ChatRoomPage} from '../chat-room/chat-room';
 
-
-/**
- * Generated class for the FinderPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-finder',
@@ -25,17 +17,24 @@ export class FinderPage {
   items;
   caso;
   vacio:boolean;
-
+  logeado;
   constructor(public navCtrl: NavController, public navParams: NavParams, private authservice:AuthProvider, private socket: Socket, private storage:Storage) {
-    this.caso=this.navParams.get('chat');
-
+    this.caso=this.navParams.get('case');
+    this.buscarporclave(' ');
     this.vacio=false;
+    if(this.storage.get('jwt')){
+      this.logeado=true;
+
+    }else{
+      this.logeado=false;
+    }
   }
+
 
   ionViewDidLoad() {
   }
   onInput($event){
-    this.buscarporclave($event.target.value);        
+    this.buscarporclave($event.target.value);
   }
 
   onCancel($event){
@@ -43,17 +42,23 @@ export class FinderPage {
   }
   buscarporclave(clave){
     let key =this.caso;
-    if(this.caso='chat'){
+    console.log(key);
+    if(this.caso=='chat'){
       key='people';
     }
+     console.log(key);
     this.authservice.buscar(key,{clave:clave}).subscribe((data)=>{
-      let datos=data.json();
-      this.items=datos.datos;
-      if(this.items.length==0){
-        this.vacio=true;
-      }else{
-        this.vacio=false;        
-      }
+        /* let datos=data.json();
+          */ 
+        let datos=data;
+        this.items=datos.datos;
+        if(this.items.length==0){
+          this.vacio=true;
+        }else{
+          this.vacio=false;        
+        }
+  
+      
     },err=>{
     })
   }

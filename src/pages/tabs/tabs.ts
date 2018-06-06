@@ -16,8 +16,8 @@ import { AuthProvider } from '../../providers/auth/auth';
 export class TabsPage {
 
   tab1Root = HomePage;
-  tab2Root = AboutPage;
-  tab3Root = ContactPage;
+  tab2Root = ContactPage;
+  tab3Root = AboutPage;
   tab4Root = ProfilePage;
 
   logeado: boolean;
