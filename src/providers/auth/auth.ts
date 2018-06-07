@@ -3,7 +3,12 @@ import { Injectable } from '@angular/core';
 import { ReplaySubject, Observable } from "rxjs";
 import { Storage } from "@ionic/storage";
 import { SERVER_URL } from "../../config";
+import { SERVE_FILE_URI } from "../../config";
 import { AuthHttp,JwtHelper } from "angular2-jwt";
+import { ToastController, LoadingController } from 'ionic-angular';
+import { File, DirectoryEntry } from '@ionic-native/file';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+
 
 import 'rxjs/Rx';
 import 'rxjs/add/operator/map';
@@ -15,11 +20,16 @@ export class AuthProvider {
 
   authUser = new ReplaySubject<any>(1);
   tokenexpired;
+  fileTransfer: FileTransferObject = this.transfer.create();
   constructor(
     private tokenhttp: AuthHttp,
     public http: HttpClient,
     private storage: Storage,
-    private helper: JwtHelper
+    private helper: JwtHelper,
+    private file: File,
+    private transfer: FileTransfer,
+    public toastCtrl: ToastController,
+    public loadingCtrl: LoadingController,
   ) {
     this.checkLogin();
   }
@@ -51,9 +61,8 @@ export class AuthProvider {
   }
   logout() {
     this.storage.remove('mydata');
-    this.storage.remove('jwt').then(() => {
-      this.authUser.next(null);
-    });
+    this.storage.remove('jwt')
+    this.authUser.next(null);    
   }
   guardardata(resp){
     this.storage.set('mydata',
@@ -77,7 +86,7 @@ export class AuthProvider {
   }
 
   mismascostas(id){
-    return this.tokenhttp.get(`${SERVER_URL}api/pets/mismascotas/${id}`).map((data)=>{
+    return this.tokenhttp.get(`${apiUrl}api/pets/mismascotas/${id}`).map((data)=>{
       return data;
    },err=>{
      return err;
@@ -173,7 +182,7 @@ export class AuthProvider {
    }
  
    findbyid(id){
-    return this.tokenhttp.get(`${SERVER_URL}api/finduser/findbyid/${id}`).map((data)=>{
+    return this.tokenhttp.get(`${apiUrl}api/finduser/findbyid/${id}`).map((data)=>{
       return data;
    },err=>{
      return err;
@@ -186,7 +195,7 @@ export class AuthProvider {
     if(caso==2){
       tipo='dejardeseguir';
     }
-    return this.tokenhttp.get(`${SERVER_URL}api/follow/${tipo}/${id}`).map((data)=>{
+    return this.tokenhttp.get(`${apiUrl}api/follow/${tipo}/${id}`).map((data)=>{
       return data;
    },err=>{
      return err;
@@ -194,7 +203,7 @@ export class AuthProvider {
   }
   mensajes(idrecibe){
     console.log('se ejecuta');
-    return this.tokenhttp.get(`${SERVER_URL}api/chat/mensajes/${idrecibe}`).map((data)=>{
+    return this.tokenhttp.get(`${apiUrl}api/chat/mensajes/${idrecibe}`).map((data)=>{
       return data;
    },err=>{
      return err;
@@ -208,9 +217,61 @@ export class AuthProvider {
       }, err => {
         console.log(err);
         return err;
-      })
- 
-    
+      }) 
   }
+
+  enviarimagen(ruta,pets) {
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Enviando foto ...'
+    });
+    loading.present();
+    return this.storage.get('jwt').then((jwt) => {
+      let options: FileUploadOptions = {
+        fileKey: 'file',
+        fileName: 'pets',
+        headers: {
+          'Authorization': 'Bearer ' + jwt,
+          'Content-Type': undefined
+        },
+        mimeType: 'image/*',
+        params:{
+          idmascota:pets.id
+        }
+      }
+
+      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photoupload?id=${pets.id}`, options) 
+        .then((data) => {
+          console.log(data);
+          this.handleError('Foto enviada');
+          loading.dismiss();
+          return true;
+        }, (err) => {
+          this.handleError(JSON.stringify(err));
+          console.log(err);
+          loading.dismiss();
+          return true;
+        })
+
+    }, err=>{
+      loading.dismiss();
+      this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
+      console.log('err',err);
+      return true;
+
+    })
+
+  }
+  handleError(error: string) {
+    let message: string;
+    message = error;
+    const toast = this.toastCtrl.create({
+      message,
+      duration: 5000,
+      position: 'bottom'
+    });
+    toast.present();
+  }
+
 
 }

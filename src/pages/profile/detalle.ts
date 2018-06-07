@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { ViewController, NavParams,NavController } from 'ionic-angular';
 import { ImagenesPage } from './imagenes';
+import { SERVE_FILE_URI } from "../../config";
+import { Storage } from "@ionic/storage";
+
 
 
 @Component({
@@ -9,7 +12,7 @@ import { ImagenesPage } from './imagenes';
 
 })
 export class DetallesPage {
-
+    id;
     nombre;
     color;
     raza;
@@ -18,15 +21,20 @@ export class DetallesPage {
     visitante:boolean;
     precio:number;
     vender:number;
+    imagenesmascota=[];
+    miid;
+    path;
   constructor(
     public viewCtrl: ViewController,
     public navp: NavParams,
-    public navCtrl: NavController
- 
+    public navCtrl: NavController,
+    private storage:Storage
   ) {
+    
     this.visitante=true;
 
     let datos = navp.get('datos');
+    console.log(datos,'sd');
     this.visitante=navp.get('visitante');
     this.nombre=datos.nombre;
     this.raza=datos.raza;
@@ -35,6 +43,14 @@ export class DetallesPage {
     this.microchip=datos.microchip;
     this.vender=datos.vender;
     this.precio=datos.precio;
+    this.miid=datos.idusuario;
+    this.id=datos.id;
+    this.path=`${SERVE_FILE_URI}storage/app/${this.miid}/${this.id}`;
+    this.imagenesmascota=datos.imagenes;
+    if(this.imagenesmascota){
+      this.imagenesmascota=datos.imagenes.split(',');
+    }
+    
     console.log('datos',datos);
   }
 
@@ -48,8 +64,12 @@ export class DetallesPage {
     }, "") + "." + p[1];
 }
 
-imagenes(){
-  this.navCtrl.push(ImagenesPage);
+imagenes(imagenes){
+  this.navCtrl.push(ImagenesPage,{datos:{imagenes:imagenes,path:this.path,nombre:this.nombre}});
+}
+buscarimagen(img){
+  let nimag=`${this.path}/${img[0]}`;
+  return nimag;
 }
 
 }

@@ -14,13 +14,16 @@
 </ion-header>
 <ion-content>
 
-    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="!visitante" (click)="imagenes()" >
+    <!--     <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="!visitante" (click)="imagenes()" >
         <img src="assets/img/tapiz2.jpg" />
+    </ion-toolbar> -->
+    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="!imagenesmascota">
+        <img src="assets/img/mascota.png" />
     </ion-toolbar>
-    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="visitante"  (click)="imagenes()">
-            <img src="assets/img/mascota.png" />
+    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="imagenesmascota" (click)="imagenes(imagenesmascota)">
+            <img src="{{buscarimagen(imagenesmascota)}}" />
         </ion-toolbar>
-    <ion-list>
+        <ion-list>
         <ion-item no-lines>
             <ion-grid>
                 <ion-row color="secondary-pets-l">
@@ -44,11 +47,11 @@
                     </ion-col>
                 </ion-row>
                 <ion-row>
-                        <ion-col style="text-align:center" *ngIf="vender>0">
-                                <p>Precio</p>
-                                <h2 class="subtitulo">{{formatDollar(precio)}}</h2>
-                            </ion-col>
-        
+                    <ion-col style="text-align:center" *ngIf="vender>0">
+                        <p>Precio</p>
+                        <h2 class="subtitulo">{{formatDollar(precio)}}</h2>
+                    </ion-col>
+
                     <ion-col style="text-align:center">
                         <p>Microchip</p>
                         <h2 class="subtitulo">{{microchip}}</h2>

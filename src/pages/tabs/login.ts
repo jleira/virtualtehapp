@@ -61,7 +61,8 @@ export class LoginPage {
     const toast = this.toastCtrl.create({
       message: msj,
       duration: 10000,
-      position: 'bottom'
+      position: 'bottom',
+      showCloseButton:true
     });
     toast.present();
   }

@@ -33,6 +33,17 @@ export class HomePage {
   }
   logout() {
     this.authService.logout();
+    const toast = this.toastmsj.create({
+      message: 'Bye :)',
+      duration: 5000,
+      position: 'bottom',
+      cssClass:'ToastAlert',
+      showCloseButton:true,
+      dismissOnPageChange:false
+
+    });
+    toast.present();  
+    this.login();
   }
 
   findevery(){

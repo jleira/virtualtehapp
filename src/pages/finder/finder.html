@@ -70,11 +70,14 @@
     margin-left:  0;
     padding-left:  3px;
     padding-right:  3px;
-    padding-top: 0px;">
+    padding-top: 0px;
+    height:100%">
         <ion-card style="    margin-left: 0;
         margin-right: 0;
         width: 100%;">
-          <img src="assets/img/pets.jpg" />
+           <img src="{{buscarimagen(item.imagenes,item.id,item.id_usuario)}}" *ngIf="item.imagenes"/> 
+          <img src="assets/img/mascota.png" *ngIf="!item.imagenes" />
+
           <div class="card-subtitle">
             <h4 style="color:#f59805">{{item.nombre}}</h4>
             <p style="color:white">{{(item.vender==1)? formatDollar(item.precio):'$ 0'}}</p>

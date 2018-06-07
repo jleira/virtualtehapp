@@ -1,7 +1,7 @@
 
-<ion-tabs color="primary-pets">
+<ion-tabs color="primary-pets" >
   <ion-tab [root]="tab1Root"  color="secondary-pets-l" tabIcon="git-network"></ion-tab>
   <ion-tab [root]="tab2Root" tabIcon="chatbubbles"></ion-tab>
   <ion-tab [root]="tab3Root" tabIcon="search"></ion-tab>
-  <ion-tab [root]="tab4Root" tabIcon="person" ></ion-tab>
+  <ion-tab [root]="tab4Root" tabIcon="person" *ngIf="logeado" ></ion-tab>
 </ion-tabs>

@@ -26,23 +26,20 @@ export class TabsPage {
     public modalCtrl: ModalController,
     public authService: AuthProvider
   ) {
-    this.logeado = false;
+
     this.authService.authUser.subscribe(jwt => {
+      console.log(jwt);
       if (jwt) {
+        console.log('true');
+        
         this.logeado = true;
        } else {
+        console.log('false');
+
         this.logeado = false;
       }
     });
     this.authService.checkLogin();
-  }
-
-  login() {
-    let profileModal = this.modalCtrl.create(LoginPage, { userId: 8675309 });
-    profileModal.present();
-  }
-  logout() {
-    this.authService.logout();
   }
 
   cargardata(pname){

@@ -9,23 +9,22 @@ import { ViewController, NavParams } from 'ionic-angular';
 })
 export class ImagenesPage {
 
-/*     nombre;
-    color;
-    raza;
-    sexo;
-    microchip;
-    visitante:boolean;
-    precio:number;
-    vender:number;
- */  constructor(
+  nombre:string;
+  imagenes;
+  path;
+     constructor(
     public viewCtrl: ViewController,
     public navp: NavParams
  
   ) {
-/*     this.visitante=true;
+     let datos= navp.get('datos')
+     console.log(datos);
+      this.nombre=datos.nombre;
+      this.path=datos.path;
+      this.imagenes=datos.imagenes;
+  
 
-    let datos = navp.get('datos');
-    this.visitante=navp.get('visitante');
+/*    this.visitante=navp.get('visitante');
     this.nombre=datos.nombre;
     this.raza=datos.raza;
     this.sexo=((datos.sexo==1)?'Macho':'Hembra');

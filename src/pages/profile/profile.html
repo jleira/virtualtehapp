@@ -85,8 +85,9 @@
             <ion-list >
               <button  no-lines ion-item *ngFor="let mascota of mismascotas" (click)="detallesmascota(mascota)">
                 <ion-avatar item-start>
-                  <img src="assets/img/usuario.png" />
-                </ion-avatar>
+                   <img src="{{buscarimagen(mascota.imagenes,mascota.id)}}" *ngIf="mascota.imagenes"/> 
+                   <img src="assets/img/mascota.png" *ngIf="!mascota.imagenes" />
+                 </ion-avatar>
                 <h2>{{mascota.nombre}}</h2>
                 <p> {{mascota.raza}}</p>
               </button>

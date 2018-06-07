@@ -1,19 +1,19 @@
 <ion-header>
 
     <ion-navbar>
-        <ion-title style="z-index:-1">Galeria</ion-title>
+        <ion-title style="z-index:-1">Fotos de {{nombre}}</ion-title>
     </ion-navbar>
 
 </ion-header>
 <ion-content>
         <ion-slides pager>
-                <ion-slide *ngFor="let slide of [1,2,3]">
+                <ion-slide *ngFor="let imagen of imagenes">
 <!--                   <ion-toolbar>
                     <ion-buttons end>
                       <button ion-button color="primary">Skip</button>
                     </ion-buttons>
                   </ion-toolbar>
- -->                  <img src="assets/img/pets.jpg" class="slide-image"/>
+ -->                  <img src="{{path+'/'+imagen}}" class="slide-image"/>
                 </ion-slide>
               </ion-slides>
 

@@ -5,6 +5,8 @@ import { NmascotaPage } from '../profile/nmascota';
 import { DetallesPage } from '../profile/detalle';
 import { DetallesusuarioPage } from '../profile/detalleusuario';
 import { Storage } from "@ionic/storage";
+import { SERVE_FILE_URI } from "../../config";
+
 
 /**
  * Generated class for the ProfilePage page.
@@ -22,6 +24,7 @@ import { Storage } from "@ionic/storage";
 export class ProfilePage {
   mismascotas;
   name;
+  misdatos;
   seguir: boolean;
   visitante:boolean;
   datospersonales: {
@@ -30,6 +33,7 @@ export class ProfilePage {
     seguidos: number,
     ejemplares: number
   };
+  pet: string = "misejemplares";
   constructor(public modalCtrl: ModalController,
     public navCtrl: NavController, public navParams: NavParams, public authservice: AuthProvider,
   public viewCtrl:ViewController, private toastmsj:ToastController, private storage:Storage) {
@@ -40,6 +44,9 @@ export class ProfilePage {
       seguidos: 0,
       ejemplares: 0
     };
+    this.storage.get('mydata').then((misdatos)=>{
+      this.misdatos=JSON.parse(misdatos);
+    });  
 
   }
 
@@ -92,6 +99,7 @@ export class ProfilePage {
 
   detallesmascota(datos) {
     console.log(datos);
+    datos.idusuario=this.misdatos.id;
     this.navCtrl.push(DetallesPage, { datos: datos,visitante:this.visitante });
 
   }
@@ -162,5 +170,9 @@ configuraciones(){
   this.storage.get('mydata').then(data => {
     this.modalCtrl.create(DetallesusuarioPage,{datos:JSON.parse(data)}).present();
   });
+}
+buscarimagen(img,idmascota){
+    let nimag=`${SERVE_FILE_URI}storage/app/${this.misdatos.id}/${idmascota}/${img.split(',')[0]}`;
+    return nimag;
 }
 }

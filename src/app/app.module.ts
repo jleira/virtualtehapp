@@ -26,13 +26,14 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule, Storage} from "@ionic/storage";
 import {JwtHelper, AuthConfig, AuthHttp} from "angular2-jwt";
+import { AuthProvider } from '../providers/auth/auth';
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+const config: SocketIoConfig = { url: 'http://10.1.23.49:3001', options: {} };
+
+import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
 
-import { AuthProvider } from '../providers/auth/auth';
-
-import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-const config: SocketIoConfig = { url: 'http://192.168.100.60:3001', options: {} };
-
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions, storage: Storage) {
   const authConfig = new AuthConfig({
@@ -97,7 +98,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
       useFactory: authHttpServiceFactory,
       deps: [Http, RequestOptions, Storage]
     },
-    Camera
+    Camera,
+    File,
+    FileTransfer
   ]
 })
 export class AppModule { }

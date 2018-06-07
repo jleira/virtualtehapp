@@ -6,6 +6,7 @@ import { DetallesPage } from '../profile/detalle';
 import { Socket } from 'ng-socket-io';
 import { Storage } from "@ionic/storage";
 import { ChatRoomPage} from '../chat-room/chat-room';
+import { SERVE_FILE_URI } from "../../config";
 
 @IonicPage()
 @Component({
@@ -18,9 +19,12 @@ export class FinderPage {
   caso;
   vacio:boolean;
   logeado;
+  miid;
   constructor(public navCtrl: NavController, public navParams: NavParams, private authservice:AuthProvider, private socket: Socket, private storage:Storage) {
     this.caso=this.navParams.get('case');
+    
     this.buscarporclave(' ');
+
     this.vacio=false;
     if(this.storage.get('jwt')){
       this.logeado=true;
@@ -52,6 +56,7 @@ export class FinderPage {
           */ 
         let datos=data;
         this.items=datos.datos;
+        console.log(this.items,'items');
         if(this.items.length==0){
           this.vacio=true;
         }else{
@@ -88,6 +93,10 @@ chat(user){
 
   });
 
+}
+buscarimagen(img,idmascota,id_usuario){
+  let nimag=`${SERVE_FILE_URI}storage/app/${id_usuario}/${idmascota}/${img.split(',')[0]}`;
+  return nimag;
 }
 
 }
