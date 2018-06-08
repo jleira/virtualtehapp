@@ -1,0 +1,57 @@
+<!--
+  Generated template for the AccesoriosPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>accesorios</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="!imagenesp">
+    <img src="assets/img/inyeccion.png" />
+</ion-toolbar>
+<ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="imagenesp" (click)="imagenes(imagenesp)">
+        <img src="{{buscarimagen(imagenesp)}}" />
+    </ion-toolbar>
+    <ion-list>
+    <ion-item no-lines>
+        <ion-grid>
+            <ion-row color="secondary-pets-l">
+                <ion-col>
+                    <p>Name</p>
+                    <div style="text-align:center">
+                        <h2>{{nombre}}</h2>
+                    </div>
+                </ion-col>
+                <ion-col>
+                    <p>Category</p>
+                    <div style="text-align:center">
+                        <h2>{{(categoria==1)?'Products and accesories':'Service'}}</h2>
+                    </div>
+                </ion-col>
+                <ion-col>
+                    <p>Price</p>
+                    <div style="text-align:center">
+                        <h2>{{formatDollar(precio)}}</h2>
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col style="text-align:center;font-size: 1.2em !important;color: black !important;" text-wrap >
+                    <p>Descripcion</p>
+                    <p>{{descripcion}}</p>
+                </ion-col>
+
+            </ion-row>
+
+        </ion-grid>
+    </ion-item>
+</ion-list>
+</ion-content>

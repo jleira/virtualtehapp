@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ViewController, NavParams,NavController , LoadingController} from 'ionic-angular';
+import { ViewController, NavParams,NavController , LoadingController, ToastController} from 'ionic-angular';
 import { ImagenesPage } from './imagenes';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 
@@ -22,7 +22,8 @@ export class DetallesusuarioPage {
     public navp: NavParams,
     public navCtrl: NavController,
     private camera: Camera,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    public toastCtrl:ToastController
  
   ) {
     let datos=this.navp.get('datos');
@@ -51,7 +52,7 @@ getPicture() {
   this.camera.getPicture(options).then(imageData => {
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
-      content: 'Actualizando mapa...'
+      content: 'Actualizando foto...',
     });
     loading.present();
 
@@ -62,7 +63,30 @@ getPicture() {
   }).catch(error => {
     console.log('err');
   });
+}
 
+registro()
+{ 
+   let loading = this.loadingCtrl.create({
+  spinner: 'bubbles',
+  content: 'Actualizando contraseña...',
+  duration: 5000
+});
+loading.present().then(()=>{
+  setTimeout(()=>{
+    const toast = this.toastCtrl.create({
+      message: 'Error en el servidor, intentelo nuevamente',
+      duration: 3000,
+      position: 'bottom',
+      cssClass:'ToastAlert',
+      showCloseButton:true,
+      dismissOnPageChange:false
+  
+    });
+    toast.present();  
+  },5300);
+
+});
 }
 
 }

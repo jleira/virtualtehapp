@@ -1,0 +1,29 @@
+page-accesorios {
+
+}
+page-naccesorios{
+    ion-content{
+        background-image: url('../assets/img/tapiz.jpg');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .itemi{
+        background-color: transparent !important;
+    }
+    .item-ios {
+    
+      background-color: transparent !important;
+    }
+    $text-input-highlight-color-valid:#32db64;
+    $text-input-highlight-color-invalid:red;
+    .text-input{
+        color:white;
+    }
+    .list-ios > .item-block:first-child{
+      border-top: none;
+    }
+    .item-md {
+      background-color: transparent !important;
+    }
+}

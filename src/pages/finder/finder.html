@@ -90,10 +90,13 @@
 
   <ion-list *ngIf="caso=='accesorios' || caso=='servicios'">
 
-    <button ion-item *ngFor="let item of items" no-lines (click)="detallesitem(item.id)">
+    <button ion-item *ngFor="let item of items" no-lines (click)="detallesaccesorios(item)">
       <ion-avatar item-start>
 
-        <img [src]="(caso == 'accesorios')?'assets/img/arnes.png':'assets/img/inyeccion.png'">
+        
+
+        <img src="{{buscarimagenp(item.imagenes,item.id,item.usuario_id)}}" *ngIf="item.imagenes"/> 
+        <img [src]="(caso == 'accesorios')?'assets/img/arnes.png':'assets/img/inyeccion.png'"*ngIf="!item.imagenes" />
       </ion-avatar>
       <ion-grid>
         <ion-row>

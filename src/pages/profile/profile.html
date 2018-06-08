@@ -71,6 +71,9 @@
             <ion-segment-button value="puppies">
               Favoritos
             </ion-segment-button>
+            <ion-segment-button value="accesorios">
+              Accesorios
+            </ion-segment-button>
           </ion-segment>
         </div>
     
@@ -103,6 +106,27 @@
               <h2>Coming soon</h2>
             </ion-item>
           </ion-list>
+          
+
+          <div *ngSwitchCase="'accesorios'">
+            <div style="text-align:center">
+              <button ion-button (click)="crearaccesorio()" color="primary-pets" round type="button">
+                <ion-icon name="basketball" color="secondary-pets-l">Añadir</ion-icon>
+              </button>
+            </div>
+    
+            <ion-list >
+              <button  no-lines ion-item *ngFor="let accesorio of accesorios" (click)="detallesaccesorio(accesorio)">
+                <ion-avatar item-start>
+                   <img src="{{buscarimagenp(accesorio.imagenes,accesorio.id,accesorio.usuario_id)}}" *ngIf="accesorio.imagenes"/> 
+                   <img src="assets/img/inyeccion.png" *ngIf="!accesorio.imagenes" />
+                 </ion-avatar>
+                <h2>{{accesorio.nombre}}</h2>
+                <p> {{accesorio.descripcion}}</p>
+              </button>
+            </ion-list>
+    
+          </div>
         </div>
     
     </div>

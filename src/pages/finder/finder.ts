@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import{AuthProvider} from './../../providers/auth/auth';
 import {ProfilePage} from '../profile/profile';
 import { DetallesPage } from '../profile/detalle';
+import { AccesoriosPage } from '../accesorios/accesorios';
 import { Socket } from 'ng-socket-io';
 import { Storage } from "@ionic/storage";
 import { ChatRoomPage} from '../chat-room/chat-room';
@@ -18,20 +19,29 @@ export class FinderPage {
   items;
   caso;
   vacio:boolean;
-  logeado;
+  logeado=false;
   miid;
   constructor(public navCtrl: NavController, public navParams: NavParams, private authservice:AuthProvider, private socket: Socket, private storage:Storage) {
     this.caso=this.navParams.get('case');
-    
-    this.buscarporclave(' ');
-
     this.vacio=false;
-    if(this.storage.get('jwt')){
-      this.logeado=true;
+    this.storage.get('jwt').then((jwt)=>{
+      console.log(jwt);
+      if(jwt){
+        this.logeado=true;
+        this.buscarporclave(' ');
+      }else{
+        this.logeado=false;
+        this.buscarporclave(' ');
+          
+      }
+    },err=>{
+      console.log(err);
 
-    }else{
       this.logeado=false;
-    }
+      this.buscarporclave(' ');
+
+    })
+
   }
 
 
@@ -46,17 +56,21 @@ export class FinderPage {
   }
   buscarporclave(clave){
     let key =this.caso;
-    console.log(key);
+    //console.log(key);
     if(this.caso=='chat'){
       key='people';
     }
-     console.log(key);
+     //console.log(key);
     this.authservice.buscar(key,{clave:clave}).subscribe((data)=>{
-        /* let datos=data.json();
-          */ 
-        let datos=data;
+      let datos;
+      if(this.logeado){
+        console.log(data);
+        datos=data.json();
+      }else{
+        datos=data;
+      }
         this.items=datos.datos;
-        console.log(this.items,'items');
+        //console.log(this.items,'items');
         if(this.items.length==0){
           this.vacio=true;
         }else{
@@ -76,6 +90,11 @@ export class FinderPage {
     }
   }
 
+  detallesaccesorios(item){
+    this.navCtrl.push(AccesoriosPage,{datos:item,visitante:true});
+
+  }
+
  formatDollar(num) {
     var p = num.toFixed(2).split(".");
     return "$" + p[0].split("").reverse().reduce(function(acc, num, i, orig) {
@@ -85,7 +104,7 @@ export class FinderPage {
 
 chat(user){
   this.storage.get('mydata').then(midata => {
-    console.log(midata);
+    //console.log(midata);
     let misdatos=JSON.parse(midata);
     this.socket.connect();
     this.socket.emit('set-nickname', misdatos.first_name);
@@ -96,6 +115,10 @@ chat(user){
 }
 buscarimagen(img,idmascota,id_usuario){
   let nimag=`${SERVE_FILE_URI}storage/app/${id_usuario}/${idmascota}/${img.split(',')[0]}`;
+  return nimag;
+}
+buscarimagenp(img,idmascota,id_usuario){
+  let nimag=`${SERVE_FILE_URI}storage/app/productos/${id_usuario}/${idmascota}/${img.split(',')[0]}`;
   return nimag;
 }
 

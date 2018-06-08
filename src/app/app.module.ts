@@ -17,6 +17,8 @@ import {ImagenesPage} from '../pages/profile/imagenes';
 import { DetallesusuarioPage } from '../pages/profile/detalleusuario';
 import {ChatRoomPage} from '../pages/chat-room/chat-room';
 import { NewPedigreePage } from '../pages/about/new-pedigree';
+import { AccesoriosPage } from '../pages/accesorios/accesorios';
+import { NaccesorioPage } from '../pages/accesorios/naccesorio';
 
 
 import { HttpClientModule } from '@angular/common/http';
@@ -28,7 +30,7 @@ import { IonicStorageModule, Storage} from "@ionic/storage";
 import {JwtHelper, AuthConfig, AuthHttp} from "angular2-jwt";
 import { AuthProvider } from '../providers/auth/auth';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-const config: SocketIoConfig = { url: 'http://10.1.23.49:3001', options: {} };
+const config: SocketIoConfig = { url: 'http://192.168.100.60:3001', options: {} };
 
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
@@ -58,7 +60,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     ImagenesPage,
     DetallesusuarioPage,
     ChatRoomPage,
-    NewPedigreePage
+    NewPedigreePage,
+    AccesoriosPage,
+    NaccesorioPage
   ],
   imports: [
     BrowserModule,
@@ -85,7 +89,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     ImagenesPage,
     DetallesusuarioPage,
     ChatRoomPage,
-    NewPedigreePage
+    NewPedigreePage,
+    AccesoriosPage,
+    NaccesorioPage
   ],
   providers: [
     StatusBar,

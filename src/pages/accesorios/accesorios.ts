@@ -1,57 +1,57 @@
 import { Component } from '@angular/core';
-import { ViewController, NavParams,NavController } from 'ionic-angular';
-import { ImagenesPage } from './imagenes';
+import { IonicPage, NavController, NavParams,ViewController } from 'ionic-angular';
+import { ImagenesPage } from '../../pages/profile/imagenes';
 import { SERVE_FILE_URI } from "../../config";
 import { Storage } from "@ionic/storage";
 
+/**
+ * Generated class for the AccesoriosPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
 
-
+@IonicPage()
 @Component({
-
-  templateUrl: 'detalles.html'
-
+  selector: 'page-accesorios',
+  templateUrl: 'accesorios.html',
 })
-export class DetallesPage {
+export class AccesoriosPage {
     id;
     nombre;
-    color;
-    raza;
-    sexo;
-    microchip;
+    descripcion;
     visitante:boolean;
     precio:number;
-    vender:number;
-    imagenesmascota=[];
+    imagenesp=[];
     miid;
+    categoria;
     path;
-  constructor(
-    public viewCtrl: ViewController,
+  constructor( public viewCtrl: ViewController,
     public navp: NavParams,
     public navCtrl: NavController,
-    private storage:Storage
-  ) {
-    
-    this.visitante=true;
-
+    private storage:Storage) {
+      this.visitante=true;
     let datos = navp.get('datos');
     console.log(datos,'sd');
     this.visitante=navp.get('visitante');
     this.nombre=datos.nombre;
-    this.raza=datos.raza;
-    this.sexo=((datos.sexo==1)?'Macho':'Hembra');
-    this.color=datos.color
-    this.microchip=datos.microchip;
-    this.vender=datos.vender;
+    this.descripcion=datos.descripcion;
     this.precio=datos.precio;
-    this.miid=datos.id_usuario;
+    this.categoria=datos.categoria;
+    this.miid=datos.usuario_id;
     this.id=datos.id;//datos de la mascota
-    this.path=`${SERVE_FILE_URI}storage/app/${this.miid}/${this.id}`;
-    this.imagenesmascota=datos.imagenes;
-    if(this.imagenesmascota){
-      this.imagenesmascota=datos.imagenes.split(',');
+    this.path=`${SERVE_FILE_URI}storage/app/productos/${this.miid}/${this.id}`;
+    this.imagenesp=datos.imagenes;
+    if(this.imagenesp){
+      this.imagenesp=datos.imagenes.split(',');
+      
     }
-    
     console.log('datos',datos);
+    
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad AccesoriosPage');
   }
 
   cancelar() {
@@ -71,5 +71,6 @@ buscarimagen(img){
   let nimag=`${this.path}/${img[0]}`;
   return nimag;
 }
+
 
 }

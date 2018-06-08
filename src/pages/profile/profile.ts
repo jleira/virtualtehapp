@@ -6,6 +6,8 @@ import { DetallesPage } from '../profile/detalle';
 import { DetallesusuarioPage } from '../profile/detalleusuario';
 import { Storage } from "@ionic/storage";
 import { SERVE_FILE_URI } from "../../config";
+import { NaccesorioPage } from '../accesorios/naccesorio';
+import { AccesoriosPage } from '../accesorios/accesorios';
 
 
 /**
@@ -23,6 +25,7 @@ import { SERVE_FILE_URI } from "../../config";
 
 export class ProfilePage {
   mismascotas;
+  accesorios;
   name;
   misdatos;
   seguir: boolean;
@@ -61,19 +64,21 @@ export class ProfilePage {
         this.visitante=true;
         this.detallesdedatos(this.navParams.get('userid'));
         this.traermascotas(this.navParams.get('userid'));
+        this.traeraccesorio(this.navParams.get('userid'));
       }
       if (this.navParams.get('caso') == 1) {
         console.log('mi perfil');
         this.detallesdedatos(0);
         this.visitante=false;
         this.traermascotas(0);
-
+        this.traeraccesorio(0);
       }
     }else{
       this.detallesdedatos(0);
       this.visitante=false;
       this.traermascotas(0);
-      }
+      this.traeraccesorio(0);
+    }
 
 
    }
@@ -87,10 +92,27 @@ export class ProfilePage {
     });
 
   }
-
+  crearaccesorio(){
+    let profileModal = this.modalCtrl.create(NaccesorioPage, { userId: 8675309 });
+    profileModal.present();
+    profileModal.onDidDismiss(data => {
+      if (data) {
+        this.traeraccesorio(0);
+      }
+    });
+    
+  }
   traermascotas(id) {
     this.authservice.mismascostas(id).subscribe((data) => {
       this.mismascotas = data.json();
+      console.log(data.json());
+    }, err => {
+      console.log(err);
+    })
+  }
+  traeraccesorio(id) {
+    this.authservice.misaccesorios(id).subscribe((data) => {
+      this.accesorios = data.json();
       console.log(data.json());
     }, err => {
       console.log(err);
@@ -101,6 +123,11 @@ export class ProfilePage {
     console.log(datos);
     datos.idusuario=this.misdatos.id;
     this.navCtrl.push(DetallesPage, { datos: datos,visitante:this.visitante });
+
+  }
+  detallesaccesorio(accesorio){
+    console.log(accesorio);
+    this.navCtrl.push(AccesoriosPage, { datos: accesorio,visitante:this.visitante });
 
   }
 
@@ -174,5 +201,9 @@ configuraciones(){
 buscarimagen(img,idmascota){
     let nimag=`${SERVE_FILE_URI}storage/app/${this.misdatos.id}/${idmascota}/${img.split(',')[0]}`;
     return nimag;
+}
+buscarimagenp(img,idmascota,userid){
+  let nimag=`${SERVE_FILE_URI}storage/app/productos/${userid}/${idmascota}/${img.split(',')[0]}`;
+  return nimag;
 }
 }

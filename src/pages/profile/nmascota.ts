@@ -54,6 +54,9 @@ imagenes=[];
       this.toastmsj(`mascota ${resp.json()[0]['nombre']} creada exitosamente`);
 //
       let cantidadimg=this.imagenes.length;
+      if(cantidadimg==0){
+        this.viewCtrl.dismiss(true);
+       }
       let init=0;
       this.imagenes.forEach(element => {
         init=init+1;

@@ -55,7 +55,7 @@ export class AuthProvider {
          return resp;
       }, err => {
         if (err.status !== 401) {
-          console.log(err);
+          //console.log(err);
         }
       })
   }
@@ -80,7 +80,7 @@ export class AuthProvider {
         return resp;
       }, err => {
         if (err.status !== 401) {
-          console.log(err);
+          //console.log(err);
         }
       })
   }
@@ -92,20 +92,35 @@ export class AuthProvider {
      return err;
    })
   }
+  misaccesorios(id){
+    return this.tokenhttp.get(`${apiUrl}api/find/misaccesorios/${id}`).map((data)=>{
+      console.log(data);
+      return data;
+   },err=>{
+     return err;
+   })
+  }
 
    registrarmascota(values:any): Observable<any> {
     return this.tokenhttp.post(`${apiUrl}/api/pets/agregar
     `, values).map((resp) => {
         return resp;
       }, err => {
-        console.log(err);
         return err;
       })
   
    }
+   registraraccesorio(values:any): Observable<any> {
+    return this.tokenhttp.post(`${apiUrl}/api/guardar/accesorios
+    `, values).map((resp) => {
+        return resp;
+      }, err => {
+        return err;
+      })
+   }
   
    buscar(key,values:any): Observable<any> {
-     console.log(key,this.tokenexpired);
+     //console.log(key,this.tokenexpired);
     let endpoint;
     if(this.tokenexpired){
       if(key=='people'){
@@ -117,29 +132,29 @@ export class AuthProvider {
   
       }
       if(key=='accesorios'){
-        endpoint='api/find/accesoriosyservicios';
+        endpoint='api/find/accesoriosyservicios2';
         values.categoria=[1];      
       }
       if(key=='servicios'){
-        endpoint='api/find/accesoriosyservicios';
+        endpoint='api/find/accesoriosyservicios2';
         values.categoria=[2];
       }
       if(key=='todos'){
-        endpoint='api/find/todos';
+        endpoint='api/find/todos2';
         values.categoria=[1,2];
       }
       if(key=='adopcion'){
-        endpoint='api/find/mascotas';
+        endpoint='api/find/mascotas2';
         values.vender=[2];
       }
 
       return this.http.post(`${apiUrl}/${endpoint}`, values).finally(()=>{
-        console.log('salio');
+        //console.log('salio');
       }).map((resp) => {
-        console.log('resp',resp);
+        //console.log('resp',resp);
           return resp;
         }, err => {
-          console.log(err);
+          //console.log(err);
           return err;
         })
     }else{
@@ -168,12 +183,12 @@ export class AuthProvider {
         values.vender=[2];
       }
       return this.tokenhttp.post(`${apiUrl}/${endpoint}`, values).finally(()=>{
-        console.log('salio');
+        //console.log('salio');
       }).map((resp) => {
-        console.log('resp',resp);
+        //console.log('resp',resp);
           return resp;
         }, err => {
-          console.log(err);
+          //console.log(err);
           return err;
         })
     }
@@ -202,7 +217,7 @@ export class AuthProvider {
    })
   }
   mensajes(idrecibe){
-    console.log('se ejecuta');
+    //console.log('se ejecuta');
     return this.tokenhttp.get(`${apiUrl}api/chat/mensajes/${idrecibe}`).map((data)=>{
       return data;
    },err=>{
@@ -215,7 +230,7 @@ export class AuthProvider {
     `, values).map((resp) => {
         return resp;
       }, err => {
-        console.log(err);
+        //console.log(err);
         return err;
       }) 
   }
@@ -242,13 +257,13 @@ export class AuthProvider {
 
       return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photoupload?id=${pets.id}`, options) 
         .then((data) => {
-          console.log(data);
+          //console.log(data);
           this.handleError('Foto enviada');
           loading.dismiss();
           return true;
         }, (err) => {
           this.handleError(JSON.stringify(err));
-          console.log(err);
+          //console.log(err);
           loading.dismiss();
           return true;
         })
@@ -256,12 +271,57 @@ export class AuthProvider {
     }, err=>{
       loading.dismiss();
       this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
-      console.log('err',err);
+      //console.log('err',err);
       return true;
 
     })
 
   }
+
+
+  enviarimagenproducto(ruta,pets) {
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Enviando foto ...'
+    });
+    loading.present();
+    return this.storage.get('jwt').then((jwt) => {
+      let options: FileUploadOptions = {
+        fileKey: 'file',
+        fileName: 'pets',
+        headers: {
+          'Authorization': 'Bearer ' + jwt,
+          'Content-Type': undefined
+        },
+        mimeType: 'image/*',
+        params:{
+          idmascota:pets.id
+        }
+      }
+
+      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photouploadaccesorio?id=${pets.id}`, options) 
+        .then((data) => {
+          //console.log(data);
+          this.handleError('Foto enviada');
+          loading.dismiss();
+          return true;
+        }, (err) => {
+          this.handleError(JSON.stringify(err));
+          //console.log(err);
+          loading.dismiss();
+          return true;
+        })
+
+    }, err=>{
+      loading.dismiss();
+      this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
+      //console.log('err',err);
+      return true;
+
+    })
+
+  }
+
   handleError(error: string) {
     let message: string;
     message = error;
