@@ -9,10 +9,13 @@
 <ion-content>
   <ion-grid>
     <ion-row > 
-      <ion-col col-6 *ngFor="let pedigree of [{nombre:'My breed'},{nombre:'My pedigree'},{nombre:'Mailot family'},{nombre:'Androi family'},{nombre:'Carlina'}]">
-        <ion-card class="card-pedigree" >
-          <img src="assets/img/bjork-live.jpg"  />
-          <div>
+      <ion-col col-6 *ngFor="let pedigree of mispedigree">
+        <ion-card class="card-pedigree" (click)="verpedigree(pedigree)" >
+            <img src="{{buscarimagenp(pedigree.imagenes,pedigree.mascota_id,pedigree.usuario_id)}}" *ngIf="pedigree.imagenes"/> 
+            <img src="assets/img/mascota.png" *ngIf="!pedigree.imagenes" />
+
+<!--           <img src="assets/img/bjork-live.jpg"  />
+ -->          <div>
             <h4 >
               {{pedigree.nombre}}
             </h4>
@@ -59,7 +62,7 @@
         </ion-list>
       </div> -->
   <ion-fab right bottom>
-    <button ion-fab color="primary-pets" (click)="newpedigree('crear')">
+    <button ion-fab color="primary-pets" (click)="newpedigree()">
       <ion-icon name="add" color="secondary-pets-l"></ion-icon>
     </button>
     <!--         <ion-fab-list side="left">

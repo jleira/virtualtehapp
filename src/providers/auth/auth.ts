@@ -333,5 +333,24 @@ export class AuthProvider {
     toast.present();
   }
 
+  mispedigree(id){
+
+    return this.tokenhttp.get(`${apiUrl}api/find/mispedigree/${id}`).map((data)=>{
+      console.log(data);
+      return data;
+   },err=>{
+     return err;
+   })
+  }
+  registrarpedigree(values:any): Observable<any> {
+    return this.tokenhttp.post(`${apiUrl}/api/agregar/pedigree
+    `, values).map((resp) => {
+        return resp;
+      }, err => {
+        return err;
+      })
+  
+   }
+
 
 }

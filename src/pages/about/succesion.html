@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title style="z-index: -1;">
+            Nueva linea de sucesion
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+<ion-content>
+
+
+    <form #form="ngForm" (ngSubmit)="guardar(form.value)" novalidate>
+        <ion-list>
+            <div *ngFor="let item of nombres">
+                <ion-item style="border-color: white;">
+                    <ion-label color="secondary-pets-l" floating>PADRE DE {{item}}</ion-label>
+                    <ion-input type="text" name="{{'padre'+item}}"  ngModel ></ion-input>
+                </ion-item>
+                <ion-item style="border-color: white;">
+                        <ion-label color="secondary-pets-l" floating>MADRE DE {{item}}</ion-label>
+                        <ion-input type="text" name="{{'madre'+item}}"  ngModel ></ion-input>
+                    </ion-item>
+
+            </div>
+
+            <div style="text-align:center">
+                <button ion-button type="submit" color="secondary-pets-l" outline [disabled]="!form.valid">Add</button>
+            </div>
+
+            <div style="text-align:center">
+                <button ion-button outline color="secondary-pets-l" type="button" (click)="cancelar()">Cancell</button>
+            </div>
+
+        </ion-list>
+    </form>
+
+</ion-content>

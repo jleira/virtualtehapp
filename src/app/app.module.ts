@@ -19,6 +19,7 @@ import {ChatRoomPage} from '../pages/chat-room/chat-room';
 import { NewPedigreePage } from '../pages/about/new-pedigree';
 import { AccesoriosPage } from '../pages/accesorios/accesorios';
 import { NaccesorioPage } from '../pages/accesorios/naccesorio';
+import { SuccesionPage } from '../pages/about/succesion';
 
 
 import { HttpClientModule } from '@angular/common/http';
@@ -62,7 +63,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     ChatRoomPage,
     NewPedigreePage,
     AccesoriosPage,
-    NaccesorioPage
+    NaccesorioPage,
+    SuccesionPage
   ],
   imports: [
     BrowserModule,
@@ -91,7 +93,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     ChatRoomPage,
     NewPedigreePage,
     AccesoriosPage,
-    NaccesorioPage
+    NaccesorioPage,
+    SuccesionPage
   ],
   providers: [
     StatusBar,
