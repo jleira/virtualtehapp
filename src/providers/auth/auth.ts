@@ -322,6 +322,48 @@ export class AuthProvider {
 
   }
 
+
+  enviarimagenpedigree(ruta) {
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Enviando foto ...'
+    });
+    loading.present();
+    return this.storage.get('jwt').then((jwt) => {
+      let options: FileUploadOptions = {
+        fileKey: 'file',
+        fileName: 'pedigree',
+        headers: {
+          'Authorization': 'Bearer ' + jwt,
+          'Content-Type': undefined
+        },
+        mimeType: 'image/*',
+      }
+
+      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photouploadpedigree`, options) 
+        .then((data) => {
+          console.log(data);
+          this.handleError('Foto guardada');
+          loading.dismiss();
+          return data['suceess'];
+        }, (err) => {
+          this.handleError(JSON.stringify(err));
+          console.log(err);
+          loading.dismiss();
+          return true;
+        })
+
+    }, err=>{
+      loading.dismiss();
+      this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
+      console.log('err',err);
+      return true;
+
+    })
+
+  }
+
+
   handleError(error: string) {
     let message: string;
     message = error;

@@ -1,36 +1,44 @@
 <ion-header>
     <ion-navbar>
         <ion-title style="z-index: -1;">
-            Nueva linea de sucesion
+          {{nombre}}
         </ion-title>
     </ion-navbar>
 </ion-header>
 <ion-content>
 
 
-    <form #form="ngForm" (ngSubmit)="guardar(form.value)" novalidate>
-        <ion-list>
-            <div *ngFor="let item of nombres">
-                <ion-item style="border-color: white;">
-                    <ion-label color="secondary-pets-l" floating>PADRE DE {{item}}</ion-label>
-                    <ion-input type="text" name="{{'padre'+item}}"  ngModel ></ion-input>
-                </ion-item>
-                <ion-item style="border-color: white;">
-                        <ion-label color="secondary-pets-l" floating>MADRE DE {{item}}</ion-label>
-                        <ion-input type="text" name="{{'madre'+item}}"  ngModel ></ion-input>
-                    </ion-item>
+    <ion-list>
+        <ion-item *ngIf="estado!=2">
+            <ion-label color="pesto-scondary-text">Chosee a pet</ion-label>
+            <ion-select interface="action-sheet" cancelText="cancel" [(ngModel)]="mascota" (ionChange)="cambiarmascosta()">
+                <ion-option *ngFor="let item of mismascotas" [value]="item">{{item.nombre}}</ion-option>
+            </ion-select>
+        </ion-item>
 
-            </div>
+        <ion-item style="border-color: white;">
+            <ion-label color="secondary-pets-l" floating>Nombre</ion-label>
+            <ion-input type="text" [(ngModel)]="nombre"></ion-input>
+        </ion-item>
+        <ion-grid *ngIf="mascota">
+            <ion-row *ngIf="path" justify-content-center>
+                <ion-col col-5>
+                    <img src="{{path}}" />{{nombre}}</ion-col>
+            </ion-row>
+        </ion-grid>
 
-            <div style="text-align:center">
-                <button ion-button type="submit" color="secondary-pets-l" outline [disabled]="!form.valid">Add</button>
+        <div style="text-align:center" *ngIf="estado!=2">
+            <button ion-button outline color="primary" type="button" (click)="presentConfirm(1,2)">Change Image</button>
+        </div>
+
+            <div style="text-align:center" *ngIf="estado!=2">
+                <button ion-button type="button" color="secondary-pets-l" outline (click)="guardar()">Edit</button>
             </div>
 
             <div style="text-align:center">
                 <button ion-button outline color="secondary-pets-l" type="button" (click)="cancelar()">Cancell</button>
             </div>
 
-        </ion-list>
-    </form>
+    </ion-list>
 
 </ion-content>

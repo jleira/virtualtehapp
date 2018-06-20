@@ -20,6 +20,8 @@ import { NewPedigreePage } from '../pages/about/new-pedigree';
 import { AccesoriosPage } from '../pages/accesorios/accesorios';
 import { NaccesorioPage } from '../pages/accesorios/naccesorio';
 import { SuccesionPage } from '../pages/about/succesion';
+import { ColorpickerPage } from '../pages/about/new-pedigree';
+
 
 
 import { HttpClientModule } from '@angular/common/http';
@@ -64,7 +66,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     NewPedigreePage,
     AccesoriosPage,
     NaccesorioPage,
-    SuccesionPage
+    SuccesionPage,
+    ColorpickerPage
   ],
   imports: [
     BrowserModule,
@@ -94,7 +97,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     NewPedigreePage,
     AccesoriosPage,
     NaccesorioPage,
-    SuccesionPage
+    SuccesionPage,
+    ColorpickerPage
   ],
   providers: [
     StatusBar,
