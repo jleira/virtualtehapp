@@ -244,10 +244,10 @@ export class NewPedigreePage {
       console.log
       this.succesiones = JSON.parse(this.mascota.pedigree);
       console.log(this.succesiones);
-      this.linea1=this.succesiones.linea1;
-      this.linea2=this.succesiones.linea2;
-      this.linea3=this.succesiones.linea3;
-      this.color=this.mascota.color_pedigree;
+      this.linea1 = this.succesiones.linea1;
+      this.linea2 = this.succesiones.linea2;
+      this.linea3 = this.succesiones.linea3;
+      this.color = this.mascota.color_pedigree;
 
       if (this.mascota.imagenes) {
         let imgname = this.mascota.imagenes.split(',')[0];
@@ -340,50 +340,58 @@ export class NewPedigreePage {
       pedigree: JSON.stringify(this.succesiones),
       color: this.color
     }
+
+    let i1 = 0, i2 = 0, i3 = 0;
     this.linea1.forEach(element => {
       if (element.caso == 3) {
         this.authservice.enviarimagenpedigree(element.imagen).then((nom) => {
-          element.imagen = SERVE_FILE_URI+'/'+nom;
+          this.linea1[i1]['imagen'] = SERVE_FILE_URI + '/' + nom;
         });
       }
+      i1 = i1 + 1;
+
     });
 
     this.linea2.forEach(element => {
       if (element.caso == 3) {
         this.authservice.enviarimagenpedigree(element.imagen).then((nom) => {
-          element.imagen = SERVE_FILE_URI+'/'+nom;
+          this.linea2[i2]['imagen'] = SERVE_FILE_URI + '/' + nom;
         });
       }
+      i2 = i2 + 1;
     }); this.linea3.forEach(element => {
       if (element.caso == 3) {
         this.authservice.enviarimagenpedigree(element.imagen).then((nom) => {
-          element.imagen = SERVE_FILE_URI+'/'+nom;
+          element.imagen = SERVE_FILE_URI + '/' + nom;
+          this.linea3[i3]['imagen'] = SERVE_FILE_URI + '/' + nom;
         });
       }
-      
-    }); 
-
+      i3 = i3 + 1;
+    });
+    valoresenviar.pedigree = JSON.stringify({ linea1: this.linea1, linea2: this.linea2, linea3: this.linea3 });
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: 'Enviando datos...',
       duration: 10000
     });
     loading.present();
-    valoresenviar.pedigree=JSON.stringify({linea1:this.linea1,linea2:this.linea2,linea3:this.linea3});
     console.log(valoresenviar);
-    this.authservice.registrarpedigree(valoresenviar).finally(() => {
-      loading.dismiss();
-    }).subscribe((resp) => {
-      this.toastmsj(`pedigre ${resp.json()[0]['nombre']} creado exitosamente`);
-      this.viewCtrl.dismiss(true);
-    }, error => {
-      let err = error.json();
-      for (let i in err) {
-        if (err.hasOwnProperty(i)) {
-          this.toastmsj(err[i]);
+    setTimeout(() => {
+      this.authservice.registrarpedigree(valoresenviar).finally(() => {
+        loading.dismiss();
+      }).subscribe((resp) => {
+        this.toastmsj(`pedigre ${resp.json()[0]['nombre']} creado exitosamente`);
+        this.viewCtrl.dismiss(true);
+      }, error => {
+        let err = error.json();
+        for (let i in err) {
+          if (err.hasOwnProperty(i)) {
+            this.toastmsj(err[i]);
+          }
         }
-      }
-    });
+      });
+
+    }, 4500);
   }
   toastmsj(mensaje = 'mensaje desconocido') {
     const toast = this.toastc.create({
@@ -403,7 +411,7 @@ export class NewPedigreePage {
     let modalp;
 
     modalp = this.modal.create(SuccesionPage, {
-      item: item, mismascotas: this.mismascotas, caso:this.caso
+      item: item, mismascotas: this.mismascotas, caso: this.caso
     });
     modalp.present();
     modalp.onDidDismiss((data) => {

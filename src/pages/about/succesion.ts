@@ -183,7 +183,7 @@ export class SuccesionPage {
         return this.file.createDir(targetPath, nombrecarpetapadre, true).then(() => { }, (e) => { }).then(() => {
           return this.file.writeFile(targetPath + `${nombrecarpetapadre}/`, imgname, blob).then((ok) => {
             this.path=`${targetPath}/${nombrecarpetapadre}/${imgname}`;
-            this.caso=1;
+            this.caso=3;
 
 //            this.imagenes.push({ruta:`${targetPath}/${nombrecarpetapadre}/${imgname}`});
            }, (e) => { 

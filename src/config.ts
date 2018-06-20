@@ -4,5 +4,6 @@ function newFunction() {
     return "http://167.114.185.216/servicios54/";
 }                         
 function fileurl(){
-    return "http://167.114.185.216/blogfotos/";    
+    return "http://167.114.185.216/blogfotos/";
+    
 };
