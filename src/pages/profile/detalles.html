@@ -4,7 +4,7 @@
         <ion-title style="z-index:-1">{{nombre}}</ion-title>
         <ion-buttons end *ngIf="!visitante">
 
-          <!--   <button ion-button icon-only>
+            <!--   <button ion-button icon-only>
                 <ion-icon name="camera"></ion-icon>
             </button> -->
 
@@ -21,9 +21,9 @@
         <img src="assets/img/mascota.png" />
     </ion-toolbar>
     <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="imagenesmascota" (click)="imagenes(imagenesmascota)">
-            <img src="{{buscarimagen(imagenesmascota)}}" />
-        </ion-toolbar>
-        <ion-list>
+        <img src="{{buscarimagen(imagenesmascota)}}" />
+    </ion-toolbar>
+    <ion-list>
         <ion-item no-lines>
             <ion-grid>
                 <ion-row color="secondary-pets-l">
@@ -57,8 +57,17 @@
                         <h2 class="subtitulo">{{microchip}}</h2>
                     </ion-col>
                 </ion-row>
-
             </ion-grid>
         </ion-item>
+
+        <div style="text-align:center" *ngIf="visitante">
+                <button ion-button type="button" (click)="abrirchat()" color="secondary-pets-l" outline>
+                    Chat
+                </button>
+            </div>
+    
+
     </ion-list>
+
+
 </ion-content>

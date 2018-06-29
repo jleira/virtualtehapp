@@ -26,16 +26,11 @@ export class TabsPage {
     public modalCtrl: ModalController,
     public authService: AuthProvider
   ) {
-
+    this.authService.checkLogin();
     this.authService.authUser.subscribe(jwt => {
-      console.log(jwt);
-      if (jwt) {
-        console.log('true');
-        
+      if (jwt) {        
         this.logeado = true;
        } else {
-        console.log('false');
-
         this.logeado = false;
       }
     });
@@ -43,7 +38,6 @@ export class TabsPage {
   }
 
   cargardata(pname){
-    console.log('cargo', pname);
     this.pagename=pname;
   }
 

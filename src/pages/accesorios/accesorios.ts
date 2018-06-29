@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ViewController, AlertController, ToastController, LoadingController } from 'ionic-angular';
 import { ImagenesPage } from '../../pages/profile/imagenes';
 import { SERVE_FILE_URI } from "../../config";
 import { Storage } from "@ionic/storage";
+import { AuthProvider } from '../../providers/auth/auth';
+import {ChatRoomPage} from '../chat-room/chat-room';
 
 /**
  * Generated class for the AccesoriosPage page.
@@ -26,13 +28,20 @@ export class AccesoriosPage {
     miid;
     categoria;
     path;
+    datosproducto;
   constructor( public viewCtrl: ViewController,
     public navp: NavParams,
     public navCtrl: NavController,
-    private storage:Storage) {
+    private storage:Storage,
+    public alertCtrl: AlertController,
+    public toastc: ToastController,
+    private authservice: AuthProvider,
+    private loadingCtrl: LoadingController
+) {
       this.visitante=true;
     let datos = navp.get('datos');
-    console.log(datos,'sd');
+    this.datosproducto=datos;
+    
     this.visitante=navp.get('visitante');
     this.nombre=datos.nombre;
     this.descripcion=datos.descripcion;
@@ -70,6 +79,71 @@ imagenes(imagenes){
 buscarimagen(img){
   let nimag=`${this.path}/${img[0]}`;
   return nimag;
+}
+
+
+abrirchat() {
+  let alert = this.alertCtrl.create({
+    title: `Mensaje para ${this.datosproducto.first_name} ${this.datosproducto.last_name}`,
+    message: 'Este mensaje se enviara automaticamente ysera dirigido al chat',
+    inputs: [
+      {
+        name: 'mensaje',
+        placeholder: 'name'
+      },
+    ],
+    buttons: [
+      {
+        text: 'Save',
+        handler: (data) => {
+          if (!data.mensaje) {
+            return this.toastmsj('el mensaje no puede estar vacio');
+          } else {
+            this.enviarmensaje(data.mensaje);
+          }
+
+        }
+
+      },
+      {
+        text: 'Cancel',
+        handler: () => {
+        }
+      }
+    ]
+  });
+  alert.present();
+}
+toastmsj(mensaje = 'mensaje desconocido') {
+  const toast = this.toastc.create({
+    message: mensaje,
+    duration: 5000,
+    position: 'bottom'
+  });
+  toast.present();
+}
+
+enviarmensaje(msj) {
+  this.datosproducto.mensaje = msj;
+  this.datosproducto.tipo = 2;
+  this.datosproducto.id_usuario=this.datosproducto.usuario_id;
+  this.datosproducto.mascota=JSON.stringify(this.datosproducto);
+  this.authservice.enviarmensajemascota(this.datosproducto).subscribe(()=>{
+    let usr={
+      id:this.datosproducto.id_usuario
+    };
+    this.chat(usr);
+  },err=>{
+    this.toastmsj('Hubo un error, intentelo mas tarde');
+  });
+}
+chat(user){
+  this.storage.get('mydata').then(midata => {
+    console.log('midata');
+    let misdatos=JSON.parse(midata);
+    this.navCtrl.setRoot(ChatRoomPage, { caso:1, miid: misdatos.id ,nickname: misdatos.correo, correo:misdatos.correo, user:user });  
+  });
+
 }
 
 

@@ -15,15 +15,15 @@
 <ion-content padding>
     <form #form="ngForm" (ngSubmit)="registro(form.value)" novalidate>
         <ion-list>
-            <ion-item style="border-color: white;" class="itemi">
-                <ion-label color="pesto-scondary-text" floating>First name</ion-label>
+            <ion-item style="border-color: transparent !important;" class="itemi">
+                <ion-label color="secondary-pets" floating>First name</ion-label>
                 <ion-input type="text" name='first_name' ngModel required #first_name="ngModel" [class.invalid]="first_name.errors && first_name.dirty"></ion-input>
             </ion-item>
             <ion-item class="error-message itemi" no-lines *ngIf="first_name.errors?.required && first_name.dirty">
                 <p *ngIf="first_name.errors?.required && first_name.dirty " style="color:red">First name required </p>
             </ion-item>
             <ion-item style="border-color: white;" class="itemi">
-                <ion-label color="pesto-scondary-text" floating>Last name</ion-label>
+                <ion-label color="secondary-pets" floating>Last name</ion-label>
                 <ion-input type="text" name='last_name' ngModel required #last_name="ngModel" [class.invalid]="last_name.errors && last_name.dirty"></ion-input>
             </ion-item>
             <ion-item class="error-message itemi" no-lines *ngIf="last_name.errors?.required && last_name.dirty">
@@ -32,7 +32,7 @@
 
 
             <ion-item style="border-color: white;" class="itemi">
-                <ion-label color="pesto-scondary-text" floating>email</ion-label>
+                <ion-label color="secondary-pets" floating>email</ion-label>
                 <ion-input type="email" name='email' ngModel email required #email="ngModel" [class.invalid]="email.errors && email.dirty"></ion-input>
             </ion-item>
             <ion-item class="error-message itemi" no-lines *ngIf="email.errors?.required && email.dirty">
@@ -43,13 +43,13 @@
             </ion-item>
 
             <ion-item class="itemi">
-                <ion-label color="pesto-scondary-text" floating>password</ion-label>
+                <ion-label color="secondary-pets" floating>password</ion-label>
                 <ion-input type="password" name='password' ngModel required #password="ngModel" [class.invalid]="password.errors && password.dirty"
                     minlength="6" ></ion-input>
             </ion-item>
 
             <ion-item class="itemi">
-                <ion-label color="pesto-scondary-text" floating>password confirmation </ion-label>
+                <ion-label color="secondary-pets" floating>password confirmation </ion-label>
                 <ion-input type="password" name='password_confirmation' ngModel required #password_confirmation="ngModel" [class.invalid]="password_confirmation.errors && password_confirmation.dirty"
                     minlength="6" ></ion-input>
             </ion-item>

@@ -5,35 +5,36 @@
     </ion-title>
   </ion-navbar>
 </ion-header>
- 
-<ion-content>
+
+<ion-content #content>
   <ion-grid>
     <ion-row *ngFor="let message of messages">
-      
-<!--       <ion-col col-9 *ngIf="message.from !== nickname" class="message" [ngClass]="{'my_message': message.from === nickname, 'other_message': message.from !== nickname}">
-        <span class="user_name">{{ message.from }}:</span><br>
-        <span>{{ message.text }}</span>
-        <div class="time">{{message.created | date:'dd.MM hh:MM'}}</div>
-      </ion-col>
- 
-      <ion-col offset-3 col-9 *ngIf="message.from === nickname" class="message" [ngClass]="{'my_message': message.from === nickname, 'other_message': message.from !== nickname}">
-        <span class="user_name">{{ message.from }}:</span><br>
-        <span>{{ message.text }}</span>
-        <div class="time">{{message.created | date:'dd.MM hh:MM'}}</div>
-      </ion-col> -->
- 
+
       <ion-col col-9 *ngIf="message.usuario_recibe !== id" class="message" [ngClass]="'other_message'">
-        <span>{{ message.mensaje }}</span>
+        <div *ngIf="message.tipo==1" [innerHtml]="pruebaf(message.mensaje)" (click)="vermascota(message.mensaje)">
+        </div>
+        <div *ngIf="message.tipo==2" [innerHtml]="pruebap2(message.mensaje)" (click)="verproducto(message.mensaje)">
+        </div>
+        <div *ngIf="message.tipo==0">
+          <span>{{ message.mensaje }}</span>
+        </div>
+
       </ion-col>
- 
+
       <ion-col offset-3 col-9 *ngIf="message.usuario_recibe == id" class="message" [ngClass]="'my_message'">
-        <span>{{ message.mensaje }}</span>
+        <div *ngIf="message.tipo==1" [innerHtml]="pruebaf(message.mensaje)" (click)="vermascota(message.mensaje)">
+        </div>
+        <div *ngIf="message.tipo==2" [innerHtml]="pruebap2(message.mensaje)" (click)="verproducto(message.mensaje)">
+        </div>
+        <div *ngIf="message.tipo==0">
+          <span>{{ message.mensaje }}</span>
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>
- 
+
 </ion-content>
- 
+
 <ion-footer>
   <ion-toolbar>
     <ion-row class="message_row">
@@ -44,8 +45,8 @@
       </ion-col>
       <ion-col col-3>
         <button ion-button clear color="primary" (click)="sendMessage()" [disabled]="message === ''">
-        Send
-      </button>
+          Send
+        </button>
       </ion-col>
     </ion-row>
   </ion-toolbar>

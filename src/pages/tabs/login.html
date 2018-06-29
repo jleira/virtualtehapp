@@ -1,33 +1,34 @@
-
-
 <ion-content padding>
-    <div style="width:100%" style="text-align:center">
-        <img width="40%"  src="assets/img/icon.png"/>
-     </div>
+  <div style="width:100%" style="text-align:center">
+    <img width="40%" src="assets/img/icon.png" />
+  </div>
 
   <form #form="ngForm" (ngSubmit)="login(form.value)" novalidate>
     <ion-list>
-      <ion-item style="border-color: white;" class="itemi">
-        <ion-label color="secondary-pets-l" floating>Correo</ion-label>
-        <ion-input  type="email" name='email' email ngModel  #email="ngModel" 
-        [class.invalid]="email.errors && email.dirty" ></ion-input>
+      <ion-item style="border-color: transparent !important;" class="itemi" >
+        <ion-label color="secondary-pets" floating >
+          <ion-icon name="person" color="secondary-pets-l" item-left></ion-icon>
+          Correo</ion-label>
+        <ion-input type="email" name='email' email ngModel #email="ngModel" [class.invalid]="email.errors && email.dirty"></ion-input>
       </ion-item>
-      <ion-item class="error-message itemi" no-lines *ngIf="email.errors?.required && email.dirty" >
+
+      <ion-item class="itemi">
+        <ion-label color="secondary-pets" floating>
+          <ion-icon name="eye" color="secondary-pets-l" item-left></ion-icon>Contraseña</ion-label>
+        <ion-input type="password" name='password' ngModel required #password="ngModel" [class.invalid]="password.errors && password.dirty"
+          minlength="6"></ion-input>
+
+      </ion-item>
+      <ion-item class="error-message itemi" item-end ion-item no-lines style="text-align: right">
+        <a color="secondary-pets">Olvidaste tu contraseña?</a>
+      </ion-item>
+      <ion-item class="error-message itemi" no-lines *ngIf="email.errors?.required && email.dirty">
         <p *ngIf="email.errors?.required && email.dirty " style="color:red">Correo Requerido </p>
       </ion-item>
       <ion-item class="error-message itemi" no-lines *ngIf="email.errors?.email && email.dirty">
         <p *ngIf="email.errors?.email && email.dirty " style="color:red">Debe ser un correo valido </p>
       </ion-item>
 
-      <ion-item class="itemi">
-        <ion-label color="secondary-pets-l" floating >Contraseña</ion-label>
-        <ion-input type="password" name='password' ngModel required #password="ngModel" [class.invalid]="password.errors && password.dirty"
-          minlength="6" ></ion-input>
-      </ion-item>
-      <ion-item class="error-message itemi" item-end ion-item no-lines style="text-align: right" >
-          <a color="secondary-pets">Olvidaste tu contraseña?</a>
-        </ion-item>
-  
       <ion-item class="error-message itemi" no-lines *ngIf="password.errors?.required && password.dirty">
         <p style="color:red">Contraseña Requerida</p>
       </ion-item>
@@ -41,24 +42,24 @@
 
 
       <div style="text-align:center">
-        <button ion-button  type="submit" color="secondary-pets-l" outline [disabled]="!form.valid">Iniciar Sesion</button>
+        <button ion-button type="submit" color="secondary-pets-l" outline [disabled]="!form.valid">Iniciar Sesion</button>
       </div>
 
       <div style="text-align:center">
         <button ion-button outline color="secondary-pets-l" type="button">
-          <ion-icon name="logo-facebook" (click)="borrarlocal()" > Iniciar sesion con facebook</ion-icon> 
+          <ion-icon name="logo-facebook" (click)="borrarlocal()"> Iniciar sesion con facebook</ion-icon>
         </button>
       </div>
       <div style="text-align:center">
-          <button ion-button outline color="secondary-pets-l" type="button" (click)="registrar()">Crear cuenta</button>
-        </div>
-  
+        <button ion-button outline color="secondary-pets-l" type="button" (click)="registrar()">Crear cuenta</button>
+      </div>
+
 
 
       <div style="text-align:center">
-          <button ion-button outline color="secondary-pets-l" type="button" (click)="cancelar()">Cancelar</button>
-        </div>
-  
+        <button ion-button outline color="secondary-pets-l" type="button" (click)="cancelar()">Cancelar</button>
+      </div>
+
     </ion-list>
   </form>
 </ion-content>

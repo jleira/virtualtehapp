@@ -4,7 +4,7 @@ import { ReplaySubject, Observable } from "rxjs";
 import { Storage } from "@ionic/storage";
 import { SERVER_URL } from "../../config";
 import { SERVE_FILE_URI } from "../../config";
-import { AuthHttp,JwtHelper } from "angular2-jwt";
+import { AuthHttp, JwtHelper } from "angular2-jwt";
 import { ToastController, LoadingController } from 'ionic-angular';
 import { File, DirectoryEntry } from '@ionic-native/file';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
@@ -13,7 +13,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
-let apiUrl = SERVER_URL+'public/';
+let apiUrl = SERVER_URL + 'public/';
 
 @Injectable()
 export class AuthProvider {
@@ -36,206 +36,206 @@ export class AuthProvider {
   checkLogin() {
     this.storage.get('jwt').then(token => {
       this.tokenexpired = this.helper.isTokenExpired(token);
-      if(this.tokenexpired){
+      if (this.tokenexpired) {
         this.storage.remove('jwt');
         this.authUser.next(null);
-      }else{
+      } else {
         this.authUser.next(token);
       }
-    }).catch(()=>{
+    }).catch(() => {
       this.storage.remove('jwt');
       this.authUser.next(null);
-      this.tokenexpired=true;
+      this.tokenexpired = true;
     });
   }
   login(values: any): Observable<any> {
     return this.http.post(`${apiUrl}/api/auth/login
     `, values).map((resp) => {
-         this.guardardata(resp);        
-         return resp;
+        this.guardardata(resp);
+        return resp;
       }, err => {
         if (err.status !== 401) {
-          //console.log(err);
+          ////console.log(err);
         }
       })
   }
   logout() {
     this.storage.remove('mydata');
     this.storage.remove('jwt')
-    this.authUser.next(null);    
+    this.authUser.next(null);
   }
-  guardardata(resp){
+  guardardata(resp) {
     this.storage.set('mydata',
-    `{"id":${resp['user']['id']} ,"first_name":"${resp['user']['first_name']}","email":"${resp['user']['email']}","last_name":"${resp['user']['last_name']}"}`).then(() => {
-      this.storage.set('jwt', resp['token']).then(() => {
-        return this.authUser.next(resp['token']);
+      `{"id":${resp['user']['id']} ,"first_name":"${resp['user']['first_name']}","email":"${resp['user']['email']}","last_name":"${resp['user']['last_name']}"}`).then(() => {
+        this.storage.set('jwt', resp['token']).then(() => {
+          return this.authUser.next(resp['token']);
+        })
       })
-    })
   };
 
   registro(values: any): Observable<any> {
     return this.http.post(`${apiUrl}/api/auth/register
     `, values).map((resp) => {
-        this.guardardata(resp);        
+        this.guardardata(resp);
         return resp;
       }, err => {
         if (err.status !== 401) {
-          //console.log(err);
+          ////console.log(err);
         }
       })
   }
 
-  mismascostas(id){
-    return this.tokenhttp.get(`${apiUrl}api/pets/mismascotas/${id}`).map((data)=>{
+  mismascostas(id) {
+    return this.tokenhttp.get(`${apiUrl}api/pets/mismascotas/${id}`).map((data) => {
       return data;
-   },err=>{
-     return err;
-   })
+    }, err => {
+      return err;
+    })
   }
-  misaccesorios(id){
-    return this.tokenhttp.get(`${apiUrl}api/find/misaccesorios/${id}`).map((data)=>{
-      console.log(data);
+  misaccesorios(id) {
+    return this.tokenhttp.get(`${apiUrl}api/find/misaccesorios/${id}`).map((data) => {
+      //console.log(data);
       return data;
-   },err=>{
-     return err;
-   })
+    }, err => {
+      return err;
+    })
   }
 
-   registrarmascota(values:any): Observable<any> {
+  registrarmascota(values: any): Observable<any> {
     return this.tokenhttp.post(`${apiUrl}/api/pets/agregar
     `, values).map((resp) => {
         return resp;
       }, err => {
         return err;
       })
-  
-   }
-   registraraccesorio(values:any): Observable<any> {
+
+  }
+  registraraccesorio(values: any): Observable<any> {
     return this.tokenhttp.post(`${apiUrl}/api/guardar/accesorios
     `, values).map((resp) => {
         return resp;
       }, err => {
         return err;
       })
-   }
-  
-   buscar(key,values:any): Observable<any> {
-     //console.log(key,this.tokenexpired);
+  }
+
+  buscar(key, values: any): Observable<any> {
+    ////console.log(key,this.tokenexpired);
     let endpoint;
-    if(this.tokenexpired){
-      if(key=='people'){
-        endpoint='api/find/people';
+    if (this.tokenexpired) {
+      if (key == 'people') {
+        endpoint = 'api/find/people';
       }
-      if(key=='mascotas'){
-        endpoint='api/find/mascotas2';
-        values.vender=[1];
-  
+      if (key == 'mascotas') {
+        endpoint = 'api/find/mascotas2';
+        values.vender = [1];
+
       }
-      if(key=='accesorios'){
-        endpoint='api/find/accesoriosyservicios2';
-        values.categoria=[1,2];      
+      if (key == 'accesorios') {
+        endpoint = 'api/find/accesoriosyservicios2';
+        values.categoria = [1, 2];
       }
-      if(key=='servicios'){
-        endpoint='api/find/accesoriosyservicios2';
-        values.categoria=[1,2];
+      if (key == 'servicios') {
+        endpoint = 'api/find/accesoriosyservicios2';
+        values.categoria = [1, 2];
       }
-      if(key=='todos'){
-        endpoint='api/find/todos2';
-        values.categoria=[1,2];
+      if (key == 'todos') {
+        endpoint = 'api/find/todos2';
+        values.categoria = [1, 2];
       }
-      if(key=='adopcion'){
-        endpoint='api/find/mascotas2';
-        values.vender=[2];
+      if (key == 'adopcion') {
+        endpoint = 'api/find/mascotas2';
+        values.vender = [2];
       }
 
-      return this.http.post(`${apiUrl}/${endpoint}`, values).finally(()=>{
-        //console.log('salio');
+      return this.http.post(`${apiUrl}/${endpoint}`, values).finally(() => {
+        ////console.log('salio');
       }).map((resp) => {
-        //console.log('resp',resp);
-          return resp;
-        }, err => {
-          //console.log(err);
-          return err;
-        })
-    }else{
-      if(key=='people'){
-        endpoint='api/find/people';
+        ////console.log('resp',resp);
+        return resp;
+      }, err => {
+        ////console.log(err);
+        return err;
+      })
+    } else {
+      if (key == 'people') {
+        endpoint = 'api/find/people';
       }
-      if(key=='mascotas'){
-        endpoint='api/find/mascotas';
-        values.vender=[1];
-  
+      if (key == 'mascotas') {
+        endpoint = 'api/find/mascotas';
+        values.vender = [1];
+
       }
-      if(key=='accesorios'){
-        endpoint='api/find/accesoriosyservicios';
-        values.categoria=[1];      
+      if (key == 'accesorios') {
+        endpoint = 'api/find/accesoriosyservicios';
+        values.categoria = [1];
       }
-      if(key=='servicios'){
-        endpoint='api/find/accesoriosyservicios';
-        values.categoria=[2];
+      if (key == 'servicios') {
+        endpoint = 'api/find/accesoriosyservicios';
+        values.categoria = [2];
       }
-      if(key=='todos'){
-        endpoint='api/find/todos';
-        values.categoria=[1,2];
+      if (key == 'todos') {
+        endpoint = 'api/find/todos';
+        values.categoria = [1, 2];
       }
-      if(key=='adopcion'){
-        endpoint='api/find/mascotas';
-        values.vender=[2];
+      if (key == 'adopcion') {
+        endpoint = 'api/find/mascotas';
+        values.vender = [2];
       }
-      return this.tokenhttp.post(`${apiUrl}/${endpoint}`, values).finally(()=>{
-        //console.log('salio');
+      return this.tokenhttp.post(`${apiUrl}/${endpoint}`, values).finally(() => {
+        ////console.log('salio');
       }).map((resp) => {
-        //console.log('resp',resp);
-          return resp;
-        }, err => {
-          //console.log(err);
-          return err;
-        })
+        ////console.log('resp',resp);
+        return resp;
+      }, err => {
+        ////console.log(err);
+        return err;
+      })
     }
 
-  
-   }
- 
-   findbyid(id){
-    return this.tokenhttp.get(`${apiUrl}api/finduser/findbyid/${id}`).map((data)=>{
-      return data;
-   },err=>{
-     return err;
-   })
- 
+
   }
 
-  seguirusuario(caso,id){
-    let tipo='seguir';
-    if(caso==2){
-      tipo='dejardeseguir';
+  findbyid(id) {
+    return this.tokenhttp.get(`${apiUrl}api/finduser/findbyid/${id}`).map((data) => {
+      return data;
+    }, err => {
+      return err;
+    })
+
+  }
+
+  seguirusuario(caso, id) {
+    let tipo = 'seguir';
+    if (caso == 2) {
+      tipo = 'dejardeseguir';
     }
-    return this.tokenhttp.get(`${apiUrl}api/follow/${tipo}/${id}`).map((data)=>{
+    return this.tokenhttp.get(`${apiUrl}api/follow/${tipo}/${id}`).map((data) => {
       return data;
-   },err=>{
-     return err;
-   })
+    }, err => {
+      return err;
+    })
   }
-  mensajes(idrecibe){
-    //console.log('se ejecuta');
-    return this.tokenhttp.get(`${apiUrl}api/chat/mensajes/${idrecibe}`).map((data)=>{
+  mensajes(idrecibe) {
+    ////console.log('se ejecuta');
+    return this.tokenhttp.get(`${apiUrl}api/chat/mensajes/${idrecibe}`).map((data) => {
       return data;
-   },err=>{
-     return err;
-   })
+    }, err => {
+      return err;
+    })
   }
-  enviarmensaje(values: any): Observable<any>{
+  enviarmensaje(values: any): Observable<any> {
 
     return this.tokenhttp.post(`${apiUrl}/api/chat/mensajes/guardar
     `, values).map((resp) => {
         return resp;
       }, err => {
-        //console.log(err);
+        ////console.log(err);
         return err;
-      }) 
+      })
   }
 
-  enviarimagen(ruta,pets) {
+  enviarimagen(ruta, pets) {
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: 'Enviando foto ...'
@@ -250,28 +250,28 @@ export class AuthProvider {
           'Content-Type': undefined
         },
         mimeType: 'image/*',
-        params:{
-          idmascota:pets.id
+        params: {
+          idmascota: pets.id
         }
       }
 
-      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photoupload?id=${pets.id}`, options) 
+      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photoupload?id=${pets.id}`, options)
         .then((data) => {
-          console.log(data);
+          //console.log(data);
           this.handleError('Foto enviada');
           loading.dismiss();
           return true;
         }, (err) => {
           this.handleError(JSON.stringify(err));
-          console.log(err);
+          //console.log(err);
           loading.dismiss();
           return true;
         })
 
-    }, err=>{
+    }, err => {
       loading.dismiss();
       this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
-      //console.log('err',err);
+      ////console.log('err',err);
       return true;
 
     })
@@ -279,7 +279,7 @@ export class AuthProvider {
   }
 
 
-  enviarimagenproducto(ruta,pets) {
+  enviarimagenproducto(ruta, pets) {
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: 'Enviando foto ...'
@@ -294,28 +294,28 @@ export class AuthProvider {
           'Content-Type': undefined
         },
         mimeType: 'image/*',
-        params:{
-          idmascota:pets.id
+        params: {
+          idmascota: pets.id
         }
       }
 
-      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photouploadaccesorio?id=${pets.id}`, options) 
+      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photouploadaccesorio?id=${pets.id}`, options)
         .then((data) => {
-          console.log(data);
+          //console.log(data);
           this.handleError('Foto enviada');
           loading.dismiss();
           return true;
         }, (err) => {
           this.handleError(JSON.stringify(err));
-          console.log(err);
+          //console.log(err);
           loading.dismiss();
           return true;
         })
 
-    }, err=>{
+    }, err => {
       loading.dismiss();
       this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
-      console.log('err',err);
+      //console.log('err', err);
       return true;
 
     })
@@ -340,23 +340,23 @@ export class AuthProvider {
         mimeType: 'image/*',
       }
 
-      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photouploadpedigree`, options) 
+      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photouploadpedigree`, options)
         .then((data) => {
-          console.log(data);
+          //console.log(data);
           this.handleError('Foto guardada');
           loading.dismiss();
           return data['suceess'];
         }, (err) => {
           this.handleError(JSON.stringify(err));
-          console.log(err);
+          //console.log(err);
           loading.dismiss();
           return true;
         })
 
-    }, err=>{
+    }, err => {
       loading.dismiss();
       this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
-      console.log('err',err);
+      //console.log('err', err);
       return true;
 
     })
@@ -375,24 +375,46 @@ export class AuthProvider {
     toast.present();
   }
 
-  mispedigree(id){
-
-    return this.tokenhttp.get(`${apiUrl}api/find/mispedigree/${id}`).map((data)=>{
-      console.log(data);
+  mispedigree(id) {
+    return this.tokenhttp.get(`${apiUrl}api/find/mispedigree/${id}`).map((data) => {
+      //console.log(data);
       return data;
-   },err=>{
-     return err;
-   })
+    }, err => {
+      return err;
+    })
   }
-  registrarpedigree(values:any): Observable<any> {
+  registrarpedigree(values: any): Observable<any> {
     return this.tokenhttp.post(`${apiUrl}/api/agregar/pedigree
     `, values).map((resp) => {
         return resp;
       }, err => {
         return err;
       })
-  
-   }
 
+  }
+  traerchat() {
+    return this.tokenhttp.get(`${apiUrl}api/chat/mensajes/usuario`).map((data) => {
+      return data;
+    }, err => {
+      return err;
+    })
+
+  }
+  eliminarchat(id) {
+    return this.tokenhttp.get(`${apiUrl}api/chat/mensajes/eliminar/${id}`).map((data) => {
+      return data;
+    }, err => {
+      return err;
+    })
+  }
+  enviarmensajemascota(values){
+    return this.tokenhttp.post(`${apiUrl}/api/chat/mensajesmascota/guardar
+    `, values).map((resp) => {
+        return resp;
+      }, err => {
+        return err;
+      })
+    
+  }
 
 }

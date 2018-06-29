@@ -1,36 +1,113 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { Socket } from 'ng-socket-io';
-import { ChatRoomPage} from '../chat-room/chat-room';
+import { ChatRoomPage } from '../chat-room/chat-room';
 import { Storage } from "@ionic/storage";
-import {FinderPage} from '../finder/finder';
+import { FinderPage } from '../finder/finder';
 import { ModalController } from 'ionic-angular';
+import { AuthProvider } from '../../providers/auth/auth';
 
 
 @Component({
   selector: 'page-contact',
   templateUrl: 'contact.html'
 })
+
 export class ContactPage {
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController, private socket: Socket, private storage:Storage) {
-
-  }
-
-  chat(user){
+  chats;
+  miid = 0;
+  misdatos;
+  constructor(
+    public navCtrl: NavController,
+    public modalCtrl: ModalController,
+    private socket: Socket,
+    private storage: Storage,
+    public authservice: AuthProvider,
+    public alertCtrl: AlertController,
+    public loadingCtrl: LoadingController) {
     this.storage.get('mydata').then(midata => {
-      let misdatos=JSON.parse(midata);
-      this.socket.connect();
-      this.socket.emit('set-nickname', misdatos.first_name);
-      this.navCtrl.push(ChatRoomPage, { caso:1, nickname: misdatos.correo, correo:misdatos.correo, user:user });
-  
+      let misdatos = JSON.parse(midata);
+      this.miid = misdatos.id;
+      this.misdatos = JSON.parse(midata);
     });
 
   }
-  newchat(){
-    this.navCtrl.push(FinderPage,{case:'chat'});
+  chat(user) {
+    console.log('chat');
+    let idchat = user.id;
+    let usersid = [];
+    if (this.miid == user.usuario1) {
+      usersid['id'] = user.usuario2;
+    } else {
+      usersid['id'] = user.usuario1;
+    }
+    this.socket.connect();
+    this.navCtrl.setRoot(ChatRoomPage, {
+      caso: 1,
+      miid: this.misdatos.id,
+      nickname: this.misdatos.correo,
+      correo: this.misdatos.correo,
+      user: usersid,
+      chat: idchat
+    });
+  }
 
+  ionViewWillEnter() {
+    this.authservice.traerchat().subscribe((data) => {
+      this.chats = data.json().datos;
+    });
 
-    
+  }
+  newchat() {
+    this.navCtrl.push(FinderPage, { case: 'chat' });
+  }
+  formatofecha(fecha) {
+    let n = fecha.substr(0, 10);
+    let n2 = fecha.substr(11);
+    let ffin;
+    n = n.split('-');
+    ffin = `${n[2]}-${n[1]}-${n[0].substr(2, 2)} ${n2.substr(0, 5)} `;
+    return ffin;
+  }
+  eliminar(item,nombre) {
+    setTimeout(() => {
+      this.confirmacion(item,nombre);
+    }, 500);
+
+  }
+  confirmacion(item,nombre) {
+    let alert = this.alertCtrl.create({
+      title: `Desea eliminar su conoversacion con ${nombre}?`,
+      buttons: [
+        {
+          text: 'Si',
+          handler: () => {
+            this.eliminaritem(item);
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+  eliminaritem(item) {
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Eliminando chat...',
+      duration: 5000
+    });
+    loading.present();
+
+    this.authservice.eliminarchat(item.id).finally(()=>{
+      loading.dismiss();
+    }).subscribe((data)=>{
+      this.chats = data.json().datos;
+    })
   }
 
 

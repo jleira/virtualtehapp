@@ -8,7 +8,9 @@ page-about {
         color: map-get($colors , secondary-pets-l );
         font-weight: bold;
     }
-
+}
+ion-content{
+  background-color:	#041A2F !important;
 }
 }
 page-new-pedigree{
@@ -23,7 +25,7 @@ page-new-pedigree{
     }
     .card-subtitle {
         font-size: 0.7em;
-        background-color: rgba(20, 26, 77, 0.65);
+        background-color:#0A3055 ;
         position: absolute;
         bottom: 0%;
         width: 100%;

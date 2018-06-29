@@ -13,14 +13,15 @@ export class NmascotaPage {
 
 imagenes=[];
   constructor(
-    public loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     public viewCtrl: ViewController,
     public navCtrl: NavController,
     public authService: AuthProvider,
     public file: File,
     public alertCtrl:AlertController,
-    public camera :Camera
+    public camera :Camera,
+    public loadingCtrl: LoadingController
+
   ) {
 
   }
@@ -31,28 +32,22 @@ imagenes=[];
 
   registrar(values: any) {
     console.log(values);
-    if(values.precio==""){
+    if(!values.precio){
       values.precio==0;
     }
-    if(values.vender){
-      if(values.precio==0){
-        this.toastmsj('El precio debe ser mayor que a cero');
-        return false;
-      } 
-    }
+    console.log('2',values);
 
 
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: 'Enviando datos...'
 
-    });
+    }); 
     loading.present();
     this.authService.registrarmascota(values).finally(() => {
       loading.dismiss();
     }).subscribe((resp) => {      
       this.toastmsj(`mascota ${resp.json()[0]['nombre']} creada exitosamente`);
-//
       let cantidadimg=this.imagenes.length;
       if(cantidadimg==0){
         this.viewCtrl.dismiss(true);
@@ -95,12 +90,9 @@ imagenes=[];
   }
 
   presentConfirm(codigo, respcodigo) {
-
     let targetPath = this.file.externalDataDirectory;
     let idgrupo = codigo;
-
     let alert = this.alertCtrl.create({
-
       title: 'Desea adjuntar una imagen a esta pregunta',
       message: 'Para escoger una foto de la galeria del telefono seleccione la opcion Galeria, si desea tomar una foto escoja camara',
       buttons: [
@@ -114,7 +106,6 @@ imagenes=[];
           text: 'Camara',
           handler: () => {
             return this.getPicture(codigo, respcodigo);
-
           }
         }
       ]

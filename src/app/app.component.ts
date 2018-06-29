@@ -13,8 +13,8 @@ export class MyApp {
   rootPage:any = null;
 
   constructor(private platform: Platform, statusBar: StatusBar, private splashScreen: SplashScreen, public authService:AuthProvider) {
+    this.authService.checkLogin();
     this.authService.authUser.subscribe(jwt => {
-      console.log(jwt);
       if (jwt) {
         this.rootPage=TabsPage;        
        } else {

@@ -13,11 +13,32 @@
 
 <ion-content>
 
-<div >
+  <ion-list>
+    <div *ngFor="let item of chats">
+      <ion-item (tap)="chat(item)" (press)="eliminar(item,item.usuario2name)" style="background-color: #0A3055 !important;" *ngIf="item.usuario1==miid && item.habilitado1==1">
+        <ion-avatar item-start>
+          <img src="{{item.img2}}">
+        </ion-avatar>
+        <h2 style="color: white">{{item.usuario2name}} {{item.usuario2lastname}}</h2>
+        <p item-end style="font-size: 0.6em">
+          {{formatofecha(item.fecha)}}
+        </p>
+        <p>{{item.msj}}</p>
+      </ion-item>
+      <ion-item (tap)="chat(item)" (press)="eliminar(item,item.usuario1name)" style="background-color: #0A3055 !important;" *ngIf="item.usuario2==miid && item.habilitado2==1">
+        <ion-avatar item-start>
+          <img src="{{item.img1}}">
+        </ion-avatar>
+        <h2 style="color: white">{{item.usuario1name}} {{item.usuario1lastname}}</h2>
 
-
-</div>
-<!--   <ion-list>
+        <p item-end style="font-size: 0.6em">
+          {{formatofecha(item.fecha)}}
+        </p>
+        <p>{{item.msj}}</p>
+      </ion-item>
+    </div>
+  </ion-list>
+  <!--   <ion-list>
     <ion-list-header>Follow us on Twitter</ion-list-header>
     <ion-item>
       <ion-icon name="ionic" item-start></ion-icon>
@@ -25,8 +46,8 @@
     </ion-item>
   </ion-list>
  -->
-    <!-- Segment buttons with text -->
+  <!-- Segment buttons with text -->
 
 
-    
+
 </ion-content>

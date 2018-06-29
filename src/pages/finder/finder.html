@@ -37,7 +37,7 @@
 
     <button ion-item *ngFor="let item of items" no-lines (click)="chat(item)">
       <ion-avatar item-start>
-        <img src="assets/img/usuario.png">
+        <img src="{{item.img}}">
       </ion-avatar>
       <h2 item-start>{{item.first_name}} {{item.last_name}}</h2>
       <!--       <h2 (click)="detallesitem(item.id)" item-start>{{item.first_name}} {{item.last_name}}</h2>

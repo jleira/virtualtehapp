@@ -33,7 +33,7 @@ import { IonicStorageModule, Storage} from "@ionic/storage";
 import {JwtHelper, AuthConfig, AuthHttp} from "angular2-jwt";
 import { AuthProvider } from '../providers/auth/auth';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-const config: SocketIoConfig = { url: 'http://192.168.100.60:3001', options: {} };
+const config: SocketIoConfig = { url: 'http://167.114.185.216:8811', options: {} };
 
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
