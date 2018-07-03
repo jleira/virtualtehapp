@@ -42,10 +42,11 @@ export class SuccesionPage {
     this.path=item.imagen;
     this.mascota={nombre:this.nombre};
     this.mismascotas=this.navparams.get('mismascotas');
+    this.caso=item.caso;
     
 
-}
-
+} 
+ 
   cancelar(){
       this.viewCtrl.dismiss({successs:false});
   }

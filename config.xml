@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.VirtualTec.themetter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>The metter</name>
+<widget id="com.VirtualTec.mybreedApp" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>MyBreed App</name>
     <description>An aplication for pets.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">VirtualTec</author>
     <content src="index.html" />
@@ -87,9 +87,12 @@
     <allow-navigation href="http://192.168.100.125:8100" />
     <allow-navigation href="http://192.168.1.31:8100" />
     <allow-navigation href="http://192.168.1.64:8100" />
-    <plugin name="cordova-plugin-camera" spec="^4.0.3" />
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <allow-navigation href="http://10.1.23.112:8100" />
+    <plugin name="cordova-plugin-camera" spec="^4.0.3">
+        <variable name="CAMERA_USAGE_DESCRIPTION" value="MyBredd app necesita acceder a la camara del celular" />
+        <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="MyBredd app necesita acceder a la libreria del celular" />
+    </plugin>
     <engine name="android" spec="7.0.0" />
 </widget>

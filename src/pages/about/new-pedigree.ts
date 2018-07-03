@@ -188,7 +188,7 @@ export class ColorpickerPage {
       this.textEle = this.navParams.data.textEle;
 
       this.background = this.getColorName(this.contentEle.style.backgroundColor);
-      console.log(this.background);
+      //console.log(this.background);
     }
   }
   getColorName(background) {
@@ -222,6 +222,7 @@ export class NewPedigreePage {
   linea2;
   linea3;
   linea4;
+  visitante;
   color = '#DEDEDE';
   @ViewChild('popoverContent', { read: ElementRef }) content: ElementRef;
   @ViewChild('popoverText', { read: ElementRef }) text: ElementRef;
@@ -233,17 +234,31 @@ export class NewPedigreePage {
       this.content.nativeElement.style.backgroundColor = this.color;
     }, 300);
     let caso = this.navparams.get('caso');
-    if (caso == 1) {
-      this.traermismascotas();
-      this.caso = 1;
-    }
-    if (caso == 2) {
-      this.caso = 2;
+    this.visitante = this.navparams.get('visitante');
+    this.traermismascotas();
 
+    if (caso == 1) {
+      this.caso = caso;
       this.mascota = this.navparams.get('mascota');
-      console.log
+      //console.log('mascota', this.mascota);
       this.succesiones = JSON.parse(this.mascota.pedigree);
-      console.log(this.succesiones);
+      //console.log(this.succesiones);
+      this.linea1 = this.succesiones.linea1;
+      this.linea2 = this.succesiones.linea2;
+      this.linea3 = this.succesiones.linea3;
+      this.color = this.mascota.color_pedigree;
+
+      if (this.mascota.imagenes) {
+        let imgname = this.mascota.imagenes.split(',')[0];
+        this.path = `${SERVE_FILE_URI}storage/app/${this.mascota.id_usuario}/${this.mascota.id}/${imgname}`
+      }
+    }
+    if (caso > 1) {//ver
+      this.caso = 2;
+      this.mascota = this.navparams.get('mascota');
+      //console.log('mascota', this.mascota);
+      this.succesiones = JSON.parse(this.mascota.pedigree);
+      //console.log(this.succesiones);
       this.linea1 = this.succesiones.linea1;
       this.linea2 = this.succesiones.linea2;
       this.linea3 = this.succesiones.linea3;
@@ -263,7 +278,7 @@ export class NewPedigreePage {
     this.authservice.mismascostas(0).subscribe((data) => {
       this.mismascotas = data.json();
     }, err => {
-      console.log(err);
+      //console.log(err);
     })
   }
   cambiarmascosta() {
@@ -291,6 +306,8 @@ export class NewPedigreePage {
       { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 },
       { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 }
     ];
+    //console.log(JSON.stringify({ linea1: this.linea1, linea2: this.linea2, linea3: this.linea3 }));
+
     if (this.mascota.imagenes) {
       let imgname = this.mascota.imagenes.split(',')[0];
       this.path = `${SERVE_FILE_URI}storage/app/${this.mascota.id_usuario}/${this.mascota.id}/${imgname}`
@@ -303,7 +320,7 @@ export class NewPedigreePage {
     let alert = this.alertCtrl.create({
 
       title: 'Nombre del pedigree',
-      message: 'Es el nombre con el q se identificara el pedigree en su lista de pedigree',
+      message: 'Es el nombre con el que se identificara el pedigree en su lista de pedigree',
       inputs: [
         {
           name: 'name',
@@ -312,7 +329,7 @@ export class NewPedigreePage {
       ],
       buttons: [
         {
-          text: 'Save',
+          text: 'Guardar',
           handler: (data) => {
             if (!data.name) {
               return this.toastmsj('el campo nombre no puede estar vacio');
@@ -324,7 +341,7 @@ export class NewPedigreePage {
 
         },
         {
-          text: 'Cancel',
+          text: 'Cancelar',
           handler: () => {
           }
         }
@@ -338,7 +355,8 @@ export class NewPedigreePage {
       nombre: nombre,
       mascota_id: this.mascota.id,
       pedigree: JSON.stringify(this.succesiones),
-      color: this.color
+      color: this.color,
+      pedigre_id: this.mascota.pedigree_id
     }
 
     let i1 = 0, i2 = 0, i3 = 0;
@@ -375,12 +393,11 @@ export class NewPedigreePage {
       duration: 10000
     });
     loading.present();
-    console.log(valoresenviar);
     setTimeout(() => {
       this.authservice.registrarpedigree(valoresenviar).finally(() => {
         loading.dismiss();
       }).subscribe((resp) => {
-        this.toastmsj(`pedigre ${resp.json()[0]['nombre']} creado exitosamente`);
+        this.toastmsj(`pedigre ${valoresenviar.nombre} editado creado exitosamente`);
         this.viewCtrl.dismiss(true);
       }, error => {
         let err = error.json();
@@ -404,38 +421,74 @@ export class NewPedigreePage {
 
 
   editaritem(caso, posicion, item) {
-    console.log(caso, posicion, item);
+    let casoedit = this.caso;
 
-    console.log('aqui', caso);
+    //console.log('aqui', casoedit);
     let ds;
     let modalp;
 
     modalp = this.modal.create(SuccesionPage, {
-      item: item, mismascotas: this.mismascotas, caso: this.caso
+      item: item, mismascotas: this.mismascotas, caso: casoedit
     });
     modalp.present();
     modalp.onDidDismiss((data) => {
-      console.log(data);
+      //console.log('datos de regreso', data);
       if (data.successs) {
+        let casoaeditar;
         if (caso == 'linea1') {
-          this.linea1[posicion] = data.itemedited;
+          casoaeditar = data.itemedited.caso;
+          if (casoaeditar == 3) {//subir imagen
+            this.authservice.enviarimagenpedigree(data.itemedited.imagen).then((nom) => {
+              this.linea1[posicion] = data.itemedited;
+              this.linea1[posicion]['imagen'] = SERVE_FILE_URI + '/' + nom;
+              this.linea1[posicion]['caso'] = 2;
+            });
+          } else {
+            this.linea1[posicion] = data.itemedited;
+          }
         }
         if (caso == 'linea2') {
-          this.linea2[posicion] = data.itemedited;
+          casoaeditar = data.itemedited.caso;
+          if (casoaeditar == 3) {//subir imagen
+            this.authservice.enviarimagenpedigree(data.itemedited.imagen).then((nom) => {
+              this.linea2[posicion] = data.itemedited;
+              this.linea2[posicion]['imagen'] = SERVE_FILE_URI + '/' + nom;
+              this.linea2[posicion]['caso'] = 2;
+            });
+          } else {
+            this.linea2[posicion] = data.itemedited;
+          }
         }
         if (caso == 'linea3') {
-          this.linea3[posicion] = data.itemedited;
+          casoaeditar = data.itemedited.caso;
+          if (casoaeditar == 3) {//subir imagen
+            this.authservice.enviarimagenpedigree(data.itemedited.imagen).then((nom) => {
+              this.linea3[posicion] = data.itemedited;
+              this.linea3[posicion]['imagen'] = SERVE_FILE_URI + '/' + nom;
+              this.linea3[posicion]['caso'] = 2;
+            });
+          } else {
+            this.linea3[posicion] = data.itemedited;
+          }
         }
         if (caso == 'linea4') {
-          this.linea4[posicion] = data.itemedited;
+          casoaeditar = data.itemedited.caso;
+          if (casoaeditar == 3) {//subir imagen
+            this.authservice.enviarimagenpedigree(data.itemedited.imagen).then((nom) => {
+              this.linea4[posicion] = data.itemedited;
+              this.linea4[posicion]['imagen'] = SERVE_FILE_URI + '/' + nom;
+              this.linea4[posicion]['caso'] = 2;
+            });
+          } else {
+            this.linea4[posicion] = data.itemedited;
+
+          }
         }
       }
     });
 
   }
   presentPopover(myEvent) {
-    console.log(this.content.nativeElement.style.backgroundColor);
-    console.log(this.content.nativeElement.style.backgroundImage);
     let popover = this.popoverCtrl.create(ColorpickerPage, {
       contentEle: this.content.nativeElement,
     });
@@ -443,7 +496,7 @@ export class NewPedigreePage {
       ev: myEvent
     });
     popover.onDidDismiss((data) => {
-      console.log(this.content.nativeElement.style.backgroundColor);
+      //console.log(this.content.nativeElement.style.backgroundColor);
       this.color = this.content.nativeElement.style.backgroundColor;
     })
   }

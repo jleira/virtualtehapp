@@ -45,29 +45,28 @@ export class ChatRoomPage {
       setTimeout(() => {
         let dimensions = this.content.getContentDimensions();
         this.content.scrollTo(0, dimensions.scrollHeight+100, 10)
-        //        this.content.nativeElement.scrollToBottom(300);        
       }, 100);
     }, err => {
       this.showToast('No es posible acceder a los mensajes guardados');
     });
 
     this.getMessages().subscribe(message => {
-      console.log(message);
-      this.messages.push({ usuario_envia: message['usuario_envia'], usuario_recibe: message['usuario_recibe'], mensaje: message['text'], tipo: 0 });
-      let dimensions = this.content.getContentDimensions();
-      this.content.scrollTo(0, dimensions.scrollHeight+100, 100)
-    /*       if (message['usuario_envia'] == this.miid) {
-        this.messages.push({ usuario_envia: this.miid, usuario_recibe: this.id, mensaje: message['text'] });
-      } else {
-        this.messages.push({ usuario_envia: this.id, usuario_recibe: this.miid, mensaje: message['text'] });
+      if(message['usuario_envia']==this.miid && message['usuario_recibe']==this.id){
+        this.messages.push({ usuario_envia: message['usuario_envia'], usuario_recibe: message['usuario_recibe'], mensaje: message['text'], tipo: 0 });
+        let dimensions = this.content.getContentDimensions();
+        this.content.scrollTo(0, dimensions.scrollHeight+100, 100)  
+      }if(message['usuario_envia']==this.id && message['usuario_recibe']==this.miid){
+        this.messages.push({ usuario_envia: message['usuario_envia'], usuario_recibe: message['usuario_recibe'], mensaje: message['text'], tipo: 0 });
+        let dimensions = this.content.getContentDimensions();
+        this.content.scrollTo(0, dimensions.scrollHeight+100, 100)  
       }
- */    });
+    });
 
 
     this.getUsers().subscribe(data => {
       let user = data['user'];
       if (data['event'] === 'left') {
-        this.showToast('User left: ' + user);
+//        this.showToast('User left: ' + user);
       } else {
         //        this.showToast('User joined: ' + user);
       }

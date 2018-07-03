@@ -7,13 +7,13 @@
 </ion-header>
 <ion-content #popoverContent>
     <!--[style.background-color]="color"-->
-    <ion-item *ngIf="caso==1">
+ <!--    <ion-item *ngIf="caso==1">
         <ion-label color="pesto-scondary-text">Chosee a pet</ion-label>
         <ion-select interface="action-sheet" cancelText="cancel" [(ngModel)]="mascota" (ionChange)="cambiarmascosta()">
             <ion-option *ngFor="let item of mismascotas" [value]="item">{{item.nombre}}</ion-option>
         </ion-select>
     </ion-item>
-
+ -->
     <ion-grid *ngIf="mascota">
 
         <ion-row *ngIf="path" justify-content-center>

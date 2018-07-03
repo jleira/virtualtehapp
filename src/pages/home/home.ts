@@ -47,18 +47,20 @@ export class HomePage {
   }
 
   findevery(){
-    const toast = this.toastmsj.create({
+    this.navCtrl.push(FinderPage,{case:'todo'});    
+
+/*     const toast = this.toastmsj.create({
       message: 'this option is comming soon ',
       duration: 5000,
       position: 'bottom',
       
     });
     toast.present();
-  }
+ */  }
   findpeople(){
     if(!this.logeado){
       const toast = this.toastmsj.create({
-        message: 'You must be logged in to use this',
+        message: 'Debes estar logeado para poder usar esta opcion',
         duration: 5000,
         position: 'top',
         cssClass:'ToastAlert',

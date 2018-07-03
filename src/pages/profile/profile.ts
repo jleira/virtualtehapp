@@ -33,6 +33,7 @@ export class ProfilePage {
   datospersonales: {
     seguidores: number,
     nombre: string,
+    apell:string,
     seguidos: number,
     ejemplares: number
   };
@@ -45,7 +46,8 @@ export class ProfilePage {
       seguidores: 0,
       nombre: '',
       seguidos: 0,
-      ejemplares: 0
+      ejemplares: 0,
+      apell:''
     };
     this.storage.get('mydata').then((misdatos)=>{
       this.misdatos=JSON.parse(misdatos);
@@ -105,6 +107,11 @@ export class ProfilePage {
   traermascotas(id) {
     this.authservice.mismascostas(id).subscribe((data) => {
       this.mismascotas = data.json();
+      this.mismascotas.map((item) => {
+        item.first_name = this.datospersonales.nombre;
+        item.last_name = this.datospersonales.apell;
+      });
+
       console.log(data.json());
     }, err => {
       console.log(err);
@@ -113,6 +120,11 @@ export class ProfilePage {
   traeraccesorio(id) {
     this.authservice.misaccesorios(id).subscribe((data) => {
       this.accesorios = data.json();
+      this.accesorios.map((item) => {
+        item.first_name = this.datospersonales.nombre;
+        item.last_name = this.datospersonales.apell;
+      });
+
       console.log(data.json());
     }, err => {
       console.log(err);
@@ -137,6 +149,7 @@ export class ProfilePage {
       let data = datosusuario.json();
       this.datospersonales.seguidores = data.seguidores;
       this.datospersonales.nombre = data.nombre;
+      this.datospersonales.apell = data.apell;
       this.datospersonales.seguidos = data.seguidos;
       this.datospersonales.ejemplares = data.ejemplares;
       if (data.losigo > 0) {
@@ -146,7 +159,7 @@ export class ProfilePage {
       }
 
       console.log(this.datospersonales);
-      this.name = this.datospersonales.nombre;
+      this.name = `${this.datospersonales.nombre} ${this.datospersonales.apell}`;
     }, err => {
       console.log(err);
     })

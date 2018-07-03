@@ -1,32 +1,32 @@
 
   <ion-content padding>
     <ion-title color="pesto-dark" style="height: auto !important;top:5px;margin-top: 7px;">
-        <h2 color="pesto-dark" style="color:#009688;text-align:center">Accesories and services</h2>
+        <h2 color="pesto-dark" style="color:#009688;text-align:center">Accesorios y servicios</h2>
       </ion-title>
       <form #form="ngForm" (ngSubmit)="registrar(form.value)" novalidate>
         <ion-list>
        
                 <ion-item style="border-color: white;">
-                    <ion-label color="pesto-scondary-text" floating>Name</ion-label>
+                    <ion-label color="pesto-scondary-text" floating>Nombre</ion-label>
                     <ion-input type="text" name='nombre' ngModel required #nombre="ngModel" [class.invalid]="nombre.errors && nombre.dirty"></ion-input>
                 </ion-item>
                 <ion-item class="error-message" no-lines *ngIf="nombre.errors?.required && nombre.dirty">
-                    <p *ngIf="nombre.errors?.required && nombre.dirty " style="color:red"> name required </p>
+                    <p *ngIf="nombre.errors?.required && nombre.dirty " style="color:red"> Nombre requerido </p>
                 </ion-item>
                 <ion-item style="border-color: white;">
-                    <ion-label color="pesto-scondary-text" floating>Details</ion-label>
+                    <ion-label color="pesto-scondary-text" floating>Descripcion</ion-label>
                     <ion-textarea type="text" rows="2"  name='descripcion' ngModel required #descripcion="ngModel" [class.invalid]="descripcion.errors && descripcion.dirty"></ion-textarea>
                 </ion-item>
                 <ion-item class="error-message" no-lines *ngIf="descripcion.errors?.required && descripcion.dirty">
-                    <p *ngIf="raza.errors?.required && raza.dirty " style="color:red">details required </p>
+                    <p *ngIf="descripcion.errors?.required && descripcion.dirty " style="color:red">Descripcion requerida </p>
                 </ion-item>
 
                 <ion-item>
                     <ion-label color="pesto-scondary-text" >Categoria</ion-label>
                     <ion-select  name="categoria" interface="action-sheet" cancelText="cancel" ngModel required #categoria="ngModel"
                     [class.invalid]="categoria.errors && categoria.dirty">
-                      <ion-option [value]="2">Service</ion-option>
-                      <ion-option [value]="1">Accesories and products</ion-option>
+                      <ion-option [value]="2">Servicios</ion-option>
+                      <ion-option [value]="1">Accesorios y Productos</ion-option>
                     </ion-select>
                   </ion-item>
 

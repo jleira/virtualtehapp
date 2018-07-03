@@ -23,9 +23,9 @@ export class AuthProvider {
   fileTransfer: FileTransferObject = this.transfer.create();
   constructor(
     private tokenhttp: AuthHttp,
+    private helper: JwtHelper,
     public http: HttpClient,
     private storage: Storage,
-    private helper: JwtHelper,
     private file: File,
     private transfer: FileTransfer,
     public toastCtrl: ToastController,
@@ -120,7 +120,7 @@ export class AuthProvider {
   }
 
   buscar(key, values: any): Observable<any> {
-    ////console.log(key,this.tokenexpired);
+    console.log(key,'key');
     let endpoint;
     if (this.tokenexpired) {
       if (key == 'people') {
@@ -146,6 +146,9 @@ export class AuthProvider {
       if (key == 'adopcion') {
         endpoint = 'api/find/mascotas2';
         values.vender = [2];
+      }
+      if (key == 'todo') {
+        endpoint = 'api/find/todo2';
       }
 
       return this.http.post(`${apiUrl}/${endpoint}`, values).finally(() => {
@@ -182,6 +185,10 @@ export class AuthProvider {
         endpoint = 'api/find/mascotas';
         values.vender = [2];
       }
+      if (key == 'todo') {
+        endpoint = 'api/find/todo';
+      }
+
       return this.tokenhttp.post(`${apiUrl}/${endpoint}`, values).finally(() => {
         ////console.log('salio');
       }).map((resp) => {
@@ -379,6 +386,13 @@ export class AuthProvider {
     return this.tokenhttp.get(`${apiUrl}api/find/mispedigree/${id}`).map((data) => {
       //console.log(data);
       return data;
+    }, err => {
+      return err;
+    })
+  }
+  mispedigree2(id) {
+    return this.http.get(`${apiUrl}api/find/pedigree/${id}`).map((data) => {
+     return data;
     }, err => {
       return err;
     })

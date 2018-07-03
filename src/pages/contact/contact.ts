@@ -110,5 +110,11 @@ export class ContactPage {
     })
   }
 
+  refrescar($event) {
+    this.authservice.traerchat().subscribe((data) => {
+      this.chats = data.json().datos;
+      $event.complete();
+    });
+  }
 
 }

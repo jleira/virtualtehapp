@@ -15,7 +15,13 @@
 
 
 <ion-content>
-
+    <ion-refresher (ionRefresh)="refrescar($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown"
+        pullingText="Pull to refresh"
+        refreshingSpinner="circles"
+        refreshingText="refrescando..."></ion-refresher-content>
+      </ion-refresher>
+      
   <h5 *ngIf="vacio">No hay se encuentras datos, intente con otro nombre</h5>
 
   <ion-list *ngIf="caso=='people'">
@@ -24,15 +30,50 @@
       <ion-avatar item-start>
         <img src="assets/img/usuario.png">
       </ion-avatar>
+
       <h2 item-start>{{item.first_name}} {{item.last_name}}</h2>
-      <!--       <h2 (click)="detallesitem(item.id)" item-start>{{item.first_name}} {{item.last_name}}</h2>
-        <button ion-button outline item-end icon-left  (click)="seguir(item.id)">
-            Follow
-          </button>
- -->
+   
     </button>
 
   </ion-list>
+
+
+  <ion-list *ngIf="caso=='todo'">
+
+    <button ion-item *ngFor="let item of items.people" no-lines (click)="detallesitemtodo('people',item.id)">
+      <ion-avatar item-start>
+        <img src="assets/img/usuario.png">
+      </ion-avatar>
+      <h2>{{item.first_name}} {{item.last_name}}</h2>
+      <p>
+        Usuario
+      </p>
+    </button>
+
+    <button ion-item *ngFor="let item of items.mascotas" no-lines (click)="detallesitemtodo('mascota',item)">
+      <ion-avatar item-start>
+        <img src="{{buscarimagen(item.imagenes,item.id,item.id_usuario)}}" *ngIf="item.imagenes" />
+        <img src="assets/img/mascota.png" *ngIf="!item.imagenes" />
+      </ion-avatar>
+      <h2>{{item.nombre}}</h2>
+      <p >{{(item.vender==1)? 'Mascota en venta'+formatDollar(item.precio):'Mascota en adopcion'}}</p>
+    </button>
+
+    <button ion-item *ngFor="let item of items.productos" no-lines  (click)="detallesaccesorios(item)" >
+      <ion-avatar item-start>
+        <img src="{{buscarimagenp(item.imagenes,item.id,item.usuario_id)}}" *ngIf="item.imagenes" />
+        <img [src]="(caso == 'accesorios')?'assets/img/arnes.png':'assets/img/inyeccion.png'" *ngIf="!item.imagenes" />
+      </ion-avatar>
+      <h2>{{item.nombre}}</h2>
+      <p>
+        Producto {{formatDollar(item.precio)}}
+      </p>
+    </button>
+
+
+
+  </ion-list>
+
   <ion-list *ngIf="caso=='chat'">
 
     <button ion-item *ngFor="let item of items" no-lines (click)="chat(item)">
@@ -40,27 +81,9 @@
         <img src="{{item.img}}">
       </ion-avatar>
       <h2 item-start>{{item.first_name}} {{item.last_name}}</h2>
-      <!--       <h2 (click)="detallesitem(item.id)" item-start>{{item.first_name}} {{item.last_name}}</h2>
-        <button ion-button outline item-end icon-left  (click)="seguir(item.id)">
-            Follow
-          </button>
- -->
     </button>
 
   </ion-list>
-
-  <!--   <ion-list *ngIf="caso=='mascotas'">
-    <button ion-item *ngFor="let item of items" no-lines (click)="detallesitem(item)">
-      <ion-avatar item-start>
-        <img src="assets/img/mascota.png">
-      </ion-avatar>
-      <h2>{{item.nombre}} - {{formatDollar(item.precio)}}</h2>
-      <p>
-        {{item.raza}} - {{(item.sexo==1)? 'Macho':'hembra'}}
-      </p>
-    </button>
-
-  </ion-list> -->
 
 
   <ion-grid *ngIf="caso=='mascotas' || caso=='adopcion'">
@@ -75,7 +98,7 @@
         <ion-card style="    margin-left: 0;
         margin-right: 0;
         width: 100%;">
-           <img src="{{buscarimagen(item.imagenes,item.id,item.id_usuario)}}" *ngIf="item.imagenes"/> 
+          <img src="{{buscarimagen(item.imagenes,item.id,item.id_usuario)}}" *ngIf="item.imagenes" />
           <img src="assets/img/mascota.png" *ngIf="!item.imagenes" />
 
           <div class="card-subtitle">
@@ -93,28 +116,24 @@
     <button ion-item *ngFor="let item of items" no-lines (click)="detallesaccesorios(item)">
       <ion-avatar item-start>
 
-        
 
-        <img src="{{buscarimagenp(item.imagenes,item.id,item.usuario_id)}}" *ngIf="item.imagenes"/> 
-        <img [src]="(caso == 'accesorios')?'assets/img/arnes.png':'assets/img/inyeccion.png'"*ngIf="!item.imagenes" />
+
+        <img src="{{buscarimagenp(item.imagenes,item.id,item.usuario_id)}}" *ngIf="item.imagenes" />
+        <img [src]="(caso == 'accesorios')?'assets/img/arnes.png':'assets/img/inyeccion.png'" *ngIf="!item.imagenes" />
       </ion-avatar>
       <ion-grid>
         <ion-row>
           <ion-col>
-{{item.nombre}}
+            {{item.nombre}}
           </ion-col>
           <ion-col>
-{{formatDollar(item.precio)}}
+            {{formatDollar(item.precio)}}
           </ion-col>
         </ion-row>
-      </ion-grid> <p>
-{{item.descripcion}}
+      </ion-grid>
+      <p>
+        {{item.descripcion}}
       </p>
-      <!--       <h2 (click)="detallesitem(item.id)" item-start>{{item.first_name}} {{item.last_name}}</h2>
-        <button ion-button outline item-end icon-left  (click)="seguir(item.id)">
-            Follow
-          </button>
- -->
     </button>
 
   </ion-list>

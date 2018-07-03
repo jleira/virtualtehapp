@@ -58,7 +58,10 @@
       "cordova-plugin-splashscreen": {},
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-camera": {},
+      "cordova-plugin-camera": {
+        "CAMERA_USAGE_DESCRIPTION": "MyBredd app necesita acceder a la camara del celular",
+        "PHOTOLIBRARY_USAGE_DESCRIPTION": "MyBredd app necesita acceder a la libreria del celular"
+      },
       "cordova-plugin-file": {},
       "cordova-plugin-file-transfer": {}
     },

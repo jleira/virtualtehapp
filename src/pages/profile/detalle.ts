@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { ViewController, NavParams, NavController, AlertController, ToastController, LoadingController } from 'ionic-angular';
+import { ViewController, NavParams, NavController, AlertController, ToastController, LoadingController, ModalController } from 'ionic-angular';
 import { ImagenesPage } from './imagenes';
 import { SERVE_FILE_URI } from "../../config";
 import { Storage } from "@ionic/storage";
 import { AuthProvider } from '../../providers/auth/auth';
-import {ChatRoomPage} from '../chat-room/chat-room';
-
+import { ChatRoomPage } from '../chat-room/chat-room';
+import { AuthHttp, JwtHelper } from "angular2-jwt";
+import {NewPedigreePage} from '../about/new-pedigree';
 
 
 @Component({
@@ -26,6 +27,7 @@ export class DetallesPage {
   imagenesmascota = [];
   miid;
   path;
+  tokenexpired;
   datosmascota;
   constructor(
     public viewCtrl: ViewController,
@@ -35,14 +37,28 @@ export class DetallesPage {
     public alertCtrl: AlertController,
     public toastc: ToastController,
     private authservice: AuthProvider,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private tokenhttp: AuthHttp,
+    private helper: JwtHelper,
+    public modalCtrl:ModalController
   ) {
+
+    this.storage.get('jwt').then(token => {
+      this.tokenexpired = this.helper.isTokenExpired(token);
+      if (this.tokenexpired) {
+        this.storage.remove('jwt');
+      } else {
+
+      }
+    }).catch(() => {
+      this.tokenexpired = true;
+    });
 
     this.visitante = true;
 
     let datos = navp.get('datos');
     this.datosmascota = datos;
-    console.log(datos, 'sd');
+    //console.log(datos, 'sd');
     this.visitante = navp.get('visitante');
     this.nombre = datos.nombre;
     this.raza = datos.raza;
@@ -59,7 +75,7 @@ export class DetallesPage {
       this.imagenesmascota = datos.imagenes.split(',');
     }
 
-    console.log('datos', datos);
+    //console.log('datos', datos);
   }
 
   cancelar() {
@@ -81,7 +97,11 @@ export class DetallesPage {
   }
 
   abrirchat() {
-    console.log('abrir chat', this.datosmascota);
+    if (this.tokenexpired) {
+      this.toastmsj('Debe estar logeado para ponerse en contacto con el dueño de esta mascota');
+      return '';
+    }
+
     let alert = this.alertCtrl.create({
       title: `Mensaje para ${this.datosmascota.first_name} ${this.datosmascota.last_name}`,
       message: 'Este mensaje se enviara automaticamente ysera dirigido al chat',
@@ -93,7 +113,7 @@ export class DetallesPage {
       ],
       buttons: [
         {
-          text: 'Save',
+          text: 'Enviar',
           handler: (data) => {
             if (!data.mensaje) {
               return this.toastmsj('el mensaje no puede estar vacio');
@@ -105,7 +125,7 @@ export class DetallesPage {
 
         },
         {
-          text: 'Cancel',
+          text: 'Cancelar',
           handler: () => {
           }
         }
@@ -125,24 +145,34 @@ export class DetallesPage {
   enviarmensaje(msj) {
     this.datosmascota.mensaje = msj;
     this.datosmascota.tipo = 1;
-    this.datosmascota.mascota=JSON.stringify(this.datosmascota);
-    this.authservice.enviarmensajemascota(this.datosmascota).subscribe(()=>{
-      let usr={
-        id:this.datosmascota.id_usuario
+    this.datosmascota.mascota = JSON.stringify(this.datosmascota);
+    this.authservice.enviarmensajemascota(this.datosmascota).subscribe(() => {
+      let usr = {
+        id: this.datosmascota.id_usuario
       };
       this.chat(usr);
-    },err=>{
+    }, err => {
+
       this.toastmsj('Hubo un error, intentelo mas tarde');
     });
   }
-  chat(user){
+  chat(user) {
     this.storage.get('mydata').then(midata => {
-      console.log('midata');
-      let misdatos=JSON.parse(midata);
-      this.navCtrl.setRoot(ChatRoomPage, { caso:1, miid: misdatos.id ,nickname: misdatos.correo, correo:misdatos.correo, user:user });  
+      //console.log('midata');
+      let misdatos = JSON.parse(midata);
+      this.navCtrl.setRoot(ChatRoomPage, { caso: 1, miid: misdatos.id, nickname: misdatos.correo, correo: misdatos.correo, user: user });
     });
-  
+
   }
+
+  buscarpedigree(){
+    this.authservice.mispedigree2(this.id).subscribe((data)=>{
+      let valores=data[0];
+      let profileModal = this.modalCtrl.create(NewPedigreePage, { caso: 2, mascota: valores });
+      profileModal.present();
   
+    });
+
+  }
 
 }

@@ -33,7 +33,7 @@ export class RegisterPage {
             loading.dismiss();
         }).subscribe((resp) => {
             this.toastmsj(`Welcome ${resp['user']['first_name']}`);
-            this.navCtrl.setRoot(TabsPage);
+        this.viewCtrl.dismiss();
 
         }, error => {
             let err = error.error;
