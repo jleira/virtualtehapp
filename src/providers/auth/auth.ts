@@ -349,10 +349,9 @@ export class AuthProvider {
 
       return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photouploadpedigree`, options)
         .then((data) => {
-          //console.log(data);
           this.handleError('Foto guardada');
           loading.dismiss();
-          return data['suceess'];
+          return data;
         }, (err) => {
           this.handleError(JSON.stringify(err));
           //console.log(err);

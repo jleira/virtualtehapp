@@ -94,5 +94,6 @@
         <variable name="CAMERA_USAGE_DESCRIPTION" value="MyBredd app necesita acceder a la camara del celular" />
         <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="MyBredd app necesita acceder a la libreria del celular" />
     </plugin>
+    <allow-navigation href="http://192.168.100.60:8100" />
     <engine name="android" spec="7.0.0" />
 </widget>
