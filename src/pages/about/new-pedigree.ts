@@ -439,8 +439,8 @@ export class NewPedigreePage {
           casoaeditar = data.itemedited.caso;
           if (casoaeditar == 3) {//subir imagen
             this.authservice.enviarimagenpedigree(data.itemedited.imagen).then((nom) => {
-              this.linea1[posicion] = data.itemedited;
-              this.linea1[posicion]['imagen'] = SERVE_FILE_URI + '/' + nom;
+              this.linea1[posicion] = data.itemedited;  
+              this.linea1[posicion]['imagen'] = SERVE_FILE_URI +'storage/app/'+ nom.suceess;
               this.linea1[posicion]['caso'] = 2;
             });
           } else {
@@ -452,7 +452,7 @@ export class NewPedigreePage {
           if (casoaeditar == 3) {//subir imagen
             this.authservice.enviarimagenpedigree(data.itemedited.imagen).then((nom) => {
               this.linea2[posicion] = data.itemedited;
-              this.linea2[posicion]['imagen'] = SERVE_FILE_URI + '/' + nom;
+              this.linea2[posicion]['imagen'] = SERVE_FILE_URI +'storage/app/'+ nom.suceess;
               this.linea2[posicion]['caso'] = 2;
             });
           } else {
@@ -464,7 +464,7 @@ export class NewPedigreePage {
           if (casoaeditar == 3) {//subir imagen
             this.authservice.enviarimagenpedigree(data.itemedited.imagen).then((nom) => {
               this.linea3[posicion] = data.itemedited;
-              this.linea3[posicion]['imagen'] = SERVE_FILE_URI + '/' + nom;
+              this.linea3[posicion]['imagen'] =SERVE_FILE_URI +'storage/app/'+ nom.suceess;
               this.linea3[posicion]['caso'] = 2;
             });
           } else {
@@ -476,7 +476,7 @@ export class NewPedigreePage {
           if (casoaeditar == 3) {//subir imagen
             this.authservice.enviarimagenpedigree(data.itemedited.imagen).then((nom) => {
               this.linea4[posicion] = data.itemedited;
-              this.linea4[posicion]['imagen'] = SERVE_FILE_URI + '/' + nom;
+              this.linea4[posicion]['imagen'] = SERVE_FILE_URI +'storage/app/'+ nom.suceess;
               this.linea4[posicion]['caso'] = 2;
             });
           } else {
