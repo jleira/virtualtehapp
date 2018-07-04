@@ -21,6 +21,11 @@ import { AccesoriosPage } from '../pages/accesorios/accesorios';
 import { NaccesorioPage } from '../pages/accesorios/naccesorio';
 import { SuccesionPage } from '../pages/about/succesion';
 import { ColorpickerPage } from '../pages/about/new-pedigree';
+import { PedigremetterPage } from '../pages/pedigremetter/pedigremetter';
+import { PedigremettereditPage } from '../pages/pedigremetter/pedigremetteredit';
+import { ColorpickerPage2 } from '../pages/pedigremetter/pedigremetteredit';
+import { DetallesimgPage } from '../pages/pedigremetter/detallesimg';
+
 
 
 
@@ -67,7 +72,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     AccesoriosPage,
     NaccesorioPage,
     SuccesionPage,
-    ColorpickerPage
+    ColorpickerPage,
+    PedigremetterPage,
+    PedigremettereditPage,
+    ColorpickerPage2,
+    DetallesimgPage
   ],
   imports: [
     BrowserModule,
@@ -98,7 +107,11 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     AccesoriosPage,
     NaccesorioPage,
     SuccesionPage,
-    ColorpickerPage
+    ColorpickerPage,
+    PedigremetterPage,
+    PedigremettereditPage,
+    ColorpickerPage2,
+    DetallesimgPage
   ],
   providers: [
     StatusBar,

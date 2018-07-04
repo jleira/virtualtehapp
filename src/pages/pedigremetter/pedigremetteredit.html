@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-navbar hideBackButton="false">
+    <ion-title style="z-index: -1;">
+      Pedigree
+    </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content #popoverContent>
+
+  <ion-grid>
+    <ion-row justify-content-center *ngIf="linea0">
+      <ion-col col-5 (click)="editaritem('linea0',1  ,linea0)">
+        <ion-card class="card-pedigree">
+          <img src="{{linea0.imagen}}" *ngIf="linea0.imagen" />
+          <div class="card-subtitle">{{linea0.nombre}}</div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="linea1" justify-content-center>
+      <ion-col col-4 *ngFor="let item of linea1; let i =index" (click)="editaritem('linea1',i,item)">
+        <ion-card class="card-pedigree">
+          <img src="{{item.imagen}}" *ngIf="item.imagen" />
+          <div class="card-subtitle">{{item.nombre}}</div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="linea2" justify-content-center>
+      <ion-col col-3 *ngFor="let item of linea2; let i =index" (click)="editaritem('linea2',i,item)">
+        <ion-card class="card-pedigree">
+          <img src="{{item.imagen}}" *ngIf="item.imagen" />
+          <div class="card-subtitle">{{item.nombre}}</div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+
+
+  </ion-grid>
+
+  <ion-fab right bottom>
+    <button ion-fab color="light">
+      <ion-icon name="arrow-dropleft"></ion-icon>
+    </button>
+    <ion-fab-list side="left">
+      <button ion-fab (click)="guardarimagen()">
+        <ion-icon name="cloud-download"></ion-icon>
+      </button>
+      <button ion-fab (click)="presentPopover($event)">
+        <ion-icon name="ios-color-fill" [style.color]="color"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
+
+</ion-content>

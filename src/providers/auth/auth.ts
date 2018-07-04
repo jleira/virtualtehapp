@@ -120,7 +120,7 @@ export class AuthProvider {
   }
 
   buscar(key, values: any): Observable<any> {
-    console.log(key,'key');
+    console.log(key, 'key');
     let endpoint;
     if (this.tokenexpired) {
       if (key == 'people') {
@@ -391,7 +391,7 @@ export class AuthProvider {
   }
   mispedigree2(id) {
     return this.http.get(`${apiUrl}api/find/pedigree/${id}`).map((data) => {
-     return data;
+      return data;
     }, err => {
       return err;
     })
@@ -420,14 +420,27 @@ export class AuthProvider {
       return err;
     })
   }
-  enviarmensajemascota(values){
+  enviarmensajemascota(values) {
     return this.tokenhttp.post(`${apiUrl}/api/chat/mensajesmascota/guardar
     `, values).map((resp) => {
         return resp;
       }, err => {
         return err;
       })
-    
+
+  }
+
+  pedigreemetter(id = 1608) {
+    return this.http.get(`http://66.175.220.111/api/canines/454?complex=${id}`).map((data) => {
+      console.log(data);
+     return data;
+    });
+  }
+  mascotasmetter(nombre) {
+    console.log('nmb',nombre);
+    return this.http.get(`http://66.175.220.111/api/canines?utf8=true&q[name_or_lof_cont]=${nombre}`).map((data) => {
+     return data;
+    });
   }
 
 }

@@ -7,6 +7,7 @@ import { HomePage } from '../home/home';
 import { ProfilePage } from '../profile/profile';
 import { LoginPage } from './login';
 import { AuthProvider } from '../../providers/auth/auth';
+import {PedigremetterPage } from '../pedigremetter/pedigremetter';
 
 
 
@@ -19,6 +20,7 @@ export class TabsPage {
   tab2Root = ContactPage;
   tab3Root = AboutPage;
   tab4Root = ProfilePage;
+  tab5Root = PedigremetterPage;
 
   logeado: boolean;
   pagename='Home';

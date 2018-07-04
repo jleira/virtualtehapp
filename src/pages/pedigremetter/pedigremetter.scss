@@ -1,0 +1,60 @@
+page-pedigremetter {
+
+}
+page-pedigremetteredit{
+  ion-card img {
+    display: block;
+    width: 100%;
+    height: 100px;
+}
+    .card-pedigree{
+        margin: 0px;
+        width: 100%;
+        text-align: center;
+        h4{
+            color: map-get($colors , secondary-pets-l );
+            font-weight: bold;
+        }    
+    }
+    .card-subtitle {
+        font-size: 0.6em;
+        background-color:#0A3055 ;
+        color: #fff;
+    
+      }
+      ion-card {
+        text-align: center;
+        border-radius: 10px !important;
+      }      
+    ion-col  {
+//        background-color: #f0f5ff;
+  //      border: 1px solid #e6e9ee;
+        border-radius: 2px;
+        padding: 5px;
+        text-align: center;
+      }
+    
+      p {
+        padding: 10px 0 0 10px !important;
+        margin: 0;
+      }
+
+      .itemi{
+        background-color: transparent !important;
+    }
+    .item-ios {
+    
+      background-color: transparent !important;
+    }
+    $text-input-highlight-color-valid:#32db64;
+    $text-input-highlight-color-invalid:red;
+    .text-input{
+        color:white;
+    }
+    .list-ios > .item-block:first-child{
+      border-top: none;
+    }
+    .item-md {
+      background-color: transparent !important;
+    }
+  }

@@ -1,13 +1,12 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, PopoverController, NavParams, ViewController, ModalController, AlertController, ToastController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, PopoverController, NavParams, ViewController, ModalController, AlertController, ToastController, LoadingController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { SERVE_FILE_URI } from '../../config';
-import { SuccesionPage } from './succesion';
- 
-//import {ColorpickerPage} from './colorpicker';
+import { SuccesionPage } from '../about/succesion';
+import { DetallesimgPage } from './detallesimg';
 
 @Component({
-  selector: 'page-colorpicker',
+  selector: 'page-colorpicker2',
   template: `
   <ion-grid class="popover-page">
   <ion-row>
@@ -146,14 +145,9 @@ import { SuccesionPage } from './succesion';
     <ion-col style="background:#FFFFFF" (tap)="setColor('#FFFFFF')">&nbsp;</ion-col>
   </ion-row>
   </ion-grid>
-
-
-
-
-
   `
 })
-export class ColorpickerPage {
+export class ColorpickerPage2 {
   background: string;
   contentEle: any;
   textEle: any;
@@ -179,16 +173,13 @@ export class ColorpickerPage {
   };
 
   constructor(private navParams: NavParams) {
-
   }
 
   ngOnInit() {
     if (this.navParams.data) {
       this.contentEle = this.navParams.data.contentEle;
       this.textEle = this.navParams.data.textEle;
-
       this.background = this.getColorName(this.contentEle.style.backgroundColor);
-      //console.log(this.background);
     }
   }
   getColorName(background) {
@@ -206,294 +197,91 @@ export class ColorpickerPage {
   }
 }
 
+
+
+
 @Component({
-  selector: 'page-new-pedigree',
-  templateUrl: 'new-pedigree.html'
+  selector: 'page-pedigremetteredit',
+  templateUrl: 'pedigremetteredit.html',
 })
-export class NewPedigreePage {
-  mismascotas;
-  mascota;
-  path;
-  contador = 0;
-  succesiones;
-  siguientes = [];
-  caso;
+export class PedigremettereditPage {
+  items;
+  myInput;
+  linea0;
   linea1;
   linea2;
   linea3;
-  linea4;
-  visitante;
   color = '#DEDEDE';
   @ViewChild('popoverContent', { read: ElementRef }) content: ElementRef;
   @ViewChild('popoverText', { read: ElementRef }) text: ElementRef;
 
-  constructor(public navCtrl: NavController, public navparams: NavParams, public viewCtrl: ViewController, private authservice: AuthProvider,
-    private modal: ModalController, private alertCtrl: AlertController, private toastc: ToastController, private loadingCtrl: LoadingController,
-    private popoverCtrl: PopoverController) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    public authservice: AuthProvider,
+    public modal: ModalController,
+    public popoverCtrl: PopoverController) {
     setTimeout(() => {
       this.content.nativeElement.style.backgroundColor = this.color;
     }, 300);
-    let caso = this.navparams.get('caso');
-    this.visitante = this.navparams.get('visitante');
-    this.traermismascotas();
 
-    if (caso == 1) {
-      this.caso = caso;
-      this.mascota = this.navparams.get('mascota');
-      //console.log('mascota', this.mascota);
-      this.succesiones = JSON.parse(this.mascota.pedigree);
-      //console.log(this.succesiones);
-      this.linea1 = this.succesiones.linea1;
-      this.linea2 = this.succesiones.linea2;
-      this.linea3 = this.succesiones.linea3;
-      this.color = this.mascota.color_pedigree;
 
-      if (this.mascota.imagenes) {
-        let imgname = this.mascota.imagenes.split(',')[0];
-        this.path = `${SERVE_FILE_URI}storage/app/${this.mascota.id_usuario}/${this.mascota.id}/${imgname}`
-      }
+    let datos = this.navParams.get('data');
+    this.linea0 = {
+      nombre: datos.root_canine_1.nombre,
+      imagen: `http://66.175.220.111${datos.root_canine_1.img}`
     }
-    if (caso > 1) {//ver
-      this.caso = 2;
-      this.mascota = this.navparams.get('mascota');
-      //console.log('mascota', this.mascota);
-      this.succesiones = JSON.parse(this.mascota.pedigree);
-      //console.log(this.succesiones);
-      this.linea1 = this.succesiones.linea1;
-      this.linea2 = this.succesiones.linea2;
-      this.linea3 = this.succesiones.linea3;
-      this.color = this.mascota.color_pedigree;
-
-      if (this.mascota.imagenes) {
-        let imgname = this.mascota.imagenes.split(',')[0];
-        this.path = `${SERVE_FILE_URI}storage/app/${this.mascota.id_usuario}/${this.mascota.id}/${imgname}`
+    this.linea1 = [];
+    this.linea2 = [];
+    this.linea3 = [];
+    datos.canes.forEach(element => {
+      if (element.level == 1) {
+        this.linea1.push({ nombre: element.nombre, imagen: `http://66.175.220.111${element.img}`, caso: 1, raza: element.race, sexo: (element.sex == 1 ? 'Macho' : 'Hembra') });
       }
+      if (element.level == 2) {
+        this.linea2.push({ nombre: element.nombre, imagen: `http://66.175.220.111${element.img}`, caso: 1, raza: element.race, sexo: (element.sex == 1 ? 'Macho' : 'Hembra') });
+      }
+      if (element.level == 3 || element.level == 4) {
+        this.linea3.push({ nombre: element.nombre, imagen: `http://66.175.220.111${element.img}`, caso: 1, raza: element.race, sexo: (element.sex == 1 ? 'Macho' : 'Hembra') });
+      }
+
+    });
+    console.log(this.linea1);
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad PedigremetterPage');
+  }
+  onInput($event) {
+    this.buscarporclave($event.target.value);
+  }
+
+  onCancel($event) {
+    this.buscarporclave($event.target.value);
+  }
+  buscarporclave(clave) {
+    if (!clave) {
+      return "";
     }
-  }
-
-  cancelar() {
-    this.viewCtrl.dismiss();
-  }
-  traermismascotas() {
-    this.authservice.mismascostas(0).subscribe((data) => {
-      this.mismascotas = data.json();
-    }, err => {
-      //console.log(err);
-    })
-  }
-  cambiarmascosta() {
-    let img = 'assets/img/mascota.png';
-    this.linea1 = [
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 }
-    ];
-    this.linea2 = [
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 },
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 }
-    ];
-    this.linea3 = [
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 },
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 },
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 },
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 }
-    ];
-    this.linea4 = [
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 },
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 },
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 },
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 },
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 },
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 },
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 },
-      { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 }
-    ];
-    //console.log(JSON.stringify({ linea1: this.linea1, linea2: this.linea2, linea3: this.linea3 }));
-
-    if (this.mascota.imagenes) {
-      let imgname = this.mascota.imagenes.split(',')[0];
-      this.path = `${SERVE_FILE_URI}storage/app/${this.mascota.id_usuario}/${this.mascota.id}/${imgname}`
-
+    if (clave.length < 2) {
+      return "";
     }
+    this.authservice.mascotasmetter(clave).subscribe((data) => {
+
+      this.items = data;
+      console.log(data);
+    });
   }
 
 
-  guardarpedigree() {
-    let alert = this.alertCtrl.create({
-
-      title: 'Nombre del pedigree',
-      message: 'Es el nombre con el que se identificara el pedigree en su lista de pedigree',
-      inputs: [
-        {
-          name: 'name',
-          placeholder: 'name'
-        },
-      ],
-      buttons: [
-        {
-          text: 'Guardar',
-          handler: (data) => {
-            if (!data.name) {
-              return this.toastmsj('el campo nombre no puede estar vacio');
-            } else {
-              this.guardarpedigreef(data.name);
-            }
-
-          }
-
-        },
-        {
-          text: 'Cancelar',
-          handler: () => {
-          }
-        }
-      ]
+  verpedigree(item) {
+    console.log('item', item);
+    this.authservice.pedigreemetter(parseInt(item.id)).subscribe((data) => {
+      console.log(data);
     });
-    alert.present();
-
-  }
-  guardarpedigreef(nombre) {
-    let valoresenviar = {
-      nombre: nombre,
-      mascota_id: this.mascota.id,
-      pedigree: JSON.stringify(this.succesiones),
-      color: this.color,
-      pedigre_id: this.mascota.pedigree_id
-    }
-
-    let i1 = 0, i2 = 0, i3 = 0;
-    this.linea1.forEach(element => {
-      if (element.caso == 3) {
-        this.authservice.enviarimagenpedigree(element.imagen).then((nom) => {
-          this.linea1[i1]['imagen'] = SERVE_FILE_URI + '/' + nom;
-        });
-      }
-      i1 = i1 + 1;
-
-    });
-
-    this.linea2.forEach(element => {
-      if (element.caso == 3) {
-        this.authservice.enviarimagenpedigree(element.imagen).then((nom) => {
-          this.linea2[i2]['imagen'] = SERVE_FILE_URI + '/' + nom;
-        });
-      }
-      i2 = i2 + 1;
-    }); this.linea3.forEach(element => {
-      if (element.caso == 3) {
-        this.authservice.enviarimagenpedigree(element.imagen).then((nom) => {
-          element.imagen = SERVE_FILE_URI + '/' + nom;
-          this.linea3[i3]['imagen'] = SERVE_FILE_URI + '/' + nom;
-        });
-      }
-      i3 = i3 + 1;
-    });
-    valoresenviar.pedigree = JSON.stringify({ linea1: this.linea1, linea2: this.linea2, linea3: this.linea3 });
-    let loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: 'Enviando datos...',
-      duration: 10000
-    });
-    loading.present();
-    setTimeout(() => {
-      this.authservice.registrarpedigree(valoresenviar).finally(() => {
-        loading.dismiss();
-      }).subscribe((resp) => {
-        this.toastmsj(`pedigre ${valoresenviar.nombre} editado creado exitosamente`);
-        this.viewCtrl.dismiss(true);
-      }, error => {
-        let err = error.json();
-        for (let i in err) {
-          if (err.hasOwnProperty(i)) {
-            this.toastmsj(err[i]);
-          }
-        }
-      });
-
-    }, 4500);
-  }
-  toastmsj(mensaje = 'mensaje desconocido') {
-    const toast = this.toastc.create({
-      message: mensaje,
-      duration: 5000,
-      position: 'bottom'
-    });
-    toast.present();
-  }
-
-
-  editaritem(caso, posicion, item) {
-    let casoedit = this.caso;
-    let ds;
-    let modalp;
-
-    modalp = this.modal.create(SuccesionPage, {
-      item: item, mismascotas: this.mismascotas, caso: casoedit
-    });
-    modalp.present();
-    modalp.onDidDismiss((data) => {
-      //console.log('datos de regreso', data);
-      if (data.successs) {
-        let casoaeditar;
-        if (caso == 'linea1') {
-          casoaeditar = data.itemedited.caso;
-          if (casoaeditar == 3) {//subir imagen
-            this.authservice.enviarimagenpedigree(data.itemedited.imagen).then((nom) => {
-              console.log('linea1 img',nom['response'],JSON.parse(nom['response']));
-              let nimagenn=JSON.parse(nom['response']);
-              this.linea1[posicion] = data.itemedited;  
-              this.linea1[posicion]['imagen'] = SERVE_FILE_URI +'storage/app/'+ nimagenn.suceess;
-              this.linea1[posicion]['caso'] = 2;
-              console.log('linea1',this.linea1[posicion]);
-            });
-          } else {
-            this.linea1[posicion] = data.itemedited;
-          }
-        }
-        if (caso == 'linea2') {
-          casoaeditar = data.itemedited.caso;
-          if (casoaeditar == 3) {//subir imagen
-            this.authservice.enviarimagenpedigree(data.itemedited.imagen).then((nom) => {
-              this.linea2[posicion] = data.itemedited;
-              let nimagenn=JSON.parse(nom['response']);
-              this.linea2[posicion]['imagen'] = SERVE_FILE_URI +'storage/app/'+ nimagenn.suceess;
-              this.linea2[posicion]['caso'] = 2;
-            });
-          } else {
-            this.linea2[posicion] = data.itemedited;
-          }
-        }
-        if (caso == 'linea3') {
-          casoaeditar = data.itemedited.caso;
-          if (casoaeditar == 3) {//subir imagen
-            this.authservice.enviarimagenpedigree(data.itemedited.imagen).then((nom) => {
-              this.linea3[posicion] = data.itemedited;
-              let nimagenn=JSON.parse(nom['response']);
-              this.linea3[posicion]['imagen'] =SERVE_FILE_URI +'storage/app/'+ nimagenn.suceess;
-              this.linea3[posicion]['caso'] = 2;
-            });
-          } else {
-            this.linea3[posicion] = data.itemedited;
-          }
-        }
-        if (caso == 'linea4') {
-          casoaeditar = data.itemedited.caso;
-          if (casoaeditar == 3) {//subir imagen
-            this.authservice.enviarimagenpedigree(data.itemedited.imagen).then((nom) => {
-              this.linea4[posicion] = data.itemedited;
-              let nimagenn=JSON.parse(nom['response']);
-              this.linea4[posicion]['imagen'] = SERVE_FILE_URI +'storage/app/'+ nimagenn.suceess;
-              this.linea4[posicion]['caso'] = 2;
-            });
-          } else {
-            this.linea4[posicion] = data.itemedited;
-
-          }
-        }
-      }
-    });
-
   }
   presentPopover(myEvent) {
-    let popover = this.popoverCtrl.create(ColorpickerPage, {
+    let popover = this.popoverCtrl.create(ColorpickerPage2, {
       contentEle: this.content.nativeElement,
     });
     popover.present({
@@ -505,6 +293,33 @@ export class NewPedigreePage {
     })
   }
 
+  editaritem(caso, posicion, item) {
+    let ds;
+    let modalp;
+
+    modalp = this.modal.create(DetallesimgPage, {
+      item: item, caso: 1
+    });
+    modalp.present();
+    modalp.onDidDismiss((data) => {
+      //console.log('datos de regreso', data);
+      if (data.successs) {
+        if (caso == 'linea0') {
+          this.linea0 = data.itemedited;
+        }
+        if (caso == 'linea1') {
+          this.linea1[posicion] = data.itemedited;
+        }
+        if (caso == 'linea2') {
+          this.linea2[posicion] = data.itemedited;
+        }
+        if (caso == 'linea3') {
+          this.linea3[posicion] = data.itemedited;
+        }
+
+      }
+    });
+
+  }
 
 }
-

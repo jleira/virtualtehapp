@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-navbar hideBackButton="false">
+    <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
+    </ion-searchbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item style="border-color: white;">
+            <ion-label color="secondary-pets-l" floating>Nombre</ion-label>
+            <ion-textarea type="text" rows="2"  [(ngModel)]="nombre"></ion-textarea>
+        </ion-item>
+  </ion-list>
+  <ion-grid >
+      <ion-row  justify-content-center>
+          <ion-col col-5>
+              <img src="{{imagen}}" *ngIf="imagen"/>{{nombre}}</ion-col>
+      </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-6 *ngFor="let item of items" (click)="cambiardatos(item)" style="
+    width:  100%;
+    margin-left:  0;
+    padding-left:  3px;
+    padding-right:  3px;
+    padding-top: 0px;
+    height:100%">
+        <ion-card style="margin-left: 0;
+        margin-right: 0;
+        width: 100%;">
+          <img src="http://66.175.220.111{{item.img}}" *ngIf="item.img" />
+          <img src="assets/img/mascota.png" *ngIf="!item.img" />
+
+          <div class="card-subtitle">
+            <h4 style="color:#f59805">{{item.nombre}}</h4>
+            <p>{{item.race}} - {{item.sex==1?'Macho':'Hembra'}}</p>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <ion-fab right bottom>
+      <button ion-fab color="light">
+        <ion-icon name="arrow-dropleft"></ion-icon>
+      </button>
+      <ion-fab-list side="left">
+        <button ion-fab (click)="guardar()">
+          <ion-icon name="cloud-upload"></ion-icon>
+        </button>
+        <button ion-fab (click)="cambiarimagen()" color="secondary-pets-l">
+          <ion-icon name="ios-color-fill" ></ion-icon>
+        </button>
+        <button ion-fab (click)="close()" color="danger">
+            <ion-icon name="close" [style.color]="color"></ion-icon>
+          </button>
+      </ion-fab-list>
+    </ion-fab>
+
+</ion-content>
