@@ -489,4 +489,20 @@ export class AuthProvider {
     });
   }
 
+  mascotasmettermacho(nombre) {
+    console.log('nmb', nombre);
+    return this.http.get(`http://66.175.220.111/api/canines?utf8=true&q[name_or_lof_cont]=${nombre}&q[gender_eq]=1`).map((data) => {
+      return data;
+    });
+  }
+
+  mascotasmetterhembra(nombre) {
+    console.log('nmb', nombre);
+    return this.http.get(`http://66.175.220.111/api/canines?utf8=true&q[name_or_lof_cont]=${nombre}&q[gender_eq]=0`).map((data) => {
+      return data;
+    });
+  }
+
+
+
 }

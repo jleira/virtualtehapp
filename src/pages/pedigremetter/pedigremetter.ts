@@ -38,15 +38,30 @@ export class PedigremetterPage {
   }
   buscarporclave(clave) {
     if (!clave) {
+      this.items = null;
       return "";
     }
     if (clave.length < 2) {
       this.items = null;
       return "";
     }
-    this.authservice.mascotasmetter(clave).subscribe((data) => {
-      this.items = data;
-    });
+
+    if (this.unirpedi) {
+      if (this.macho) {
+        this.authservice.mascotasmetterhembra(clave).subscribe((data) => {
+          this.items = data;
+        });
+      } else {
+        this.authservice.mascotasmettermacho(clave).subscribe((data) => {
+          this.items = data;
+        });
+      }
+    } else {
+      this.authservice.mascotasmetter(clave).subscribe((data) => {
+        this.items = data;
+      });
+
+    }
   }
 
   verpedigree(item) {
