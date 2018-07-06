@@ -1,8 +1,14 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Chat with
+      chat con {{name}}
     </ion-title>
+
+    <ion-buttons end>
+      <button ion-button (click)="agregarfuente()" color="secondary-pets-l">
+        <ion-icon name="folder"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -15,17 +21,25 @@
         </div>
         <div *ngIf="message.tipo==2" [innerHtml]="pruebap2(message.mensaje)" (click)="verproducto(message.mensaje)">
         </div>
+        <div *ngIf="message.tipo==3" [innerHtml]="pedigre(message.mensaje)" (click)="verpedigree(message.mensaje)">
+        </div>
+        <div *ngIf="message.tipo==4" [innerHtml]="imgruta(message.mensaje)" (click)="verimagen(message.mensaje)">
+        </div>
+
         <div *ngIf="message.tipo==0">
           <span>{{ message.mensaje }}</span>
         </div>
-
       </ion-col>
-
       <ion-col offset-3 col-9 *ngIf="message.usuario_recibe == id" class="message" [ngClass]="'my_message'">
         <div *ngIf="message.tipo==1" [innerHtml]="pruebaf(message.mensaje)" (click)="vermascota(message.mensaje)">
         </div>
         <div *ngIf="message.tipo==2" [innerHtml]="pruebap2(message.mensaje)" (click)="verproducto(message.mensaje)">
         </div>
+        <div *ngIf="message.tipo==3" [innerHtml]="pedigre(message.mensaje)" (click)="verpedigree(message.mensaje)">
+        </div>
+        <div *ngIf="message.tipo==4" [innerHtml]="imgruta(message.mensaje)" (click)="verimagen(message.mensaje)">
+        </div>
+
         <div *ngIf="message.tipo==0">
           <span>{{ message.mensaje }}</span>
         </div>

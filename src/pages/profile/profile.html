@@ -7,10 +7,17 @@
         Volver
       </button>
     </ion-buttons>
-    <ion-buttons start *ngIf="!visitante">
+    <ion-buttons end *ngIf="!visitante">
       <button ion-button (click)="configuraciones()" color="secondary-pets-l">
         <ion-icon name="cog"></ion-icon>
       </button>
+
+    </ion-buttons>
+    <ion-buttons start *ngIf="!visitante">
+      <button ion-button (click)="agregarusuario()" color="secondary-pets-l">
+        <ion-icon name="person-add"></ion-icon>
+      </button>
+
     </ion-buttons>
   </ion-navbar>
 
@@ -65,46 +72,46 @@
 
 
     <div [ngSwitch]="pet">
-        <div *ngSwitchCase="'misejemplares'">
-  
-          <ion-list>
-            <button no-lines ion-item *ngFor="let mascota of mismascotas" (click)="detallesmascota(mascota)">
-              <ion-avatar item-start>
-                <img src="{{buscarimagen(mascota.imagenes,mascota.id)}}" *ngIf="mascota.imagenes" />
-                <img src="assets/img/mascota.png" *ngIf="!mascota.imagenes" />
-              </ion-avatar>
-              <h2>{{mascota.nombre}}</h2>
-              <p> {{mascota.raza}}</p>
-            </button>
-          </ion-list>
-  
-        </div>
-  
-        <ion-list *ngSwitchCase="'puppies'">
-          <ion-item>
-            <!--               <ion-thumbnail item-start>
+      <div *ngSwitchCase="'misejemplares'">
+
+        <ion-list>
+          <button no-lines ion-item *ngFor="let mascota of mismascotas" (click)="detallesmascota(mascota)">
+            <ion-avatar item-start>
+              <img src="{{buscarimagen(mascota.imagenes,mascota.id)}}" *ngIf="mascota.imagenes" />
+              <img src="assets/img/mascota.png" *ngIf="!mascota.imagenes" />
+            </ion-avatar>
+            <h2>{{mascota.nombre}}</h2>
+            <p> {{mascota.raza}}</p>
+          </button>
+        </ion-list>
+
+      </div>
+
+      <ion-list *ngSwitchCase="'puppies'">
+        <ion-item>
+          <!--               <ion-thumbnail item-start>
                   <img src="assets/img/card-amsterdam.png">
                 </ion-thumbnail>
                 <h2>Coming soon</h2>
    --></ion-item>
+      </ion-list>
+
+
+      <div *ngSwitchCase="'accesorios'">
+
+        <ion-list>
+          <button no-lines ion-item *ngFor="let accesorio of accesorios" (click)="detallesaccesorio(accesorio)">
+            <ion-avatar item-start>
+              <img src="{{buscarimagenp(accesorio.imagenes,accesorio.id,accesorio.usuario_id)}}" *ngIf="accesorio.imagenes" />
+              <img src="assets/img/inyeccion.png" *ngIf="!accesorio.imagenes" />
+            </ion-avatar>
+            <h2>{{accesorio.nombre}}</h2>
+            <p> {{accesorio.descripcion}}</p>
+          </button>
         </ion-list>
-  
-  
-        <div *ngSwitchCase="'accesorios'">
-  
-          <ion-list>
-            <button no-lines ion-item *ngFor="let accesorio of accesorios" (click)="detallesaccesorio(accesorio)">
-              <ion-avatar item-start>
-                <img src="{{buscarimagenp(accesorio.imagenes,accesorio.id,accesorio.usuario_id)}}" *ngIf="accesorio.imagenes" />
-                <img src="assets/img/inyeccion.png" *ngIf="!accesorio.imagenes" />
-              </ion-avatar>
-              <h2>{{accesorio.nombre}}</h2>
-              <p> {{accesorio.descripcion}}</p>
-            </button>
-          </ion-list>
-  
-        </div>
+
       </div>
+    </div>
 
 
 
@@ -119,9 +126,9 @@
         <ion-segment-button value="misejemplares">
           Mis Ejemplares
         </ion-segment-button>
-        <ion-segment-button value="puppies">
+        <!--         <ion-segment-button value="puppies">
           Favoritos
-        </ion-segment-button>
+        </ion-segment-button> -->
         <ion-segment-button value="accesorios">
           Accesorios
         </ion-segment-button>

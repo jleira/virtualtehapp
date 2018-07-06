@@ -29,6 +29,9 @@ export class DetallesPage {
   path;
   tokenexpired;
   datosmascota;
+  dueno_name;
+  dueno_last;
+  
   constructor(
     public viewCtrl: ViewController,
     public navp: NavParams,
@@ -68,6 +71,8 @@ export class DetallesPage {
     this.vender = datos.vender;
     this.precio = datos.precio;
     this.miid = datos.id_usuario;
+    this.dueno_name=datos.first_name;
+    this.dueno_last=datos.last_name;
     this.id = datos.id;//datos de la mascota
     this.path = `${SERVE_FILE_URI}storage/app/${this.miid}/${this.id}`;
     this.imagenesmascota = datos.imagenes;

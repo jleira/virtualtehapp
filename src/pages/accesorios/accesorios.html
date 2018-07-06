@@ -6,60 +6,65 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>accesorios</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>accesorios</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-  <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="!imagenesp">
-    <img src="assets/img/inyeccion.png" />
-</ion-toolbar>
-<ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="imagenesp" (click)="imagenes(imagenesp)">
+    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="!imagenesp">
+        <img src="assets/img/inyeccion.png" />
+    </ion-toolbar>
+    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="imagenesp" (click)="imagenes(imagenesp)">
         <img src="{{buscarimagen(imagenesp)}}" />
     </ion-toolbar>
     <ion-list>
-    <ion-item no-lines>
-        <ion-grid>
-            <ion-row color="secondary-pets-l">
-                <ion-col>
-                    <p>Nombre</p>
-                    <div style="text-align:center">
-                        <h2>{{nombre}}</h2>
-                    </div>
-                </ion-col>
-                <ion-col>
-                    <p>Categoria</p>
-                    <div style="text-align:center">
-                        <h2>{{(categoria==1)?'Productos y Accesorios':'Servicios'}}</h2>
-                    </div>
-                </ion-col>
-                <ion-col>
-                    <p>Precio</p>
-                    <div style="text-align:center">
-                        <h2>{{formatDollar(precio)}}</h2>
-                    </div>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col style="text-align:center;font-size: 1.2em !important;color: black !important;" text-wrap >
-                    <p>Descripcion</p>
-                    <p>{{descripcion}}</p>
-                </ion-col>
+        <ion-item no-lines>
+            <ion-grid>
+                <ion-row color="secondary-pets-l">
+                    <ion-col>
+                        <p>Nombre</p>
+                        <div style="text-align:center">
+                            <h2>{{nombre}}</h2>
+                        </div>
+                    </ion-col>
+                    <ion-col>
+                        <p>Categoria</p>
+                        <div style="text-align:center">
+                            <h2>{{(categoria==1)?'Productos y Accesorios':'Servicios'}}</h2>
+                        </div>
+                    </ion-col>
+                    <ion-col>
+                        <p>Precio</p>
+                        <div style="text-align:center">
+                            <h2>{{formatDollar(precio)}}</h2>
+                        </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col style="text-align:center;font-size: 1.2em !important;color: black !important;" text-wrap>
+                        <p>Descripcion</p>
+                        <p>{{descripcion}}</p>
+                    </ion-col>
 
-            </ion-row>
+                </ion-row>
+                <ion-row>
+                    <ion-col style="text-align:center" >
+                        <p>Vendedor</p>
+                        <h2 class="subtitulo">{{dueno_name}} {{dueno_last}}</h2>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-item>
 
-        </ion-grid>
-    </ion-item>
-
-    <div style="text-align:center" *ngIf="visitante">
+        <div style="text-align:center" *ngIf="visitante">
             <button ion-button type="button" (click)="abrirchat()" color="secondary-pets-l" outline>
                 Chat
             </button>
         </div>
 
 
-</ion-list>
+    </ion-list>
 </ion-content>

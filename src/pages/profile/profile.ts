@@ -8,7 +8,7 @@ import { Storage } from "@ionic/storage";
 import { SERVE_FILE_URI } from "../../config";
 import { NaccesorioPage } from '../accesorios/naccesorio';
 import { AccesoriosPage } from '../accesorios/accesorios';
-
+import { FinderPage } from "../finder/finder";
 
 /**
  * Generated class for the ProfilePage page.
@@ -218,5 +218,9 @@ buscarimagen(img,idmascota){
 buscarimagenp(img,idmascota,userid){
   let nimag=`${SERVE_FILE_URI}storage/app/productos/${userid}/${idmascota}/${img.split(',')[0]}`;
   return nimag;
+}
+agregarusuario(){
+  this.navCtrl.push(FinderPage,{case:'people'});
+
 }
 }

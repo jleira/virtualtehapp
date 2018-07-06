@@ -37,9 +37,14 @@ export class ContactPage {
     let idchat = user.id;
     let usersid = [];
     if (this.miid == user.usuario1) {
-      usersid['id'] = user.usuario2;
+      user.id = user.usuario2;
+      user.first_name=user.usuario2name;
+      user.last_name=user.usuario2lastname;
     } else {
-      usersid['id'] = user.usuario1;
+      user.id = user.usuario1;
+      user.first_name=user.usuario1name;
+      user.last_name=user.usuario1lastname;
+
     }
     this.socket.connect();
     this.navCtrl.setRoot(ChatRoomPage, {
@@ -47,7 +52,7 @@ export class ContactPage {
       miid: this.misdatos.id,
       nickname: this.misdatos.correo,
       correo: this.misdatos.correo,
-      user: usersid,
+      user: user,
       chat: idchat
     });
   }

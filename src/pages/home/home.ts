@@ -57,6 +57,11 @@ export class HomePage {
     });
     toast.present();
  */  }
+  quiensigo(){
+    this.navCtrl.push(FinderPage,{case:'quiensigo'});    
+
+  }
+
   findpeople(){
     if(!this.logeado){
       const toast = this.toastmsj.create({

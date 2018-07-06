@@ -188,6 +188,9 @@ export class AuthProvider {
       if (key == 'todo') {
         endpoint = 'api/find/todo';
       }
+      if (key == 'quiensigo') {
+        endpoint = 'api/find/todoseguidores';
+      }
 
       return this.tokenhttp.post(`${apiUrl}/${endpoint}`, values).finally(() => {
         ////console.log('salio');
@@ -240,6 +243,43 @@ export class AuthProvider {
         ////console.log(err);
         return err;
       })
+  }
+
+  enviarimagenchat(ruta) {
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Enviando foto ...'
+    });
+    loading.present();
+    return this.storage.get('jwt').then((jwt) => {
+      let options: FileUploadOptions = {
+        fileKey: 'file',
+        fileName: 'mascota',
+        headers: {
+          'Authorization': 'Bearer ' + jwt,
+          'Content-Type': undefined
+        },
+        mimeType: 'image/*',
+      }
+
+      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/fotochat`, options)
+        .then((data) => {
+          this.handleError('Foto Enviada');
+          loading.dismiss();
+          return data;
+        }, (err) => {
+          this.handleError(JSON.stringify(err));
+          loading.dismiss();
+          return true;
+        })
+
+    }, err => {
+      loading.dismiss();
+      this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
+      ////console.log('err',err);
+      return true;
+
+    })
   }
 
   enviarimagen(ruta, pets) {
@@ -431,15 +471,21 @@ export class AuthProvider {
   }
 
   pedigreemetter(id = 1608) {
-    return this.http.get(`http://66.175.220.111/api/canines/454?complex=${id}`).map((data) => {
+    return this.http.get(`http://66.175.220.111/api/canines/${id}`).map((data) => {
       console.log(data);
-     return data;
+      return data;
+    });
+  }
+  crucepedigreemetter(id1, id2) {
+    return this.http.get(`http://66.175.220.111/api/canines/${id1}?complex=${id2}`).map((data) => {
+      console.log(data);
+      return data;
     });
   }
   mascotasmetter(nombre) {
-    console.log('nmb',nombre);
+    console.log('nmb', nombre);
     return this.http.get(`http://66.175.220.111/api/canines?utf8=true&q[name_or_lof_cont]=${nombre}`).map((data) => {
-     return data;
+      return data;
     });
   }
 

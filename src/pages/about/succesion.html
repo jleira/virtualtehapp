@@ -10,7 +10,7 @@
 
     <ion-list>
         <ion-item *ngIf="estado!=2">
-            <ion-label color="pesto-scondary-text">Chosee a pet</ion-label>
+            <ion-label color="pesto-scondary-text">Escoger mascota de mybreed</ion-label>
             <ion-select interface="action-sheet" cancelText="cancel" [(ngModel)]="mascota" (ionChange)="cambiarmascosta()">
                 <ion-option *ngFor="let item of mismascotas" [value]="item">{{item.nombre}}</ion-option>
             </ion-select>

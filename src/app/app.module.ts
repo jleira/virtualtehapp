@@ -8,14 +8,14 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { ProfilePage } from '../pages/profile/profile';
-import {LoginPage} from '../pages/tabs/login';
+import { LoginPage } from '../pages/tabs/login';
 import { RegisterPage } from '../pages/tabs/register';
-import {NmascotaPage} from '../pages/profile/nmascota';
-import {DetallesPage} from '../pages/profile/detalle';
-import {FinderPage} from '../pages/finder/finder';
-import {ImagenesPage} from '../pages/profile/imagenes';
+import { NmascotaPage } from '../pages/profile/nmascota';
+import { DetallesPage } from '../pages/profile/detalle';
+import { FinderPage } from '../pages/finder/finder';
+import { ImagenesPage } from '../pages/profile/imagenes';
 import { DetallesusuarioPage } from '../pages/profile/detalleusuario';
-import {ChatRoomPage} from '../pages/chat-room/chat-room';
+import { ChatRoomPage } from '../pages/chat-room/chat-room';
 import { NewPedigreePage } from '../pages/about/new-pedigree';
 import { AccesoriosPage } from '../pages/accesorios/accesorios';
 import { NaccesorioPage } from '../pages/accesorios/naccesorio';
@@ -25,7 +25,8 @@ import { PedigremetterPage } from '../pages/pedigremetter/pedigremetter';
 import { PedigremettereditPage } from '../pages/pedigremetter/pedigremetteredit';
 import { ColorpickerPage2 } from '../pages/pedigremetter/pedigremetteredit';
 import { DetallesimgPage } from '../pages/pedigremetter/detallesimg';
-
+import { BuscadorPage } from "../pages/chat-room/buscador";
+import { Screenshot } from '@ionic-native/screenshot';
 
 
 
@@ -34,11 +35,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { Http, RequestOptions, HttpModule } from '@angular/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { IonicStorageModule, Storage} from "@ionic/storage";
-import {JwtHelper, AuthConfig, AuthHttp} from "angular2-jwt";
+import { IonicStorageModule, Storage } from "@ionic/storage";
+import { JwtHelper, AuthConfig, AuthHttp } from "angular2-jwt";
 import { AuthProvider } from '../providers/auth/auth';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-const config: SocketIoConfig = { url: 'http://167.114.185.216:8811', options: {} };
+const config: SocketIoConfig = { url: 'http://167.114.185.216:8812', options: {} };
 
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
@@ -76,7 +77,8 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     PedigremetterPage,
     PedigremettereditPage,
     ColorpickerPage2,
-    DetallesimgPage
+    DetallesimgPage,
+    BuscadorPage
   ],
   imports: [
     BrowserModule,
@@ -111,12 +113,14 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     PedigremetterPage,
     PedigremettereditPage,
     ColorpickerPage2,
-    DetallesimgPage
+    DetallesimgPage,
+    BuscadorPage
   ],
   providers: [
     StatusBar,
     HttpClientModule,
     SplashScreen,
+    Screenshot,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
     JwtHelper, {

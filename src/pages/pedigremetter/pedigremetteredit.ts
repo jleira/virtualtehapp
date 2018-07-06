@@ -4,6 +4,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { SERVE_FILE_URI } from '../../config';
 import { SuccesionPage } from '../about/succesion';
 import { DetallesimgPage } from './detallesimg';
+import { Screenshot } from '@ionic-native/screenshot';
 
 @Component({
   selector: 'page-colorpicker2',
@@ -172,6 +173,7 @@ export class ColorpickerPage2 {
     },
   };
 
+
   constructor(private navParams: NavParams) {
   }
 
@@ -197,56 +199,110 @@ export class ColorpickerPage2 {
   }
 }
 
-
-
-
 @Component({
   selector: 'page-pedigremetteredit',
   templateUrl: 'pedigremetteredit.html',
 })
 export class PedigremettereditPage {
+  screen: any;
+  state: boolean = false;
   items;
   myInput;
   linea0;
   linea1;
   linea2;
   linea3;
+  estado = true
   color = '#DEDEDE';
   @ViewChild('popoverContent', { read: ElementRef }) content: ElementRef;
   @ViewChild('popoverText', { read: ElementRef }) text: ElementRef;
 
   constructor(
+    private screenshot: Screenshot,
     public navCtrl: NavController,
     public navParams: NavParams,
     public authservice: AuthProvider,
     public modal: ModalController,
-    public popoverCtrl: PopoverController) {
+    public popoverCtrl: PopoverController,
+    public toastCtrl: ToastController,
+    public viewCtrl: ViewController
+  ) {
     setTimeout(() => {
       this.content.nativeElement.style.backgroundColor = this.color;
     }, 300);
 
 
     let datos = this.navParams.get('data');
-    this.linea0 = {
-      nombre: datos.root_canine_1.nombre,
-      imagen: `http://66.175.220.111${datos.root_canine_1.img}`
-    }
+    let unirp = this.navParams.get('unirp');
     this.linea1 = [];
     this.linea2 = [];
     this.linea3 = [];
-    datos.canes.forEach(element => {
-      if (element.level == 1) {
-        this.linea1.push({ nombre: element.nombre, imagen: `http://66.175.220.111${element.img}`, caso: 1, raza: element.race, sexo: (element.sex == 1 ? 'Macho' : 'Hembra') });
+    let img = 'http://66.175.220.111/assets/placeholder2.png';
+    if (unirp) {
+      this.linea0 = {
+        nombre: '',
+        imagen: img
       }
-      if (element.level == 2) {
-        this.linea2.push({ nombre: element.nombre, imagen: `http://66.175.220.111${element.img}`, caso: 1, raza: element.race, sexo: (element.sex == 1 ? 'Macho' : 'Hembra') });
+      this.linea1.push({
+        nombre: datos.root_canine_1.nombre,
+        imagen: `http://66.175.220.111${datos.root_canine_1.img}`
+      });
+      this.linea1.push({
+        nombre: datos.root_canine_2.nombre,
+        imagen: `http://66.175.220.111${datos.root_canine_2.img}`
+      });
+      let i=0;
+      datos.canines.forEach(element => {
+        if (element.level == 1 && i < 2) {
+          this.linea2.push({ nombre: element.nombre, imagen: `http://66.175.220.111${element.img}`, caso: 1, raza: element.race, sexo: (element.sex == 1 ? 'Macho' : 'Hembra') });
+          i=i+1;
+        }
+      });
+      for (let index = 0; index < 2-i; index++) {
+        this.linea2.push({ nombre: '', imagen: img, caso: 1 });        
       }
-      if (element.level == 3 || element.level == 4) {
-        this.linea3.push({ nombre: element.nombre, imagen: `http://66.175.220.111${element.img}`, caso: 1, raza: element.race, sexo: (element.sex == 1 ? 'Macho' : 'Hembra') });
+      let i2=0;
+      datos.canes.forEach(element => {
+        if (element.level == 1 && i2 < 2) {
+          this.linea2.push({ nombre: element.nombre, imagen: `http://66.175.220.111${element.img}`, caso: 1, raza: element.race, sexo: (element.sex == 1 ? 'Macho' : 'Hembra') });
+          i2=i2+1;
+        }
+      });
+      for (let index = 0; index < 2-i2; index++) {
+        this.linea2.push({ nombre: '', imagen: img, caso: 1 });        
+      }
+    } else {
+      this.linea0 = {
+        nombre: datos.root_canine.nombre,
+        imagen: `http://66.175.220.111${datos.root_canine.img}`
       }
 
-    });
-    console.log(this.linea1);
+      datos.canines.forEach(element => {
+        if (element.level == 1) {
+          this.linea1.push({ nombre: element.nombre, imagen: `http://66.175.220.111${element.img}`, caso: 1, raza: element.race, sexo: (element.sex == 1 ? 'Macho' : 'Hembra') });
+        }
+        if (element.level == 2) {
+          this.linea2.push({ nombre: element.nombre, imagen: `http://66.175.220.111${element.img}`, caso: 1, raza: element.race, sexo: (element.sex == 1 ? 'Macho' : 'Hembra') });
+        }
+        if (element.level == 3 || element.level == 4) {
+          this.linea3.push({ nombre: element.nombre, imagen: `http://66.175.220.111${element.img}`, caso: 1, raza: element.race, sexo: (element.sex == 1 ? 'Macho' : 'Hembra') });
+        }
+
+      });
+    }
+    if (this.linea1.length == 0) {
+      this.linea1 = [
+        { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 }
+      ];
+    }
+    if (this.linea2.length == 0) {
+      this.linea2 = [
+        { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 },
+        { nombre: '', imagen: img, caso: 1 }, { nombre: '', imagen: img, caso: 1 }
+      ];
+
+    }
+
   }
 
   ionViewDidLoad() {
@@ -322,4 +378,36 @@ export class PedigremettereditPage {
 
   }
 
+  screenShot() {
+    this.estado = false;
+    setTimeout(() => {
+      this.screenshot.save('jpg', 100, `${this.linea0.nombre}${this.makeid()}`).then(res => {
+        this.screen = res.filePath;
+        this.state = true;
+        this.toastmsj('Pedigree generado y guardado exitosamente');
+        this.estado = true;
+      })
+    }, 1000);
+  }
+
+  makeid() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 5; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+  }
+  toastmsj(msj: string) {
+
+    const toast = this.toastCtrl.create({
+      message: msj,
+      duration: 5000,
+      position: 'bottom'
+    });
+    toast.present();
+  }
+  close() {
+    this.viewCtrl.dismiss();
+  }
 }

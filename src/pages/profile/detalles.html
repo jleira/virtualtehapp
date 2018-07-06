@@ -57,6 +57,14 @@
                         <h2 class="subtitulo">{{microchip}}</h2>
                     </ion-col>
                 </ion-row>
+                <ion-row>
+                    <ion-col style="text-align:center" *ngIf="vender>0">
+                        <p>Criador</p>
+                        <h2 class="subtitulo">{{dueno_name}} {{dueno_last}}</h2>
+                    </ion-col>
+
+                 
+                </ion-row>
             </ion-grid>
         </ion-item>
 

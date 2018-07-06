@@ -10,6 +10,21 @@
 <ion-content #popoverContent>
 
   <ion-grid>
+    <ion-row>
+      <ion-col col-3.75>
+        <img src="assets/img/separador.png">
+      </ion-col>
+      <ion-col col-4.5>
+        <p  style="color: #264b65;
+        font-size: 1em;
+        font-weight: bold;padding: 0px !important">
+            MyBreed App
+        </p>
+      </ion-col>
+      <ion-col col-3.75>
+        <img src="assets/img/separador.png">
+      </ion-col>
+    </ion-row>
     <ion-row justify-content-center *ngIf="linea0">
       <ion-col col-5 (click)="editaritem('linea0',1  ,linea0)">
         <ion-card class="card-pedigree">
@@ -35,17 +50,35 @@
       </ion-col>
     </ion-row>
 
-
-
-
+    <ion-row>
+        <ion-col col-3.75>
+          <img src="assets/img/separador.png">
+        </ion-col>
+        <ion-col col-4.5>
+          <p  style="color: #264b65;
+          font-size: 1em;
+          font-weight: bold;padding: 0px !important">
+              MyBreed App
+          </p>
+        </ion-col>
+        <ion-col col-3.75>
+          <img src="assets/img/separador.png">
+        </ion-col>
+      </ion-row>
+   
   </ion-grid>
+  <div>
 
-  <ion-fab right bottom>
+  </div>
+  <ion-fab right bottom *ngIf="estado">
     <button ion-fab color="light">
       <ion-icon name="arrow-dropleft"></ion-icon>
     </button>
     <ion-fab-list side="left">
-      <button ion-fab (click)="guardarimagen()">
+      <button ion-fab (click)="close()" color="danger">
+        <ion-icon name="close"></ion-icon>
+      </button>
+      <button ion-fab (click)="screenShot()">
         <ion-icon name="cloud-download"></ion-icon>
       </button>
       <button ion-fab (click)="presentPopover($event)">
@@ -53,6 +86,5 @@
       </button>
     </ion-fab-list>
   </ion-fab>
-
 
 </ion-content>
