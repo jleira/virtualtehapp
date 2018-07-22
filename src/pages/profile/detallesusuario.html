@@ -4,7 +4,7 @@
         <ion-title style="z-index:-1">Ajustes</ion-title>
         <ion-buttons end *ngIf="!visitante">
 
-            <button ion-button icon-only>
+            <button ion-button icon-only  (click)="tomarf()">
                 <ion-icon name="camera"></ion-icon>
             </button>
 
@@ -14,15 +14,11 @@
 </ion-header>
 <ion-content>
 
-    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="!visitante" (click)="getPicture()">
-        <img *ngIf="foto!=''" src="{{'data:image/png;base64,'+foto}}" />
-
-        <img *ngIf="foto==''" src="assets/img/tapiz2.jpg" />
+    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="!visitante">
+        <img src="{{foto}}" (click)="imagenes()" />
     </ion-toolbar>
-    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="visitante" (click)="getPicture()">
-
-        <img *ngIf="foto!=''" src="{{'data:image/png;base64,'+foto}}" />
-        <img *ngIf="foto==''" src="assets/img/mascota.png" />
+    <ion-toolbar style="position: relative;margin:0px;padding:0px" *ngIf="visitante" >
+        <img src="{{foto}}" (click)="imagenes()" />
     </ion-toolbar>
     <ion-list>
         <ion-item no-lines>
@@ -53,47 +49,46 @@
             </ion-grid>
         </ion-item>
     </ion-list>
-    <form #form="ngForm" (ngSubmit)="registro(form.value)" novalidate>
+     <form #form="ngForm" (ngSubmit)="registro(form.value)" novalidate>
         <ion-list>
 
            <ion-item class="itemi">
-                <ion-label color="pesto-scondary-text" floating>old password</ion-label>
-                <ion-input type="password" name='passwordold' ngModel required #passwordold="ngModel" [class.invalid]="passwordold.errors && passwordold.dirty"
+                <ion-label color="pesto-scondary-text" floating>Contraseña</ion-label>
+                <ion-input type="text" name='pass' ngModel required #pass="ngModel" [class.invalid]="pass.errors && pass.dirty"
                     minlength="6" ></ion-input>
             </ion-item>
-            <ion-item class="error-message itemi" no-lines *ngIf="passwordold.errors?.required && passwordold.dirty">
-                    <p style="color:red">password old required</p>
+            <ion-item class="error-message itemi" no-lines *ngIf="pass.errors?.required && pass.dirty">
+                    <p style="color:red">Contraseña requerida</p>
                 </ion-item>
 
             <ion-item class="itemi">
-                <ion-label color="pesto-scondary-text" floating>password</ion-label>
-                <ion-input type="password" name='password' ngModel required #password="ngModel" [class.invalid]="password.errors && password.dirty"
+                <ion-label color="pesto-scondary-text" floating>Contraseña nueva</ion-label>
+                <ion-input type="password" name='newpass' ngModel required #newpass="ngModel" [class.invalid]="newpass.errors && newpass.dirty"
                     minlength="6" ></ion-input>
             </ion-item>
             
-
             <ion-item class="itemi">
-                <ion-label color="pesto-scondary-text" floating>password confirmation </ion-label>
-                <ion-input type="password" name='password_confirmation' ngModel required #password_confirmation="ngModel" [class.invalid]="password_confirmation.errors && password_confirmation.dirty"
+                <ion-label color="pesto-scondary-text" floating>Confirmar contraseña </ion-label>
+                <ion-input type="password" name='newpass_confirmation' ngModel required #newpass_confirmation="ngModel" [class.invalid]="newpass_confirmation.errors && newpass_confirmation.dirty"
                     minlength="6" ></ion-input>
             </ion-item>
-            <ion-item class="error-message itemi" no-lines *ngIf="password.errors?.required && password.dirty">
-                <p style="color:red">password required</p>
+            <ion-item class="error-message itemi" no-lines *ngIf="newpass_confirmation.errors?.required && newpass_confirmation.dirty">
+                <p style="color:red">Confirmacion requerida</p>
             </ion-item>
-            <ion-item class="error-message itemi" no-lines *ngIf="password.errors?.minlength && password.dirty">
-                <p style="color:red">the password is short, min 6 characters </p>
+            <ion-item class="error-message itemi" no-lines *ngIf="newpass_confirmation.errors?.minlength && newpass_confirmation.dirty">
+                <p style="color:red">Deben ser por lo menos 6 caracteres </p>
             </ion-item>
            
             <br>
 
 
             <div style="text-align:center">
-                <button ion-button  outline color="secondary-pets-l"  type="submit" [disabled]="!form.valid">Cambiar pass !!!</button>
+                <button ion-button  outline color="secondary-pets-l"  type="submit" [disabled]="!form.valid">Cambiar contraseña</button>
             </div>
 
             <div style="text-align:center">
                 <button ion-button  outline color="secondary-pets-l"  type="button" (click)="cancelar()">Regresar</button>
             </div>
         </ion-list>
-    </form>
+    </form> 
 </ion-content>

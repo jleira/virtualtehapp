@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ViewController, LoadingController, ToastController, NavController, AlertController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { File, DirectoryEntry } from '@ionic-native/file';
+import { File } from '@ionic-native/file';
 
 @Component({
   selector: 'page-naccesorios',
@@ -89,9 +89,6 @@ export class NaccesorioPage {
  
    presentConfirm(codigo, respcodigo) {
  
-     let targetPath = this.file.externalDataDirectory;
-     let idgrupo = codigo;
- 
      let alert = this.alertCtrl.create({
  
        title: 'Desea adjuntar una imagen a esta pregunta',
@@ -125,13 +122,8 @@ export class NaccesorioPage {
        mediaType: this.camera.MediaType.PICTURE
      }
      let targetPath = this.file.externalDataDirectory;
-     let nombrecarpetapadre ='cachepets';
-     
-    
-     let nombreimg;
- 
+     let nombrecarpetapadre ='cachepets';   
      this.camera.getPicture(options).then(imageData => {
-       let nombreimg = imageData.replace(this.file.externalCacheDirectory, "");
        let loading = this.loadingCtrl.create({
          spinner: 'bubbles',
          content: 'cargando imagen...',
@@ -170,10 +162,6 @@ export class NaccesorioPage {
      let targetPath = this.file.externalDataDirectory;
      let nombrecarpetapadre ='cachepets';
      
-    
-     let nombreimg;
- 
-     let preguntaid = codigo;
  
      let options: CameraOptions = {
        sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,

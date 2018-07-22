@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, IonicPage, NavParams, ToastController, Content, AlertController, ModalController, LoadingController } from 'ionic-angular';
 import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/Observable';
@@ -9,7 +9,7 @@ import { AccesoriosPage } from '../accesorios/accesorios';
 import { BuscadorPage } from './buscador';
 import { PedigremettereditPage } from "../pedigremetter/pedigremetteredit";
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { File, DirectoryEntry } from '@ionic-native/file';
+import { File } from '@ionic-native/file';
 import { ImagenesPage } from "../profile/imagenes";
 /**
  * Generated class for the ChatRoomPage page.
@@ -81,7 +81,6 @@ export class ChatRoomPage {
 
 
     this.getUsers().subscribe(data => {
-      let user = data['user'];
       if (data['event'] === 'left') {
         //        this.showToast('User left: ' + user);
       } else {

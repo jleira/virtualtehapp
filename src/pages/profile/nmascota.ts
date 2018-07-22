@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ViewController, LoadingController, ToastController, NavController, AlertController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { File, DirectoryEntry } from '@ionic-native/file';
+import { File } from '@ionic-native/file';
 
 @Component({
   selector:'page-nmascota',
@@ -90,8 +90,6 @@ imagenes=[];
   }
 
   presentConfirm(codigo, respcodigo) {
-    let targetPath = this.file.externalDataDirectory;
-    let idgrupo = codigo;
     let alert = this.alertCtrl.create({
       title: 'Desea adjuntar una imagen a esta pregunta',
       message: 'Para escoger una foto de la galeria del telefono seleccione la opcion Galeria, si desea tomar una foto escoja camara',
@@ -124,12 +122,7 @@ imagenes=[];
     }
     let targetPath = this.file.externalDataDirectory;
     let nombrecarpetapadre ='cachepets';
-    
-   
-    let nombreimg;
-
     this.camera.getPicture(options).then(imageData => {
-      let nombreimg = imageData.replace(this.file.externalCacheDirectory, "");
       let loading = this.loadingCtrl.create({
         spinner: 'bubbles',
         content: 'cargando imagen...',
@@ -167,12 +160,6 @@ imagenes=[];
   galeria(codigo, respcodigo) {
     let targetPath = this.file.externalDataDirectory;
     let nombrecarpetapadre ='cachepets';
-    
-   
-    let nombreimg;
-
-    let preguntaid = codigo;
-
     let options: CameraOptions = {
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       destinationType: this.camera.DestinationType.DATA_URL,

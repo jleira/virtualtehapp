@@ -44,7 +44,7 @@ const config: SocketIoConfig = { url: 'http://167.114.185.216:8812', options: {}
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
 
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { FileTransfer } from '@ionic-native/file-transfer';
 
 export function authHttpServiceFactory(http: Http, options: RequestOptions, storage: Storage) {
   const authConfig = new AuthConfig({

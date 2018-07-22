@@ -16,54 +16,50 @@
     <form #form="ngForm" (ngSubmit)="registro(form.value)" novalidate>
         <ion-list>
             <ion-item style="border-color: transparent !important;" class="itemi">
-                <ion-label color="secondary-pets" floating>First name</ion-label>
+                <ion-label color="secondary-pets" floating>Nombres</ion-label>
                 <ion-input type="text" name='first_name' ngModel required #first_name="ngModel" [class.invalid]="first_name.errors && first_name.dirty"></ion-input>
             </ion-item>
             <ion-item class="error-message itemi" no-lines *ngIf="first_name.errors?.required && first_name.dirty">
-                <p *ngIf="first_name.errors?.required && first_name.dirty " style="color:red">First name required </p>
+                <p *ngIf="first_name.errors?.required && first_name.dirty " style="color:red">Nombre requerido </p>
             </ion-item>
             <ion-item style="border-color: white;" class="itemi">
-                <ion-label color="secondary-pets" floating>Last name</ion-label>
+                <ion-label color="secondary-pets" floating>Apellidos</ion-label>
                 <ion-input type="text" name='last_name' ngModel required #last_name="ngModel" [class.invalid]="last_name.errors && last_name.dirty"></ion-input>
             </ion-item>
             <ion-item class="error-message itemi" no-lines *ngIf="last_name.errors?.required && last_name.dirty">
-                <p *ngIf="last_name.errors?.required && last_name.dirty " style="color:red">Last name required </p>
+                <p *ngIf="last_name.errors?.required && last_name.dirty " style="color:red">Apellidos requeridos </p>
             </ion-item>
 
 
             <ion-item style="border-color: white;" class="itemi">
-                <ion-label color="secondary-pets" floating>email</ion-label>
+                <ion-label color="secondary-pets" floating>Correo electronico</ion-label>
                 <ion-input type="email" name='email' ngModel email required #email="ngModel" [class.invalid]="email.errors && email.dirty"></ion-input>
             </ion-item>
             <ion-item class="error-message itemi" no-lines *ngIf="email.errors?.required && email.dirty">
-                <p *ngIf="email.errors?.required && email.dirty " style="color:red">email required </p>
+                <p *ngIf="email.errors?.required && email.dirty " style="color:red">Correo electronico requerido </p>
             </ion-item>
             <ion-item class="error-message itemi" no-lines *ngIf="email.errors?.email && email.dirty">
-                <p *ngIf="email.errors?.email && email.dirty " style="color:red">Debe ser un email valido </p>
+                <p *ngIf="email.errors?.email && email.dirty " style="color:red">Debe ser un correo valido </p>
             </ion-item>
 
             <ion-item class="itemi">
-                <ion-label color="secondary-pets" floating>password</ion-label>
+                <ion-label color="secondary-pets" floating>Contraseña</ion-label>
                 <ion-input type="password" name='password' ngModel required #password="ngModel" [class.invalid]="password.errors && password.dirty"
                     minlength="6" ></ion-input>
             </ion-item>
 
             <ion-item class="itemi">
-                <ion-label color="secondary-pets" floating>password confirmation </ion-label>
+                <ion-label color="secondary-pets" floating>Confirmar Contraseña </ion-label>
                 <ion-input type="password" name='password_confirmation' ngModel required #password_confirmation="ngModel" [class.invalid]="password_confirmation.errors && password_confirmation.dirty"
                     minlength="6" ></ion-input>
             </ion-item>
             <ion-item class="error-message itemi" no-lines *ngIf="password.errors?.required && password.dirty">
-                <p style="color:red">password required</p>
+                <p style="color:red">Contraseña requerida</p>
             </ion-item>
             <ion-item class="error-message itemi" no-lines *ngIf="password.errors?.minlength && password.dirty">
-                <p style="color:red">La password debe ser por lo menos de 6 caracteres </p>
+                <p style="color:red">La Contraseña debe ser por lo menos de 6 caracteres </p>
             </ion-item>
-            <ion-item class="error-message itemi" no-lines *ngIf="password_confirmation != password && password.dirty">
-                    <p style="color:red">Las password no coinciden</p>
-                </ion-item>
             <br>
-
 
             <div style="text-align:center">
                 <button ion-button  outline color="secondary-pets-l"  type="submit" [disabled]="!form.valid">Registrarme !!!</button>

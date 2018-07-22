@@ -5,7 +5,6 @@ import { AboutPage } from '../about/about';
 import { ContactPage } from '../contact/contact';
 import { HomePage } from '../home/home';
 import { ProfilePage } from '../profile/profile';
-import { LoginPage } from './login';
 import { AuthProvider } from '../../providers/auth/auth';
 import {PedigremetterPage } from '../pedigremetter/pedigremetter';
 

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { ViewController, NavParams, NavController, AlertController, ToastController, LoadingController, ModalController } from 'ionic-angular';
+import { ViewController, NavParams, NavController, AlertController, ToastController, ModalController } from 'ionic-angular';
 import { ImagenesPage } from './imagenes';
 import { SERVE_FILE_URI } from "../../config";
 import { Storage } from "@ionic/storage";
 import { AuthProvider } from '../../providers/auth/auth';
 import { ChatRoomPage } from '../chat-room/chat-room';
-import { AuthHttp, JwtHelper } from "angular2-jwt";
+import { JwtHelper } from "angular2-jwt";
 import {NewPedigreePage} from '../about/new-pedigree';
 
 
@@ -40,8 +40,6 @@ export class DetallesPage {
     public alertCtrl: AlertController,
     public toastc: ToastController,
     private authservice: AuthProvider,
-    private loadingCtrl: LoadingController,
-    private tokenhttp: AuthHttp,
     private helper: JwtHelper,
     public modalCtrl:ModalController
   ) {

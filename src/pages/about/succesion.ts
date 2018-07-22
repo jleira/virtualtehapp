@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, ViewController,NavParams, AlertController,LoadingController, ToastController } from 'ionic-angular';
 import {SERVE_FILE_URI} from '../../config';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { File, DirectoryEntry } from '@ionic-native/file';
+import { File } from '@ionic-native/file';
 
 
 @Component({
@@ -70,12 +70,7 @@ export class SuccesionPage {
 
 
   presentConfirm(codigo, respcodigo) {
-
-    let targetPath = this.file.externalDataDirectory;
-    let idgrupo = codigo;
-
     let alert = this.alertCtrl.create({
-
       title: 'Desea adjuntar una imagen a esta pregunta',
       message: 'Para escoger una foto de la galeria del telefono seleccione la opcion Galeria, si desea tomar una foto escoja camara',
       buttons: [
@@ -108,12 +103,7 @@ export class SuccesionPage {
     }
     let targetPath = this.file.externalDataDirectory;
     let nombrecarpetapadre ='pedigreepets';
-    
-   
-    let nombreimg;
-
     this.camera.getPicture(options).then(imageData => {
-      let nombreimg = imageData.replace(this.file.externalCacheDirectory, "");
       let loading = this.loadingCtrl.create({
         spinner: 'bubbles',
         content: 'cargando imagen...',
@@ -153,11 +143,6 @@ export class SuccesionPage {
     let targetPath = this.file.externalDataDirectory;
     let nombrecarpetapadre ='pedigreepets';
     
-   
-    let nombreimg;
-
-    let preguntaid = codigo;
-
     let options: CameraOptions = {
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       destinationType: this.camera.DestinationType.DATA_URL,

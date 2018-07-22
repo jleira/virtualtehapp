@@ -6,7 +6,6 @@ import { SERVER_URL } from "../../config";
 import { SERVE_FILE_URI } from "../../config";
 import { AuthHttp, JwtHelper } from "angular2-jwt";
 import { ToastController, LoadingController } from 'ionic-angular';
-import { File, DirectoryEntry } from '@ionic-native/file';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 
 
@@ -26,7 +25,6 @@ export class AuthProvider {
     private helper: JwtHelper,
     public http: HttpClient,
     private storage: Storage,
-    private file: File,
     private transfer: FileTransfer,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
@@ -66,7 +64,7 @@ export class AuthProvider {
   }
   guardardata(resp) {
     this.storage.set('mydata',
-      `{"id":${resp['user']['id']} ,"first_name":"${resp['user']['first_name']}","email":"${resp['user']['email']}","last_name":"${resp['user']['last_name']}"}`).then(() => {
+      `{"id":${resp['user']['id']} ,"first_name":"${resp['user']['first_name']}","email":"${resp['user']['email']}","last_name":"${resp['user']['last_name']}","img":"${resp['user']['img']}"}`).then(() => {
         this.storage.set('jwt', resp['token']).then(() => {
           return this.authUser.next(resp['token']);
         })
@@ -133,11 +131,11 @@ export class AuthProvider {
       }
       if (key == 'accesorios') {
         endpoint = 'api/find/accesoriosyservicios2';
-        values.categoria = [1, 2];
+        values.categoria = [1];
       }
       if (key == 'servicios') {
         endpoint = 'api/find/accesoriosyservicios2';
-        values.categoria = [1, 2];
+        values.categoria = [2];
       }
       if (key == 'todos') {
         endpoint = 'api/find/todos2';
@@ -152,12 +150,10 @@ export class AuthProvider {
       }
 
       return this.http.post(`${apiUrl}/${endpoint}`, values).finally(() => {
-        ////console.log('salio');
       }).map((resp) => {
         ////console.log('resp',resp);
         return resp;
       }, err => {
-        ////console.log(err);
         return err;
       })
     } else {
@@ -282,6 +278,42 @@ export class AuthProvider {
     })
   }
 
+  enviarimagenusuario(ruta) {
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Enviando foto ...'
+    });
+    loading.present();
+    return this.storage.get('jwt').then((jwt) => {
+      let options: FileUploadOptions = {
+        fileKey: 'file',
+        fileName: 'perfil',
+        headers: {
+          'Authorization': 'Bearer ' + jwt,
+          'Content-Type': undefined
+        },
+        mimeType: 'image/*',
+      }
+
+      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/fotousuario`, options)
+        .then((data) => {
+          this.handleError('Foto Enviada');
+          loading.dismiss();
+          return data;
+        }, (err) => {
+          this.handleError(JSON.stringify(err));
+          loading.dismiss();
+          return true;
+        })
+
+    }, err => {
+      loading.dismiss();
+      this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
+      ////console.log('err',err);
+      return true;
+
+    })
+  }
   enviarimagen(ruta, pets) {
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
@@ -503,6 +535,15 @@ export class AuthProvider {
     });
   }
 
+  cambiarpass(values: any): Observable<any> {
+    return this.tokenhttp.post(`${apiUrl}/api/auth/cambiarpass
+    `, values).map((resp) => {
+        return resp;
+      }, err => {
+        return err;
+      })
+
+  }
 
 
 }

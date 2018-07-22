@@ -422,15 +422,12 @@ export class NewPedigreePage {
 
   editaritem(caso, posicion, item) {
     let casoedit = this.caso;
-    let ds;
     let modalp;
-
     modalp = this.modal.create(SuccesionPage, {
       item: item, mismascotas: this.mismascotas, caso: casoedit
     });
     modalp.present();
     modalp.onDidDismiss((data) => {
-      //console.log('datos de regreso', data);
       if (data.successs) {
         let casoaeditar;
         if (caso == 'linea1') {

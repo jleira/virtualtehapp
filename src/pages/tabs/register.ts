@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ViewController, LoadingController, ToastController, NavController } from 'ionic-angular';
-import { TabsPage } from './tabs';
 import { AuthProvider } from '../../providers/auth/auth';
 
 @Component({

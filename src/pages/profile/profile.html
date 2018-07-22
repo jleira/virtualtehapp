@@ -27,8 +27,8 @@
 <ion-content>
   <ion-toolbar style="position: relative;margin:0px;padding:0px">
     <img src="assets/img/tapiz2.jpg" />
-    <div style="width: 100%;position: absolute;bottom:40%;text-align: center">
-      <img src="assets/img/usuario.png" style="width: 100px;" />
+    <div style="width: 100%;position: absolute;bottom:40%;text-align: center" (click)="verimagen()">
+      <img src="{{this.peopleimg(img)}}" style="width: 100px;border-radius: 40%" />
     </div>
     <ion-item style="position: absolute;bottom:0px;background-color:transparent;" no-lines>
       <ion-grid>

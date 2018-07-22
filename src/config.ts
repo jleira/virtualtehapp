@@ -5,5 +5,4 @@ function newFunction() {
 }                         
 function fileurl(){
     return "http://167.114.185.216/blogfotos/";
-    
 };

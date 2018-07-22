@@ -21,27 +21,69 @@ export class FinderPage {
   vacio: boolean;
   logeado = false;
   miid;
-  clavet;
+  clavet = '';
   constructor(public navCtrl: NavController, public navParams: NavParams, private authservice: AuthProvider, private socket: Socket, private storage: Storage) {
     this.caso = this.navParams.get('case');
-
     this.vacio = false;
     this.storage.get('jwt').then((jwt) => {
-      console.log(jwt);
       if (jwt) {
         this.logeado = true;
-        //        this.buscarporclave(' ');
       } else {
         this.logeado = false;
-        //      this.buscarporclave(' ');
-
       }
-    }, err => {
-      console.log(err);
+      let key = this.caso;
+      if (this.caso == 'chat') {
+        key = 'people';
+      }
+      console.log(key);
+      if (key == 'todo') {
+        this.authservice.buscar(key,
+          {
+            clave: this.clavet,
+            cantidad1: 0,
+            cantidad2: 0,
+            cantidad3: 0
+          }).finally(() => {
+          }).subscribe((data) => {
+            let datos;
+            if (this.logeado) {
+              datos = data.json();
+            } else {
+              datos = data;
+            }
+            this.items = datos.datos;
+            if (this.items.length == 0) {
+              this.vacio = true;
+            } else {
+              this.vacio = false;
+            }
+            return this.items;
+          }, err => {
+            return err;
+          })
+      } else {
+        this.authservice.buscar(key, { clave: this.clavet, cantidad: this.items.length }).subscribe((data) => {
+          let datos;
+          if (this.logeado) {
+            datos = data.json();
+          } else {
+            datos = data;
+          }
+          this.items = datos.datos;
+          if (this.items.length == 0) {
+            this.vacio = true;
+          } else {
+            this.vacio = false;
+          }
+          return this.items;
+        }, err => {
+          return err;
+        })
+      }
 
+    }, err => {
       this.logeado = false;
       this.buscarporclave(' ');
-
     })
 
   }
@@ -54,11 +96,9 @@ export class FinderPage {
   }
 
   onCancel($event) {
-    console.log('prueba');
-    //    this.buscarporclave($event.target.value);        
-  }
+   }
   buscarporclave(clave) {
-    this.clavet=clave;
+    this.clavet = clave;
     if (!clave) {
       this.items = [];
       return "";
@@ -71,11 +111,9 @@ export class FinderPage {
     if (this.caso == 'chat') {
       key = 'people';
     }
-    //console.log(key);
-    return this.authservice.buscar(key, { clave: clave }).subscribe((data) => {
+    return this.authservice.buscar(key, { clave: clave, cantidad: this.items.length }).subscribe((data) => {
       let datos;
       if (this.logeado) {
-        console.log(data);
         datos = data.json();
       } else {
         datos = data;
@@ -102,7 +140,7 @@ export class FinderPage {
       this.navCtrl.push(DetallesPage, { datos: id, visitante: true });
     }
   }
-  detallesitemtodo(caset,id) {
+  detallesitemtodo(caset, id) {
     if (caset == 'people') {
       this.navCtrl.push(ProfilePage, { caso: 2, userid: id });
     }
@@ -125,7 +163,6 @@ export class FinderPage {
 
   chat(user) {
     this.storage.get('mydata').then(midata => {
-      //console.log(midata);
       let misdatos = JSON.parse(midata);
       this.socket.connect();
       this.socket.emit('set-nickname', misdatos.first_name);
@@ -142,13 +179,67 @@ export class FinderPage {
     let nimag = `${SERVE_FILE_URI}storage/app/productos/${id_usuario}/${idmascota}/${img.split(',')[0]}`;
     return nimag;
   }
+  peopleimg(img){
+    let nimag = `${SERVE_FILE_URI}storage/app/${img}`;
+    return nimag;
+  }
 
   refrescar($event) {
-    this.buscarporclave(this.clavet);
-    setTimeout(() => {
-      $event.complete();      
-    }, 1500);
+    let key = this.caso;
+    if (this.caso == 'chat') {
+      key = 'people';
+    }
+    if (key == 'todo' || key=='quiensigo') {
+      this.authservice.buscar(key,
+        {
+          clave: this.clavet,
+          cantidad1: this.items['mascotas'].length,
+          cantidad2: this.items['people'].length,
+          cantidad3: this.items['productos'].length
+        }).finally(() => {
+          $event.complete();
+        }).subscribe((data) => {
+          let datos;
+          if (this.logeado) {
+            datos = data.json();
+          } else {
+            datos = data;
+          }
 
+          this.items['mascotas'] = datos.datos.mascotas.concat(this.items['mascotas']);
+          this.items['people'] = datos.datos.people.concat(this.items['people']);
+          this.items['productos'] = datos.datos.productos.concat(this.items['productos']);
+
+          if (this.items.length == 0) {
+            this.vacio = true;
+          } else {
+            this.vacio = false;
+          }
+          return this.items;
+        }, err => {
+          return err;
+        })
+    } else {
+      this.authservice.buscar(key, { clave: this.clavet, cantidad: this.items.length }).finally(() => {
+        $event.complete();
+      }).subscribe((data) => {
+        let datos;
+        if (this.logeado) {
+          datos = data.json();
+        } else {
+          datos = data;
+        }
+        this.items = this.items.concat(datos.datos);
+        if (this.items.length == 0) {
+          this.vacio = true;
+        } else {
+          this.vacio = false;
+        }
+        return this.items;
+      }, err => {
+        return err;
+      })
+    }
 
   }
 }

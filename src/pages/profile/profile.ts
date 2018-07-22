@@ -9,7 +9,7 @@ import { SERVE_FILE_URI } from "../../config";
 import { NaccesorioPage } from '../accesorios/naccesorio';
 import { AccesoriosPage } from '../accesorios/accesorios';
 import { FinderPage } from "../finder/finder";
-
+import {ImagenesPage} from "./imagenes";
 /**
  * Generated class for the ProfilePage page.
  *
@@ -27,6 +27,7 @@ export class ProfilePage {
   mismascotas;
   accesorios;
   name;
+  img;
   misdatos;
   seguir: boolean;
   visitante:boolean;
@@ -50,9 +51,9 @@ export class ProfilePage {
       apell:''
     };
     this.storage.get('mydata').then((misdatos)=>{
+      console.log('mis datos',misdatos);
       this.misdatos=JSON.parse(misdatos);
     });  
-
   }
 
   ionViewDidLoad() {
@@ -145,13 +146,14 @@ export class ProfilePage {
 
   detallesdedatos(id) {
     this.authservice.findbyid(id).subscribe((datosusuario) => {
-      console.log(datosusuario.json());
+      console.log('personales',datosusuario.json());
       let data = datosusuario.json();
       this.datospersonales.seguidores = data.seguidores;
       this.datospersonales.nombre = data.nombre;
       this.datospersonales.apell = data.apell;
       this.datospersonales.seguidos = data.seguidos;
       this.datospersonales.ejemplares = data.ejemplares;
+      this.img=data.img;
       if (data.losigo > 0) {
         this.seguir = false;
       } else {
@@ -208,7 +210,11 @@ toasmsjs(msj){
 configuraciones(){
   console.log('configuracion');
   this.storage.get('mydata').then(data => {
-    this.modalCtrl.create(DetallesusuarioPage,{datos:JSON.parse(data)}).present();
+    let modal=this.modalCtrl.create(DetallesusuarioPage,{datos:JSON.parse(data)});
+    modal.present();
+    modal.onDidDismiss(()=>{
+      this.ionViewDidEnter();
+    })
   });
 }
 buscarimagen(img,idmascota){
@@ -221,6 +227,12 @@ buscarimagenp(img,idmascota,userid){
 }
 agregarusuario(){
   this.navCtrl.push(FinderPage,{case:'people'});
-
+}
+peopleimg(img){
+  let nimag = `${SERVE_FILE_URI}storage/app/${img}`;
+  return nimag;
+}
+verimagen(){
+  this.navCtrl.push(ImagenesPage, { datos: { imagenes: [this.img], path:`${SERVE_FILE_URI}storage/app/`, nombre: this.name } });
 }
 }

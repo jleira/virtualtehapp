@@ -1,8 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, PopoverController, NavParams, ViewController, ModalController, AlertController, ToastController, LoadingController } from 'ionic-angular';
+import { NavController, PopoverController, NavParams, ViewController, ModalController, ToastController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
-import { SERVE_FILE_URI } from '../../config';
-import { SuccesionPage } from '../about/succesion';
 import { DetallesimgPage } from './detallesimg';
 import { Screenshot } from '@ionic-native/screenshot';
 
@@ -350,9 +348,7 @@ export class PedigremettereditPage {
   }
 
   editaritem(caso, posicion, item) {
-    let ds;
     let modalp;
-
     modalp = this.modal.create(DetallesimgPage, {
       item: item, caso: 1
     });

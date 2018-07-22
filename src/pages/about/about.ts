@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NewPedigreePage } from './new-pedigree';
-import { IonicPage, NavController, NavParams, ModalController, ViewController, ToastController } from 'ionic-angular';
+import { ModalController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { SERVE_FILE_URI } from '../../config';
 
@@ -10,7 +10,7 @@ import { SERVE_FILE_URI } from '../../config';
 })
 export class AboutPage {
   mispedigree = [];
-  constructor(public navCtrl: NavController, private authservice: AuthProvider, private modalCtrl: ModalController) {
+  constructor(private authservice: AuthProvider, private modalCtrl: ModalController) {
     this.traerpedigree(0);
 
   }

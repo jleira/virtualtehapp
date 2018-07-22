@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 import { AuthProvider } from '../../providers/auth/auth';
 import { PedigremettereditPage } from './pedigremetteredit';
 import { NavController, ViewController, NavParams, AlertController, LoadingController, ToastController } from 'ionic-angular';
-import { SERVE_FILE_URI } from '../../config';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { File, DirectoryEntry } from '@ionic-native/file';
+import { File } from '@ionic-native/file';
 
 
 /**
@@ -81,10 +80,8 @@ export class DetallesimgPage {
 
   cambiarimagen() {
 
-    let targetPath = this.file.externalDataDirectory;
 
     let alert = this.alertCtrl.create({
-
       title: 'Desea adjuntar una imagen a esta pregunta',
       message: 'Para escoger una foto de la galeria del telefono seleccione la opcion Galeria, si desea tomar una foto escoja camara',
       buttons: [
@@ -98,14 +95,12 @@ export class DetallesimgPage {
           text: 'Camara',
           handler: () => {
             return this.getPicture();
-
           }
         }
       ]
     });
     alert.present();
   }
-
 
   getPicture() {
     let options: CameraOptions = {
@@ -115,17 +110,8 @@ export class DetallesimgPage {
       targetWidth: 1000,
       targetHeight: 1000
     }
-
-
-    let nombreimg;
-
     this.camera.getPicture(options)
       .then(imageData => {
-        let loading = this.loadingCtrl.create({
-          spinner: 'bubbles',
-          content: 'cargando imagen...',
-          duration: 5000
-        });
         this.imagen = `data:image/jpeg;base64,${imageData}`;
       })
       .catch(error => {
@@ -153,11 +139,6 @@ export class DetallesimgPage {
 
     this.camera.getPicture(options)
       .then(imageData => {
-        let loading = this.loadingCtrl.create({
-          spinner: 'bubbles',
-          content: 'cargando imagen...',
-          duration: 5000
-        });
         this.imagen = `data:image/jpeg;base64,${imageData}`;
       })
       .catch(error => {

@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { NavController,ToastController } from 'ionic-angular';
+import { NavController, ToastController } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { LoginPage } from '../tabs/login';
-import {FinderPage} from '../finder/finder';
-import {SERVER_URL} from '../../config';
+import { FinderPage } from '../finder/finder';
+import { SERVER_URL } from '../../config';
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html' 
+  templateUrl: 'home.html'
 })
 export class HomePage {
-  logeado:boolean;
-  urlimg=SERVER_URL;
+  logeado: boolean;
+  urlimg = SERVER_URL;
   constructor(public navCtrl: NavController, public modalCtrl: ModalController,
     public authService: AuthProvider, public toastmsj: ToastController
   ) {
@@ -19,7 +19,7 @@ export class HomePage {
     this.authService.authUser.subscribe(jwt => {
       if (jwt) {
         this.logeado = true;
-       } else {
+      } else {
         this.logeado = false;
       }
     });
@@ -37,17 +37,17 @@ export class HomePage {
       message: 'Bye :)',
       duration: 5000,
       position: 'bottom',
-      cssClass:'ToastAlert',
-      showCloseButton:true,
-      dismissOnPageChange:false
+      cssClass: 'ToastAlert',
+      showCloseButton: true,
+      dismissOnPageChange: false
 
     });
-    toast.present();  
+    toast.present();
     this.login();
   }
 
-  findevery(){
-    this.navCtrl.push(FinderPage,{case:'todo'});    
+  findevery() {
+    this.navCtrl.push(FinderPage, { case: 'todo' });
 
 /*     const toast = this.toastmsj.create({
       message: 'this option is comming soon ',
@@ -57,38 +57,51 @@ export class HomePage {
     });
     toast.present();
  */  }
-  quiensigo(){
-    this.navCtrl.push(FinderPage,{case:'quiensigo'});    
-
-  }
-
-  findpeople(){
-    if(!this.logeado){
+  quiensigo() {
+    if (!this.logeado) {
       const toast = this.toastmsj.create({
         message: 'Debes estar logeado para poder usar esta opcion',
         duration: 5000,
         position: 'top',
-        cssClass:'ToastAlert',
-        showCloseButton:true,
-        dismissOnPageChange:true
+        cssClass: 'ToastAlert',
+        showCloseButton: true,
+        dismissOnPageChange: true
 
       });
-      toast.present();  
+      toast.present();
     }
-    else{
-      this.navCtrl.push(FinderPage,{case:'people'});
+    else {
+      this.navCtrl.push(FinderPage, { case: 'quiensigo' });
+    }
+  }
+
+  findpeople() {
+    if (!this.logeado) {
+      const toast = this.toastmsj.create({
+        message: 'Debes estar logeado para poder usar esta opcion',
+        duration: 5000,
+        position: 'top',
+        cssClass: 'ToastAlert',
+        showCloseButton: true,
+        dismissOnPageChange: true
+
+      });
+      toast.present();
+    }
+    else {
+      this.navCtrl.push(FinderPage, { case: 'people' });
     }
 
   }
-  findpets(caso){
-    this.navCtrl.push(FinderPage,{case:caso});
+  findpets(caso) {
+    this.navCtrl.push(FinderPage, { case: caso });
   }
-  findaccesories(){
-    this.navCtrl.push(FinderPage,{case:'accesorios'});    
+  findaccesories() {
+    this.navCtrl.push(FinderPage, { case: 'accesorios' });
   }
 
-findservices(){
-  this.navCtrl.push(FinderPage,{case:'servicios'});    
-  
-}
+  findservices() {
+    this.navCtrl.push(FinderPage, { case: 'servicios' });
+
+  }
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
+import { NavController, AlertController, LoadingController } from 'ionic-angular';
 import { Socket } from 'ng-socket-io';
 import { ChatRoomPage } from '../chat-room/chat-room';
 import { Storage } from "@ionic/storage";
@@ -35,7 +35,6 @@ export class ContactPage {
   chat(user) {
     console.log('chat');
     let idchat = user.id;
-    let usersid = [];
     if (this.miid == user.usuario1) {
       user.id = user.usuario2;
       user.first_name=user.usuario2name;
