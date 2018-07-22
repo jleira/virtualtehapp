@@ -6,6 +6,7 @@ import { Storage } from "@ionic/storage";
 import { FinderPage } from '../finder/finder';
 import { ModalController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
+import {SERVE_FILE_URI} from '../../config';
 
 
 @Component({
@@ -121,4 +122,8 @@ export class ContactPage {
     });
   }
 
+  peopleimg(img){
+    let nimag = `${SERVE_FILE_URI}storage/app/${img}`;
+    return nimag;
+  }
 }
