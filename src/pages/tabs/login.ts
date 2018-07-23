@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ViewController, LoadingController, ToastController, NavController } from 'ionic-angular';
 import { RegisterPage } from '../tabs/register';
 import { AuthProvider } from '../../providers/auth/auth';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser'; 
 @Component({
   selector:'page-login',
   templateUrl: 'login.html'
@@ -16,11 +16,14 @@ export class LoginPage {
     private toastCtrl: ToastController,
     public viewCtrl: ViewController,
     public navCtrl: NavController,
-    public authService: AuthProvider
+    public authService: AuthProvider,
+    private iap: InAppBrowser
   ) {
 
   }
-
+  openLink(){
+    this.iap.create("http://167.114.185.216/servicios54/public/passwordrecovery","_blank");
+  }
   cancelar() {
     this.viewCtrl.dismiss();
   }

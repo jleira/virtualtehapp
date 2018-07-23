@@ -19,7 +19,7 @@
           minlength="6"></ion-input>
 
       </ion-item>
-      <ion-item class="error-message itemi" item-end ion-item no-lines style="text-align: right">
+      <ion-item class="error-message itemi" item-end ion-item no-lines style="text-align: right"  (click)="openLink()">
         <a color="secondary-pets">Olvidaste tu contraseña?</a>
       </ion-item>
       <ion-item class="error-message itemi" no-lines *ngIf="email.errors?.required && email.dirty">

@@ -97,4 +97,5 @@
     <allow-navigation href="http://192.168.100.60:8100" />
     <plugin name="com.darktalker.cordova.screenshot" spec="^0.1.6" />
     <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
 </widget>

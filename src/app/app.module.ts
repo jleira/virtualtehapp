@@ -27,7 +27,7 @@ import { ColorpickerPage2 } from '../pages/pedigremetter/pedigremetteredit';
 import { DetallesimgPage } from '../pages/pedigremetter/detallesimg';
 import { BuscadorPage } from "../pages/chat-room/buscador";
 import { Screenshot } from '@ionic-native/screenshot';
-
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 
 import { HttpClientModule } from '@angular/common/http';
@@ -117,6 +117,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     BuscadorPage
   ],
   providers: [
+    InAppBrowser,
     StatusBar,
     HttpClientModule,
     SplashScreen,
