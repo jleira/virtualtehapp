@@ -79,23 +79,24 @@
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
         <splash height="2732" src="resources/ios/splash/Default@2x~universal~anyany.png" width="2732" />
     </platform>
-    <plugin name="cordova-plugin-whitelist" spec="1.3.3" />
-    <plugin name="cordova-plugin-device" spec="2.0.2" />
-    <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
-    <plugin name="cordova-plugin-ionic-webview" spec="1.1.19" />
-    <plugin name="cordova-plugin-ionic-keyboard" spec="2.0.5" />
     <allow-navigation href="http://192.168.100.125:8100" />
     <allow-navigation href="http://192.168.1.31:8100" />
     <allow-navigation href="http://192.168.1.64:8100" />
-    <plugin name="cordova-plugin-file" spec="^6.0.1" />
-    <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <allow-navigation href="http://10.1.23.112:8100" />
+    <allow-navigation href="http://192.168.100.60:8100" />
+    <plugin name="cordova-plugin-ionic-webview" spec="^1.2.1" />
+    <plugin name="cordova-plugin-ionic-keyboard" spec="^2.1.2" />
     <plugin name="cordova-plugin-camera" spec="^4.0.3">
         <variable name="CAMERA_USAGE_DESCRIPTION" value="MyBredd app necesita acceder a la camara del celular" />
         <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="MyBredd app necesita acceder a la libreria del celular" />
     </plugin>
-    <allow-navigation href="http://192.168.100.60:8100" />
+    <plugin name="cordova-plugin-file" spec="^6.0.1" />
+    <plugin name="cordova-plugin-file-transfer" spec="^1.7.1" />
     <plugin name="com.darktalker.cordova.screenshot" spec="^0.1.6" />
-    <engine name="android" spec="7.0.0" />
     <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.3.3" />
+    <plugin name="cordova-plugin-device" spec="^2.0.2" />
+    <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
+    <engine name="android" spec="7.0.0" />
+    <engine name="ios" spec="4.5.4" />
 </widget>
