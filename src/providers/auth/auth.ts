@@ -11,6 +11,7 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 
 import 'rxjs/Rx';
 import 'rxjs/add/operator/map';
+import { Http } from '../../../node_modules/@angular/http';
 
 let apiUrl = SERVER_URL + 'public/';
 
@@ -28,7 +29,7 @@ export class AuthProvider {
     private transfer: FileTransfer,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
-  ) {
+    public http2:Http) {
     this.checkLogin();
   }
   checkLogin() {
@@ -515,7 +516,7 @@ export class AuthProvider {
     });
   }
   mascotasmetter(nombre) {
-    console.log('nmb', nombre);
+    console.log('nmb http normal', nombre);
     return this.http.get(`http://66.175.220.111/api/canines?utf8=true&q[name_or_lof_cont]=${nombre}`).map((data) => {
       return data;
     });

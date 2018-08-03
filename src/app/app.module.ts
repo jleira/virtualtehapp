@@ -120,6 +120,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     InAppBrowser,
     StatusBar,
     HttpClientModule,
+    HttpModule,
     SplashScreen,
     Screenshot,
     { provide: ErrorHandler, useClass: IonicErrorHandler },

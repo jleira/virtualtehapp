@@ -37,6 +37,7 @@ export class PedigremetterPage {
     this.buscarporclave($event.target.value);
   }
   buscarporclave(clave) {
+    console.log('clave',clave);
     if (!clave) {
       this.items = null;
       return "";
@@ -50,15 +51,25 @@ export class PedigremetterPage {
       if (this.macho) {
         this.authservice.mascotasmetterhembra(clave).subscribe((data) => {
           this.items = data;
+          console.log('encontro');
+        },err=>{
+          console.log('eror no encontro');
+                    console.log(err);
         });
       } else {
         this.authservice.mascotasmettermacho(clave).subscribe((data) => {
           this.items = data;
+        },err=>{
+          console.log('eror no encontro');
+                    console.log(err);
         });
       }
     } else {
       this.authservice.mascotasmetter(clave).subscribe((data) => {
         this.items = data;
+      },err=>{
+        console.log('eror no encontro');
+                  console.log(err);
       });
 
     }

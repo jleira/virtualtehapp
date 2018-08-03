@@ -7,8 +7,11 @@
 <ion-header>
 
   <ion-navbar hideBackButton="false">
-    <ion-searchbar [(ngModel)]="myInput" [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
+      <form action=".">
+
+    <ion-searchbar  placeholder="Buscar"  [type]="search"  [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
     </ion-searchbar>
+    </form>
   </ion-navbar>
 
 </ion-header>

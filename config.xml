@@ -22,6 +22,7 @@
     <preference name="SplashScreenSpinnerColor" value="#f59805" />
     <preference name="loadUrlTimeoutValue" value="700000" />
     <preference name="StatusBarBackgroundColor" value="#264b65" />
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
     <platform name="android">
         <allow-intent href="market:*" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
@@ -98,5 +99,5 @@
     <plugin name="cordova-plugin-device" spec="^2.0.2" />
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
     <engine name="android" spec="7.0.0" />
-    <engine name="ios" spec="4.5.4" />
+    <engine name="ios" spec="4.5.5" />
 </widget>
