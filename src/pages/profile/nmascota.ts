@@ -23,7 +23,7 @@ imagenes=[];
     public loadingCtrl: LoadingController
 
   ) {
-
+console.log('entro a perfiles');
   }
 
   cancelar() {
@@ -160,6 +160,7 @@ imagenes=[];
   galeria(codigo, respcodigo) {
     let targetPath = this.file.externalDataDirectory;
     let nombrecarpetapadre ='cachepets';
+    console.log('ruta de las imagenes ',targetPath);
     let options: CameraOptions = {
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       destinationType: this.camera.DestinationType.DATA_URL,
@@ -176,6 +177,7 @@ imagenes=[];
 
     this.camera.getPicture(options)
       .then(imageData => {
+        console.log('camerca ok');
         let image = "data:image/jpg;base64," + imageData;
         let block = image.split(";");
         let contentType = block[0].split(":")[1];
