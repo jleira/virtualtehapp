@@ -99,7 +99,7 @@ export class AccesoriosPage {
 
     let alert = this.alertCtrl.create({
       title: `Mensaje para ${this.datosproducto.first_name} ${this.datosproducto.last_name}`,
-      message: 'Este mensaje se enviara automaticamente ysera dirigido al chat',
+      message: 'Este mensaje se enviara automaticamente y sera dirigido al chat',
       inputs: [
         {
           name: 'mensaje',

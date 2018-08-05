@@ -275,14 +275,16 @@ export class ChatRoomPage {
 
   }
   galeria() {
-    let targetPath = this.file.externalDataDirectory;
-    let nombrecarpetapadre = 'cachepets';
     let options: CameraOptions = {
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       destinationType: this.camera.DestinationType.DATA_URL,
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: true,
-      encodingType: this.camera.EncodingType.JPEG
+      encodingType: this.camera.EncodingType.PNG,
+      allowEdit: true,
+      targetHeight: 500,
+      targetWidth: 500,
+      correctOrientation: true
     }
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
@@ -293,18 +295,11 @@ export class ChatRoomPage {
 
     this.camera.getPicture(options)
       .then(imageData => {
-        let image = "data:image/jpg;base64," + imageData;
-        let block = image.split(";");
-        let contentType = block[0].split(":")[1];
-        let realData = block[1].split(",")[1];
-        let blob = this.b64toBlob(realData, contentType, 512);
-        let imgname = Date.now().toString() + '.png';
+        let image = "data:image/png;base64," + imageData;
 
-        return this.file.createDir(targetPath, nombrecarpetapadre, true).then(() => { }, (e) => { }).then(() => {
-          return this.file.writeFile(targetPath + `${nombrecarpetapadre}/`, imgname, blob).then((ok) => {
-            this.authservice.enviarimagenchat(`${targetPath}/${nombrecarpetapadre}/${imgname}`).then((nom) => {
-              let nimagenn = JSON.parse(nom['response']);
-              let rimg = nimagenn.suceess;
+            this.authservice.enviarimagenchat(`${image}`).subscribe(nom => {
+              let nimagenn = nom;
+              let rimg = nimagenn['suceess'];
               let dataenviar;
               if (this.chatid) {
                 dataenviar = { usuario_recibe: this.id, mensaje: JSON.stringify({ img: rimg }), id: this.chatid, tipo: 4 };
@@ -319,45 +314,14 @@ export class ChatRoomPage {
             })
           }, (e) => {
             console.log(e, 'e1');
-          });
-        }).then(() => {
-          loading.dismiss();
-        }).catch((e) => {
-          loading.dismiss();
-          this.handleError('Error en el dispositivo, inténtelo de nuevo');
-          console.log(e, 'e1¿2');
-        }
-        );
-      }).catch(error => {
+          }).catch(error => {
         this.handleError('No se cargo la imagen, verifique que el formato sea JPG o PNG');
         loading.dismiss();
         console.log(error, 'errorimg');
       });
   }
 
-  b64toBlob(b64Data, contentType, sliceSize) {
-    contentType = contentType || '';
-    sliceSize = sliceSize || 512;
 
-    var byteCharacters = atob(b64Data);
-    var byteArrays = [];
-
-    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      var byteNumbers = new Array(slice.length);
-      for (var i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      var byteArray = new Uint8Array(byteNumbers);
-
-      byteArrays.push(byteArray);
-    }
-
-    var blob = new Blob(byteArrays, { type: contentType });
-    return blob;
-  }
   handleError(error: string) {
     let message: string;
     message = error;

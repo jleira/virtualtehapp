@@ -161,7 +161,6 @@ export class DetallesPage {
   }
   chat(user) {
     this.storage.get('mydata').then(midata => {
-      //console.log('midata');
       let misdatos = JSON.parse(midata);
       this.navCtrl.setRoot(ChatRoomPage, { caso: 1, miid: misdatos.id, nickname: misdatos.correo, correo: misdatos.correo, user: user });
     });

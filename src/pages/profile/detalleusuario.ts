@@ -94,18 +94,6 @@ export class DetallesusuarioPage {
       }
     });
 
-    /*loading.present().then(() => {
-           const toast = this.toastCtrl.create({
-          message: 'Error en el servidor, intentelo nuevamente',
-          duration: 3000,
-          position: 'bottom',
-          cssClass:'ToastAlert',
-          showCloseButton:true,
-          dismissOnPageChange:false
-      
-        });
-        toast.present();  
-    });*/
   }
 
   tomarf() {
@@ -134,13 +122,17 @@ export class DetallesusuarioPage {
 
   getPicture() {
     let options: CameraOptions = {
-      quality: 30,
-      destinationType: this.camera.DestinationType.FILE_URI,
+      quality: 15,
+      destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: this.camera.PictureSourceType.CAMERA,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE,
+      allowEdit:true,
+      targetHeight:500,
+      targetWidth:500,
+      correctOrientation:true
     }
-    let targetPath = this.file.externalDataDirectory;
+
     this.camera.getPicture(options).then(imageData => {
       let loading = this.loadingCtrl.create({
         spinner: 'bubbles',
@@ -148,7 +140,9 @@ export class DetallesusuarioPage {
         duration: 5000
       });
       loading.present();
-      this.authservice.enviarimagenusuario(imageData).then((nom) => {
+      let image = "data:image/png;base64," + imageData;
+
+      this.authservice.enviarimagenusuario(imageData).subscribe((nom) => {
         let nimagenn = JSON.parse(nom['response']);
         this.foto= `${SERVE_FILE_URI}storage/app/public/usuario`;
         this.foto = `${SERVE_FILE_URI}storage/app/${nimagenn.suceess}`;
@@ -171,7 +165,11 @@ export class DetallesusuarioPage {
       destinationType: this.camera.DestinationType.DATA_URL,
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: true,
-      encodingType: this.camera.EncodingType.JPEG
+      encodingType: this.camera.EncodingType.PNG,
+      allowEdit:true,
+      targetHeight:500,
+      targetWidth:500,
+      correctOrientation:true
     }
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
@@ -182,66 +180,29 @@ export class DetallesusuarioPage {
 
     this.camera.getPicture(options)
       .then(imageData => {
-        let image = "data:image/jpg;base64," + imageData;
-        let block = image.split(";");
-        let contentType = block[0].split(":")[1];
-        let realData = block[1].split(",")[1];
-        let blob = this.b64toBlob(realData, contentType, 512);
-        let imgname = Date.now().toString() + '.png';
+        let image = "data:image/png;base64," + imageData;
 
-        return this.file.createDir(targetPath, nombrecarpetapadre, true).then(() => { }, (e) => { }).then(() => {
-          return this.file.writeFile(targetPath + `${nombrecarpetapadre}/`, imgname, blob).then((ok) => {
-            this.foto = `${targetPath}/${nombrecarpetapadre}/${imgname}`;
-            this.authservice.enviarimagenusuario(this.foto).then((nom) => {
+            this.foto = `${image}`;
+            this.authservice.enviarimagenusuario(this.foto).subscribe(nom => {
               let nimagenn = JSON.parse(nom['response']);
               this.foto= `${SERVE_FILE_URI}storage/app/public/usuario`;
               this.foto = `${SERVE_FILE_URI}storage/app/${nimagenn.suceess}`;
               this.datosg.img = nimagenn.suceess;
               console.log('datosg',this.datosg);
               this.storage.set('mydata', `{"id":${this.datosg.id},"first_name":"${this.datosg.first_name}","email":"${this.datosg.email}","last_name":"${this.datosg.last_name}","img":"${this.datosg.img}"}`)
-            })
-
-          }, (e) => {
-            console.log(e, 'e1');
-          });
-        }).then(() => {
-          loading.dismiss();
-        }).catch((e) => {
-          loading.dismiss();
-          this.handleError('Error en el dispositivo, inténtelo de nuevo');
-          console.log(e, 'e1¿2');
-        }
-        );
-      }).catch(error => {
+            }, (e) => {
+              this.handleError('Error en el servidor, inténtelo de nuevo');
+              console.log(e, 'e1¿2');      
+            });
+          }).catch(error => {
+        loading.dismiss();
         this.handleError('No se cargo la imagen, verifique que el formato sea JPG o PNG');
         loading.dismiss();
         console.log(error, 'errorimg');
       });
   }
 
-  b64toBlob(b64Data, contentType, sliceSize) {
-    contentType = contentType || '';
-    sliceSize = sliceSize || 512;
 
-    var byteCharacters = atob(b64Data);
-    var byteArrays = [];
-
-    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      var byteNumbers = new Array(slice.length);
-      for (var i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      var byteArray = new Uint8Array(byteNumbers);
-
-      byteArrays.push(byteArray);
-    }
-
-    var blob = new Blob(byteArrays, { type: contentType });
-    return blob;
-  }
   handleError(error: string) {
     let message: string;
     message = error;

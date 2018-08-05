@@ -5,25 +5,25 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
 
 @Component({
-  selector:'page-nmascota',
+  selector: 'page-nmascota',
   templateUrl: 'nmascota.html'
 
 })
 export class NmascotaPage {
 
-imagenes=[];
+  imagenes = [];
   constructor(
     private toastCtrl: ToastController,
     public viewCtrl: ViewController,
     public navCtrl: NavController,
     public authService: AuthProvider,
     public file: File,
-    public alertCtrl:AlertController,
-    public camera :Camera,
+    public alertCtrl: AlertController,
+    public camera: Camera,
     public loadingCtrl: LoadingController
 
   ) {
-console.log('entro a perfiles');
+    console.log('entro a perfiles');
   }
 
   cancelar() {
@@ -32,50 +32,53 @@ console.log('entro a perfiles');
 
   registrar(values: any) {
     console.log(values);
-    if(!values.precio){
-      values.precio==0;
+    if (!values.precio) {
+      values.precio == 0;
     }
-    console.log('2',values);
+    console.log('2', values);
 
 
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: 'Enviando datos...'
 
-    }); 
+    });
     loading.present();
     this.authService.registrarmascota(values).finally(() => {
       loading.dismiss();
-    }).subscribe((resp) => {      
+    }).subscribe((resp) => {
       this.toastmsj(`mascota ${resp.json()[0]['nombre']} creada exitosamente`);
-      let cantidadimg=this.imagenes.length;
-      if(cantidadimg==0){
+      let cantidadimg = this.imagenes.length;
+      if (cantidadimg == 0) {
         this.viewCtrl.dismiss(true);
-       }
-      let init=0;
+      }
+      let init = 0;
+      console.log('img',this.imagenes);
       this.imagenes.forEach(element => {
-        init=init+1;
-        let mascosta=resp.json()[0];
-        console.log('mascota',mascosta);
-        this.authService.enviarimagen(element.ruta,mascosta).then(()=>{
-          if(init==cantidadimg){
+        init = init + 1;
+        console.log('img',init,element);
+
+        let mascosta = resp.json()[0];
+        console.log('mascota', mascosta);
+        this.authService.enviarimagen(element.ruta, mascosta).subscribe(() => {
+          if (init == cantidadimg) {
             this.viewCtrl.dismiss(true);
           }
-        }).catch((err)=>{
+        }, err => {
           console.log(err);
-          if(init==cantidadimg){
+          if (init == cantidadimg) {
             this.viewCtrl.dismiss(true);
           }
         });
       });
 
     }, error => {
-        let err = error.json();
-        for (let i in err) {
-            if (err.hasOwnProperty(i)) {
-                this.toastmsj(err[i]);
-            }
+      let err = error.json();
+      for (let i in err) {
+        if (err.hasOwnProperty(i)) {
+          this.toastmsj(err[i]);
         }
+      }
     });
 
   }
@@ -89,7 +92,7 @@ console.log('entro a perfiles');
     toast.present();
   }
 
-  presentConfirm(codigo, respcodigo) {
+  presentConfirm(codigo=1, respcodigo=1) {
     let alert = this.alertCtrl.create({
       title: 'Desea adjuntar una imagen a esta pregunta',
       message: 'Para escoger una foto de la galeria del telefono seleccione la opcion Galeria, si desea tomar una foto escoja camara',
@@ -97,13 +100,13 @@ console.log('entro a perfiles');
         {
           text: 'Galeria',
           handler: () => {
-            return this.galeria(codigo, respcodigo);
+            return this.galeria();
           }
         },
         {
           text: 'Camara',
           handler: () => {
-            return this.getPicture(codigo, respcodigo);
+            return this.getPicture();
           }
         }
       ]
@@ -112,62 +115,54 @@ console.log('entro a perfiles');
   }
 
 
-  getPicture(codigo, respcodigo) {
+  getPicture() {
     let options: CameraOptions = {
-      quality: 30,
-      destinationType: this.camera.DestinationType.FILE_URI,
+      quality: 15,
+      destinationType: this.camera.DestinationType.DATA_URL,
       sourceType: this.camera.PictureSourceType.CAMERA,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE,
+      allowEdit:true,
+      targetHeight:500,
+      targetWidth:500,
+      correctOrientation:true
+
     }
-    let targetPath = this.file.externalDataDirectory;
-    let nombrecarpetapadre ='cachepets';
+
     this.camera.getPicture(options).then(imageData => {
       let loading = this.loadingCtrl.create({
         spinner: 'bubbles',
         content: 'cargando imagen...',
         duration: 5000
       });
-      loading.present();
+      loading.present();  
+      let image = "data:image/png;base64," + imageData;
+      this.imagenes.push({ ruta:`${image}` });
+      loading.dismiss();
 
-      return this.file.createDir(targetPath, nombrecarpetapadre, true).then(() => {}, () => {}).then(() => {
-      }).then(() => {
-        return this.file.copyFile(
-          this.file.externalCacheDirectory, imageData.replace(this.file.externalCacheDirectory, ""),
-          targetPath + `/${nombrecarpetapadre}`,
-          imageData.replace(this.file.externalCacheDirectory, ""));
-      }).then((ok
-      ) => {
-        this.file.removeFile(this.file.externalCacheDirectory, imageData.replace(this.file.externalCacheDirectory, ""
-        )).then((ok) => {
-        }, (err) => {
-          console.log('0',err); 
 
-        });
-      }).then(() => {
-        loading.dismiss();
-        this.imagenes.push({ruta:`${targetPath}/${nombrecarpetapadre}/${imageData.replace(this.file.externalCacheDirectory,"")}`});
-        console.log(this.imagenes);
-      });
-    }
-    ).catch(error => {
+    }).catch(error => {
       this.toastmsj(JSON.stringify(error));
-     console.log('1',error); 
+      console.log('1', error);
     });
   }
 
 
-  galeria(codigo, respcodigo) {
-    let targetPath = this.file.externalDataDirectory;
-    let nombrecarpetapadre ='cachepets';
-    console.log('ruta de las imagenes ',targetPath);
+  galeria() {
+    let targetPath = this.file.cacheDirectory;
+    let nombrecarpetapadre = 'cachepets';
+    console.log('ruta de las imagenes ', targetPath);
     let options: CameraOptions = {
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
       destinationType: this.camera.DestinationType.DATA_URL,
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: true,
-      encodingType: this.camera.EncodingType.JPEG
-    }
+      encodingType: this.camera.EncodingType.PNG,
+      allowEdit:true,
+      targetHeight:500,
+      targetWidth:500,
+      correctOrientation:true
+    } 
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: 'Cargando imagen...',
@@ -178,55 +173,15 @@ console.log('entro a perfiles');
     this.camera.getPicture(options)
       .then(imageData => {
         console.log('camerca ok');
-        let image = "data:image/jpg;base64," + imageData;
-        let block = image.split(";");
-        let contentType = block[0].split(":")[1];
-        let realData = block[1].split(",")[1];
-        let blob = this.b64toBlob(realData, contentType, 512);
-        let imgname = Date.now().toString() + '.png';
-
-        return this.file.createDir(targetPath, nombrecarpetapadre, true).then(() => { }, (e) => { }).then(() => {
-          return this.file.writeFile(targetPath + `${nombrecarpetapadre}/`, imgname, blob).then((ok) => {
-            this.imagenes.push({ruta:`${targetPath}/${nombrecarpetapadre}/${imgname}`});
-           }, (e) => { 
-             console.log(e,'e1');});
-        }).then(() => {
-          loading.dismiss();
-        }).catch((e) => {
-          loading.dismiss();
-          this.handleError('Error en el dispositivo, inténtelo de nuevo');
-          console.log(e,'e1¿2');
-        }
-        );
-      }).catch(error => {
+        let image = "data:image/png;base64," + imageData;
+        this.imagenes.push({ ruta: `${image}` });
+      }, (e) => {
         this.handleError('No se cargo la imagen, verifique que el formato sea JPG o PNG');
         loading.dismiss();
-        console.log(error,'errorimg');      });
+        console.log(e, 'errorimg');
+      });
   }
 
-  b64toBlob(b64Data, contentType, sliceSize) {
-    contentType = contentType || '';
-    sliceSize = sliceSize || 512;
-
-    var byteCharacters = atob(b64Data);
-    var byteArrays = [];
-
-    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      var byteNumbers = new Array(slice.length);
-      for (var i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      var byteArray = new Uint8Array(byteNumbers);
-
-      byteArrays.push(byteArray);
-    }
-
-    var blob = new Blob(byteArrays, { type: contentType });
-    return blob;
-  }
   handleError(error: string) {
     let message: string;
     message = error;

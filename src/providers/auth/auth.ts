@@ -248,35 +248,18 @@ export class AuthProvider {
       content: 'Enviando foto ...'
     });
     loading.present();
-    return this.storage.get('jwt').then((jwt) => {
-      let options: FileUploadOptions = {
-        fileKey: 'file',
-        fileName: 'mascota',
-        headers: {
-          'Authorization': 'Bearer ' + jwt,
-          'Content-Type': undefined
-        },
-        mimeType: 'image/*',
-      }
 
-      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/fotochat`, options)
-        .then((data) => {
-          this.handleError('Foto Enviada');
-          loading.dismiss();
-          return data;
-        }, (err) => {
-          this.handleError(JSON.stringify(err));
-          loading.dismiss();
-          return true;
-        })
-
-    }, err => {
+    let datos={file:ruta};
+    console.log(datos);
+    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/fotochat`,datos).map(data => {
+      this.handleError('Foto enviada');
       loading.dismiss();
-      this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
-      ////console.log('err',err);
       return true;
-
-    })
+    }, err => {
+      this.handleError(JSON.stringify(err));
+      loading.dismiss();
+      return false;
+    })     
   }
 
   enviarimagenusuario(ruta) {
@@ -285,121 +268,61 @@ export class AuthProvider {
       content: 'Enviando foto ...'
     });
     loading.present();
-    return this.storage.get('jwt').then((jwt) => {
-      let options: FileUploadOptions = {
-        fileKey: 'file',
-        fileName: 'perfil',
-        headers: {
-          'Authorization': 'Bearer ' + jwt,
-          'Content-Type': undefined
-        },
-        mimeType: 'image/*',
-      }
 
-      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/fotousuario`, options)
-        .then((data) => {
-          this.handleError('Foto Enviada');
-          loading.dismiss();
-          return data;
-        }, (err) => {
-          this.handleError(JSON.stringify(err));
-          loading.dismiss();
-          return true;
-        })
-
-    }, err => {
+    let datos={file:ruta};
+    console.log(datos);
+    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/fotousuario`,datos).map(data => {
+      this.handleError('Foto enviada');
       loading.dismiss();
-      this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
-      ////console.log('err',err);
       return true;
-
+    }, err => {
+      this.handleError(JSON.stringify(err));
+      loading.dismiss();
+      return false;
     })
   }
+  
   enviarimagen(ruta, pets) {
+    console.log('ruta',ruta);
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: 'Enviando foto ...'
     });
     loading.present();
-    return this.storage.get('jwt').then((jwt) => {
-      let options: FileUploadOptions = {
-        fileKey: 'file',
-        fileName: 'pets',
-        headers: {
-          'Authorization': 'Bearer ' + jwt,
-          'Content-Type': undefined
-        },
-        mimeType: 'image/*',
-        params: {
-          idmascota: pets.id
-        }
-      }
-
-      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photoupload?id=${pets.id}`, options)
-        .then((data) => {
-          //console.log(data);
-          this.handleError('Foto enviada');
-          loading.dismiss();
-          return true;
-        }, (err) => {
-          this.handleError(JSON.stringify(err));
-          //console.log(err);
-          loading.dismiss();
-          return true;
-        })
-
-    }, err => {
+    let datos={file:ruta};
+    console.log(datos);
+    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/photoupload?id=${pets.id}`,datos).map(data => {
+      this.handleError('Foto enviada');
       loading.dismiss();
-      this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
-      ////console.log('err',err);
       return true;
-
-    })
+    }, err => {
+      this.handleError(JSON.stringify(err));
+      loading.dismiss();
+      return true;
+    })    
 
   }
 
 
   enviarimagenproducto(ruta, pets) {
+    
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: 'Enviando foto ...'
     });
     loading.present();
-    return this.storage.get('jwt').then((jwt) => {
-      let options: FileUploadOptions = {
-        fileKey: 'file',
-        fileName: 'pets',
-        headers: {
-          'Authorization': 'Bearer ' + jwt,
-          'Content-Type': undefined
-        },
-        mimeType: 'image/*',
-        params: {
-          idmascota: pets.id
-        }
-      }
 
-      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photouploadaccesorio?id=${pets.id}`, options)
-        .then((data) => {
-          //console.log(data);
-          this.handleError('Foto enviada');
-          loading.dismiss();
-          return true;
-        }, (err) => {
-          this.handleError(JSON.stringify(err));
-          //console.log(err);
-          loading.dismiss();
-          return true;
-        })
-
-    }, err => {
+    let datos={file:ruta};
+    console.log(datos);
+    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/photouploadaccesorio?id=${pets.id}`,datos).map(data => {
+      this.handleError('Foto enviada');
       loading.dismiss();
-      this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
-      //console.log('err', err);
       return true;
-
-    })
-
+    }, err => {
+      this.handleError(JSON.stringify(err));
+      loading.dismiss();
+      return false;
+    })    
   }
 
 
@@ -409,35 +332,17 @@ export class AuthProvider {
       content: 'Enviando foto ...'
     });
     loading.present();
-    return this.storage.get('jwt').then((jwt) => {
-      let options: FileUploadOptions = {
-        fileKey: 'file',
-        fileName: 'pedigree',
-        headers: {
-          'Authorization': 'Bearer ' + jwt,
-          'Content-Type': undefined
-        },
-        mimeType: 'image/*',
-      }
+    let datos={file:ruta};
+    console.log(datos);
 
-      return this.fileTransfer.upload(ruta, `${SERVE_FILE_URI}public/api/photouploadpedigree`, options)
-        .then((data) => {
-          this.handleError('Foto guardada');
-          loading.dismiss();
-          return data;
-        }, (err) => {
-          this.handleError(JSON.stringify(err));
-          //console.log(err);
-          loading.dismiss();
-          return true;
-        })
-
-    }, err => {
+    return this.tokenhttp.post( `${SERVE_FILE_URI}public/api/photouploadpedigree`,datos).map(data => {
+      this.handleError('Foto enviada');
       loading.dismiss();
-      this.handleError('Debe estar logeado antes, si el problema persiste cierre y vuelva a inciar sesion');
-      //console.log('err', err);
-      return true;
-
+      return data;
+    }, err => {
+      this.handleError(JSON.stringify(err));
+      loading.dismiss();
+      return false;
     })
 
   }
@@ -545,6 +450,28 @@ export class AuthProvider {
       })
 
   }
+  b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
 
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      var byteNumbers = new Array(slice.length);
+      for (var i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      var byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
 
 }
