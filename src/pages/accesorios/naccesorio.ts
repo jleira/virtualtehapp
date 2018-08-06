@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { ViewController, LoadingController, ToastController, NavController, AlertController } from 'ionic-angular';
+import { ViewController, LoadingController, ToastController, NavController, AlertController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'page-naccesorios',
@@ -10,8 +11,10 @@ import { File } from '@ionic-native/file';
 
 })
 export class NaccesorioPage {
-
+  private todo: FormGroup;
   imagenes = [];
+  datos;
+  id = 0;
   constructor(
     public loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
@@ -20,8 +23,33 @@ export class NaccesorioPage {
     public authService: AuthProvider,
     public file: File,
     public alertCtrl: AlertController,
-    public camera: Camera
+    public camera: Camera,
+    private navParams: NavParams,
+    private formBuilder: FormBuilder
+
   ) {
+    console.log('entro');
+
+    this.datos = this.navParams.get('datos');
+    console.log(this.datos);
+    if (this.datos) {
+      console.log('editar');
+      this.todo = this.formBuilder.group({
+        nombre: [this.datos.nombre, Validators.required],
+        descripcion: [this.datos.descripcion, Validators.required],
+        categoria: [this.datos.categoria, Validators.required],
+        precio: [this.datos.precio, Validators.required],
+        id: [this.datos.id]
+      });
+    } else {
+      console.log('crear');
+      this.todo = this.formBuilder.group({
+        nombre: ['', Validators.required],
+        descripcion: ['', Validators.required],
+        categoria: [1, Validators.required],
+        precio: [0, Validators.required],
+        id: [0]
+      });    }
 
   }
 
@@ -59,7 +87,7 @@ export class NaccesorioPage {
           if (init == cantidadimg) {
             this.viewCtrl.dismiss(true);
           }
-        },(err) => {
+        }, (err) => {
           console.log(err);
           if (init == cantidadimg) {
             this.viewCtrl.dismiss(true);

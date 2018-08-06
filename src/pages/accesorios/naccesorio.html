@@ -1,70 +1,70 @@
-
-  <ion-content padding>
+<ion-content padding>
     <ion-title color="pesto-dark" style="height: auto !important;top:5px;margin-top: 7px;">
         <h2 color="pesto-dark" style="color:#009688;text-align:center">Accesorios y servicios</h2>
-      </ion-title>
-      <form #form="ngForm" (ngSubmit)="registrar(form.value)" novalidate>
+    </ion-title>
+    <form [formGroup]="todo" (ngSubmit)="registrar(todo.value)" novalidate>
         <ion-list>
-       
-                <ion-item style="border-color: white;">
-                    <ion-label color="pesto-scondary-text" floating>Nombre</ion-label>
-                    <ion-input type="text" name='nombre' ngModel required #nombre="ngModel" [class.invalid]="nombre.errors && nombre.dirty"></ion-input>
-                </ion-item>
-                <ion-item class="error-message" no-lines *ngIf="nombre.errors?.required && nombre.dirty">
-                    <p *ngIf="nombre.errors?.required && nombre.dirty " style="color:red"> Nombre requerido </p>
-                </ion-item>
-                <ion-item style="border-color: white;">
-                    <ion-label color="pesto-scondary-text" floating>Descripcion</ion-label>
-                    <ion-textarea type="text" rows="2"  name='descripcion' ngModel required #descripcion="ngModel" [class.invalid]="descripcion.errors && descripcion.dirty"></ion-textarea>
-                </ion-item>
-                <ion-item class="error-message" no-lines *ngIf="descripcion.errors?.required && descripcion.dirty">
-                    <p *ngIf="descripcion.errors?.required && descripcion.dirty " style="color:red">Descripcion requerida </p>
-                </ion-item>
-
-                <ion-item>
-                    <ion-label color="pesto-scondary-text" >Categoria</ion-label>
-                    <ion-select  name="categoria" interface="action-sheet" cancelText="cancel" ngModel required #categoria="ngModel"
-                    [class.invalid]="categoria.errors && categoria.dirty">
-                      <ion-option [value]="2">Servicios</ion-option>
-                      <ion-option [value]="1">Accesorios y Productos</ion-option>
-                    </ion-select>
-                  </ion-item>
-
-                  
+            <ion-item>
+                <ion-label color="pesto-scondary-text" floating>Nombre</ion-label>
+                <ion-input type="text" formControlName="nombre"></ion-input>
+            </ion-item>
+            <ion-item class="error-message" no-lines *ngIf="!todo.value.nombre">
+                <p style="color:red">Nombre requerido</p>
+            </ion-item>
+            <ion-item style="border-color: white;">
+                <ion-label color="pesto-scondary-text" floating>descripcion</ion-label>
+                <ion-textarea type="text" rows="2" formControlName="descripcion"></ion-textarea>
+            </ion-item>
+            <ion-item class="error-message" no-lines *ngIf="!todo.value.descripcion">
+                <p style="color:red">descripcion requerida </p>
+            </ion-item>
+            
          
-          
-                <ion-item>
-                        <ion-label color="pesto-scondary-text" floating>Precio de venta</ion-label>
-                        <ion-input type="number" name='precio' ngModel  number #precio="ngModel" 
-                             ></ion-input>
-                </ion-item>
+            <ion-item>
+                <ion-label color="pesto-scondary-text">Categoria</ion-label>
+                <ion-select formControlName="categoria">
+                    <ion-option [value]="2">Servicios</ion-option>
+                    <ion-option [value]="1">Accesorios y Productos</ion-option>
+                </ion-select>
+            </ion-item>
 
-                <ion-grid>
-                    <ion-row > 
-                      <ion-col col-6 *ngFor="let image of imagenes">
-                        <ion-card class="card-pedigree" >
-                          <img src="{{image.ruta}}"  />
+            <ion-item class="error-message" no-lines *ngIf="!todo.value.categoria">
+                <p style="color:red">categoria requerida </p>
+            </ion-item>
+            <ion-item>
+                <ion-label color="pesto-scondary-text" floating>Precio</ion-label>
+                <ion-input type="number" formControlName="precio"></ion-input>
+            </ion-item>
+            <ion-item class="error-message" no-lines *ngIf="!todo.value.precio">
+                <p style="color:red">Precio requerido</p>
+            </ion-item> 
+
+            <ion-grid>  
+                <ion-row>
+                    <ion-col col-6 *ngFor="let image of imagenes">
+                        <ion-card class="card-pedigree">
+                            <img src="{{image.ruta}}" />
                         </ion-card>
-                      </ion-col>
-                
-                    </ion-row>
-                  </ion-grid>
+                    </ion-col>
+
+                </ion-row>
+            </ion-grid>
 
 
-                  
-    
-           
-             <div style="text-align:center">
+
+
+
+            <div style="text-align:center">
                 <button ion-button outline color="primary" type="button" (click)="presentConfirm(1,2)">Cargar Imagen</button>
             </div>
 
             <div style="text-align:center">
-                <button ion-button type="submit" [disabled]="!form.valid">Registrar !!!</button>
+                <button ion-button type="submit" [disabled]="!todo.valid">Registrar !!!</button>
             </div>
-            
+
             <div style="text-align:center">
                 <button ion-button outline color="danger" type="button" (click)="cancelar()">Regresar</button>
             </div>
-            </ion-list>
-        </form>
-      </ion-content>
+        </ion-list>
+    </form>
+</ion-content>

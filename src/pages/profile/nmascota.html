@@ -6,11 +6,80 @@
     <ion-title color="pesto-dark" style="height: auto !important;top:5px;margin-top: 7px;">
         <h2 color="pesto-dark" style="color:#009688;text-align:center">Pets</h2>
     </ion-title>
-    <form #form="ngForm" (ngSubmit)="registrar(form.value)" novalidate>
+    <form [formGroup]="todo" (ngSubmit)="registrar(todo.value)" novalidate>
         <ion-list>
-            <ion-item style="border-color: white;">
+                <ion-item>
+                        <ion-label color="pesto-scondary-text" floating>Nombre</ion-label>
+                        <ion-input type="text" formControlName="nombre"></ion-input>
+                    </ion-item>
+                    <ion-item class="error-message" no-lines *ngIf="!todo.value.nombre">
+                        <p style="color:red">Nombre requerido</p>
+                    </ion-item>
+                    <ion-item style="border-color: white;">
+                        <ion-label color="pesto-scondary-text" floating>Raza</ion-label>
+                        <ion-input type="text" formControlName="raza"></ion-input>
+                    </ion-item>
+                    <ion-item class="error-message" no-lines *ngIf="!todo.value.raza">
+                        <p style="color:red">Raza requerida </p>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="pesto-scondary-text">Sexo</ion-label>
+                        <ion-select formControlName="sexo">
+                            <ion-option [value]="1">Hembra</ion-option>
+                            <ion-option [value]="2">Macho</ion-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-item class="error-message" no-lines *ngIf="!todo.value.sexo">
+                        <p style="color:red">Sexo requerido </p>
+                    </ion-item>
+        
+                    <ion-item style="border-color: white;">
+                        <ion-label color="pesto-scondary-text" floating>color</ion-label>
+                        <ion-input type="text" formControlName="color"></ion-input>
+                    </ion-item>
+                    <ion-item class="error-message" no-lines *ngIf="!todo.value.sexo">
+                        <p style="color:red">Color requerido </p>
+                    </ion-item>
+        
+                    <ion-item>
+                        <ion-label color="pesto-scondary-text" floating>microchip</ion-label>
+                        <ion-input type="number" formControlName="microchip"></ion-input>
+                    </ion-item>
+        
+                    <ion-item class="error-message" no-lines *ngIf="!todo.value.microchip">
+                        <p style="color:red">Microchip requerido </p>
+                    </ion-item>
+        
+        
+        
+                    <ion-item>
+                        <ion-label color="pesto-scondary-text">Disponible para</ion-label>
+                        <ion-select formControlName="vender">
+                            <ion-option [value]="0">Mascota</ion-option>
+                            <ion-option [value]="1">Vender</ion-option>
+                            <ion-option [value]="2">Adopcion</ion-option>
+                        </ion-select>
+                    </ion-item>
+        
+                    <ion-item class="error-message" no-lines *ngIf="!todo.value.vender">
+                        <p style="color:red">Este campo es requerido</p>
+                    </ion-item>
+        
+                    <ion-item>
+                        <ion-label color="pesto-scondary-text" floating>Precio de venta</ion-label>
+                        <ion-input type="number" formControlName="precio"></ion-input>
+                    </ion-item>
+        
+                    <ion-item class="error-message" no-lines *ngIf="!todo.value.precio">
+                        <p style="color:red">Este campo es requerido</p>
+                    </ion-item>
+        
+         
+
+
+            <!--             <ion-item style="border-color: white;">
                 <ion-label color="pesto-scondary-text" floating>Nombre</ion-label>
-                <ion-input type="text" name='nombre' ngModel required #nombre="ngModel" [class.invalid]="nombre.errors && nombre.dirty"></ion-input>
+                <ion-input type="text" name='nombre' ngModel required #nombre="ngModel" [class.invalid]="nombre.errors && nombre.dirty" [value]="nombre"></ion-input>
             </ion-item>
             <ion-item class="error-message" no-lines *ngIf="nombre.errors?.required && nombre.dirty">
                 <p *ngIf="nombre.errors?.required && nombre.dirty " style="color:red">First name required </p>
@@ -64,7 +133,7 @@
                 <ion-label color="pesto-scondary-text" floating>Precio de venta</ion-label>
                 <ion-input type="number" name='precio' ngModel number #precio="ngModel"></ion-input>
             </ion-item>
-
+ -->
             <ion-grid>
                 <ion-row>
                     <ion-col col-6 *ngFor="let image of imagenes">
@@ -81,10 +150,10 @@
                 <button ion-button outline color="primary" type="button" (click)="presentConfirm(1,2)">Cargar Imagen</button>
             </div>
 
-            <div style="text-align:center">
-                <button ion-button type="submit" [disabled]="!form.valid">Registrar !!!</button>
+           <div style="text-align:center">
+                <button ion-button type="submit" [disabled]="!todo.valid">Registrar !!!</button>
             </div>
-
+ 
             <div style="text-align:center">
                 <button ion-button outline color="danger" type="button" (click)="cancelar()">Regresar</button>
             </div>

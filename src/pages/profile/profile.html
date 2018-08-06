@@ -144,14 +144,36 @@
         </div>
 
         <ion-list>
-          <button no-lines ion-item *ngFor="let mascota of mismascotas" (click)="detallesmascota(mascota)">
-            <ion-avatar item-start>
-              <img src="{{buscarimagen(mascota.imagenes,mascota.id)}}" *ngIf="mascota.imagenes" />
-              <img src="assets/img/mascota.png" *ngIf="!mascota.imagenes" />
-            </ion-avatar>
-            <h2>{{mascota.nombre}}</h2>
-            <p> {{mascota.raza}}</p>
-          </button>
+
+
+
+          <ion-item-sliding *ngFor="let mascota of mismascotas">
+              <ion-item no-lines >
+        
+                  <ion-avatar item-start>
+                      <img src="{{buscarimagen(mascota.imagenes,mascota.id)}}" *ngIf="mascota.imagenes" />
+                      <img src="assets/img/mascota.png" *ngIf="!mascota.imagenes" />
+                    </ion-avatar>
+                    <h2>{{mascota.nombre}}</h2>
+                    <p> {{mascota.raza}}</p>
+              </ion-item>
+              <ion-item-options side="right">
+                  <button ion-button color="danger" (click)="eliminaralert(mascota)">
+                      <ion-icon name="trash"></ion-icon>
+                      Eliminar
+                    </button>
+    
+                <button ion-button color="secondary-pets-l" (click)="editar(mascota)">
+                  <ion-icon name="clipboard"></ion-icon>
+                  Editar
+                </button>
+                <button ion-button (click)="detallesmascota(mascota)" color="primary-pets">
+                  <ion-icon name="eye"></ion-icon>
+                  Detalles
+                </button>
+              </ion-item-options>
+            </ion-item-sliding>
+
         </ion-list>
 
       </div>
@@ -174,14 +196,35 @@
         </div>
 
         <ion-list>
-          <button no-lines ion-item *ngFor="let accesorio of accesorios" (click)="detallesaccesorio(accesorio)">
-            <ion-avatar item-start>
-              <img src="{{buscarimagenp(accesorio.imagenes,accesorio.id,accesorio.usuario_id)}}" *ngIf="accesorio.imagenes" />
-              <img src="assets/img/inyeccion.png" *ngIf="!accesorio.imagenes" />
-            </ion-avatar>
-            <h2>{{accesorio.nombre}}</h2>
-            <p> {{accesorio.descripcion}}</p>
-          </button>
+
+
+          <ion-item-sliding *ngFor="let accesorio of accesorios">
+              <ion-item no-lines >
+        
+                  <ion-avatar item-start>
+                      <img src="{{buscarimagenp(accesorio.imagenes,accesorio.id,accesorio.usuario_id)}}" *ngIf="accesorio.imagenes" />
+                      <img src="assets/img/inyeccion.png" *ngIf="!accesorio.imagenes" />
+                    </ion-avatar>
+                    <h2>{{accesorio.nombre}}</h2>
+                    <p> {{accesorio.descripcion}}</p>
+              </ion-item>
+              <ion-item-options side="right">
+                  <button ion-button color="danger" (click)="eliminaralertp(accesorio)">
+                      <ion-icon name="trash"></ion-icon>
+                      Eliminar
+                    </button>
+    
+                <button ion-button color="secondary-pets-l" (click)="editarp(accesorio)">
+                  <ion-icon name="clipboard"></ion-icon>
+                  Editar
+                </button>
+                <button ion-button (click)="detallesaccesorio(accesorio)" color="primary-pets">
+                  <ion-icon name="eye"></ion-icon>
+                  Detalles
+                </button>
+              </ion-item-options>
+            </ion-item-sliding>
+
         </ion-list>
 
       </div>

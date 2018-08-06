@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, ViewController,ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ViewController,ToastController, AlertController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { NmascotaPage } from '../profile/nmascota';
 import { DetallesPage } from '../profile/detalle';
@@ -40,8 +40,9 @@ export class ProfilePage {
   };
   pet: string = "misejemplares";
   constructor(public modalCtrl: ModalController,
-    public navCtrl: NavController, public navParams: NavParams, public authservice: AuthProvider,
-  public viewCtrl:ViewController, private toastmsj:ToastController, private storage:Storage) {
+  public navCtrl: NavController, public navParams: NavParams, public authservice: AuthProvider,
+  public viewCtrl:ViewController, private toastmsj:ToastController, private storage:Storage,
+  public alertCtrl: AlertController) {
     this.visitante=true;
     this.datospersonales = {
       seguidores: 0,
@@ -234,5 +235,88 @@ peopleimg(img){
 }
 verimagen(){
   this.navCtrl.push(ImagenesPage, { datos: { imagenes: [this.img], path:`${SERVE_FILE_URI}storage/app/`, nombre: this.name } });
+}
+editar(mascota){
+  console.log(mascota);
+  let profileModal = this.modalCtrl.create(NmascotaPage,{datos:mascota});
+  profileModal.present();
+  profileModal.onDidDismiss(data => {
+    if (data) {
+      this.traermascotas(0);
+    }
+  });
+  
+}
+eliminaralert(mascota){
+  let alert = this.alertCtrl.create({
+    title: 'Eliminar mascota '+mascota.nombre,
+    message: 'Al eliminar esta mascota se eliminaran todos los datos, excepto los que se encuentren en chat',
+    buttons: [
+      {
+        text: 'Eliminar',
+        handler: () => {
+          return this.eliminar(mascota);
+        }
+      },
+      {
+        text: 'Cancelar',
+        handler: () => {
+        }
+      }
+    ]
+  });
+  alert.present();
+}
+
+eliminar(mascota){
+  this.authservice.eliminarmascota(mascota).subscribe(()=>{
+    this.toasmsjs('Mascota eliminada exitosamente');
+    this.traermascotas(0);
+  }
+,err=>{  
+  this.toasmsjs('Eror en el servidor, intentelo nuevamente');  
+})
+}
+
+editarp(mascota){
+  console.log(mascota);
+  let profileModal = this.modalCtrl.create(NaccesorioPage,{datos:mascota});
+  profileModal.present();
+  profileModal.onDidDismiss(data => {
+    if (data) {
+      this.traeraccesorio(0);
+    }
+  });
+  
+}
+eliminaralertp(mascota){
+  let alert = this.alertCtrl.create({
+    title: 'Eliminar Producto '+mascota.nombre,
+    message: 'Al eliminar esta mascota se eliminaran todos los datos, excepto los que se encuentren en chat',
+    buttons: [
+      {
+        text: 'Eliminar',
+        handler: () => {
+          return this.eliminarp(mascota);
+        }
+      },
+      {
+        text: 'Cancelar',
+        handler: () => {
+        }
+      }
+    ]
+  });
+  alert.present();
+}
+
+eliminarp(mascota){
+  this.authservice.eliminarproducto(mascota).subscribe(()=>{
+    this.toasmsjs('Producto eliminado exitosamente');
+    this.traeraccesorio(0);
+  }
+,err=>{  
+  this.toasmsjs('Eror en el servidor, intentelo nuevamente');  
+})
 }
 }

@@ -29,7 +29,7 @@ export class AuthProvider {
     private transfer: FileTransfer,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
-    public http2:Http) {
+    public http2: Http) {
     this.checkLogin();
   }
   checkLogin() {
@@ -249,29 +249,9 @@ export class AuthProvider {
     });
     loading.present();
 
-    let datos={file:ruta};
+    let datos = { file: ruta };
     console.log(datos);
-    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/fotochat`,datos).map(data => {
-      this.handleError('Foto enviada');
-      loading.dismiss();
-      return true;
-    }, err => {
-      this.handleError(JSON.stringify(err));
-      loading.dismiss();
-      return false;
-    })     
-  }
-
-  enviarimagenusuario(ruta) {
-    let loading = this.loadingCtrl.create({
-      spinner: 'bubbles',
-      content: 'Enviando foto ...'
-    });
-    loading.present();
-
-    let datos={file:ruta};
-    console.log(datos);
-    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/fotousuario`,datos).map(data => {
+    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/fotochat`, datos).map(data => {
       this.handleError('Foto enviada');
       loading.dismiss();
       return true;
@@ -281,42 +261,61 @@ export class AuthProvider {
       return false;
     })
   }
-  
-  enviarimagen(ruta, pets) {
-    console.log('ruta',ruta);
+
+  enviarimagenusuario(ruta) {
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: 'Enviando foto ...'
     });
     loading.present();
-    let datos={file:ruta};
-    console.log('prueba',`${SERVE_FILE_URI}public/api/photoupload?id=${pets.id}`);
-    console.log('dayos',pets,datos);
-    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/photoupload?id=${pets.id}`,datos).finally(()=>
-    {loading.dismiss();}
-  ).map(data => {
+
+    let datos = { file: ruta };
+    console.log(datos);
+    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/fotousuario`, datos).map(data => {
+      this.handleError('Foto enviada');
+      loading.dismiss();
+      return true;
+    }, err => {
+      this.handleError(JSON.stringify(err));
+      loading.dismiss();
+      return false;
+    })
+  }
+
+  enviarimagen(ruta, pets) {
+    console.log('ruta', ruta);
+    let loading = this.loadingCtrl.create({
+      spinner: 'bubbles',
+      content: 'Enviando foto ...'
+    });
+    loading.present();
+    let datos = { file: ruta };
+    console.log('prueba', `${SERVE_FILE_URI}public/api/photoupload?id=${pets.id}`);
+    console.log('dayos', pets, datos);
+    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/photoupload?id=${pets.id}`, datos).finally(() => { loading.dismiss(); }
+    ).map(data => {
       this.handleError('Foto enviada');
       return true;
     }, err => {
-      console.log('error en el envio',JSON.stringify(err));
+      console.log('error en el envio', JSON.stringify(err));
       this.handleError(JSON.stringify(err));
       return false;
-    })    
+    })
 
   }
 
 
   enviarimagenproducto(ruta, pets) {
-    
+
     let loading = this.loadingCtrl.create({
       spinner: 'bubbles',
       content: 'Enviando foto ...'
     });
     loading.present();
 
-    let datos={file:ruta};
+    let datos = { file: ruta };
     console.log(datos);
-    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/photouploadaccesorio?id=${pets.id}`,datos).map(data => {
+    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/photouploadaccesorio?id=${pets.id}`, datos).map(data => {
       this.handleError('Foto enviada');
       loading.dismiss();
       return true;
@@ -324,7 +323,7 @@ export class AuthProvider {
       this.handleError(JSON.stringify(err));
       loading.dismiss();
       return false;
-    })    
+    })
   }
 
 
@@ -334,10 +333,10 @@ export class AuthProvider {
       content: 'Enviando foto ...'
     });
     loading.present();
-    let datos={file:ruta};
+    let datos = { file: ruta };
     console.log(datos);
 
-    return this.tokenhttp.post( `${SERVE_FILE_URI}public/api/photouploadpedigree`,datos).map(data => {
+    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/photouploadpedigree`, datos).map(data => {
       this.handleError('Foto enviada');
       loading.dismiss();
       return data;
@@ -452,28 +451,25 @@ export class AuthProvider {
       })
 
   }
-  b64toBlob(b64Data, contentType, sliceSize) {
-    contentType = contentType || '';
-    sliceSize = sliceSize || 512;
 
-    var byteCharacters = atob(b64Data);
-    var byteArrays = [];
+  eliminarmascota(values: any): Observable<any> {
+    return this.tokenhttp.post(`${apiUrl}/api/mascotas/eliminar
+    `, values).map((resp) => {
+        return resp;
+      }, err => {
+        return err;
+      })
 
-    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      var slice = byteCharacters.slice(offset, offset + sliceSize);
-
-      var byteNumbers = new Array(slice.length);
-      for (var i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-
-      var byteArray = new Uint8Array(byteNumbers);
-
-      byteArrays.push(byteArray);
-    }
-
-    var blob = new Blob(byteArrays, { type: contentType });
-    return blob;
   }
+  eliminarproducto(values: any): Observable<any> {
+    return this.tokenhttp.post(`${apiUrl}/api/productos/eliminar
+    `, values).map((resp) => {
+        return resp;
+      }, err => {
+        return err;
+      })
+
+  }
+
 
 }

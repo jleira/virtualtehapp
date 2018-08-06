@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { ViewController, LoadingController, ToastController, NavController, AlertController } from 'ionic-angular';
+import { ViewController, LoadingController, ToastController, NavController, AlertController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { File } from '@ionic-native/file';
+import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'page-nmascota',
@@ -10,8 +11,11 @@ import { File } from '@ionic-native/file';
 
 })
 export class NmascotaPage {
+  private todo : FormGroup;
 
   imagenes = [];
+  datos;
+  id=0;
   constructor(
     private toastCtrl: ToastController,
     public viewCtrl: ViewController,
@@ -20,10 +24,40 @@ export class NmascotaPage {
     public file: File,
     public alertCtrl: AlertController,
     public camera: Camera,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    private navParams: NavParams,
+    private formBuilder: FormBuilder
 
   ) {
     console.log('entro a perfiles');
+    this.datos = this.navParams.get('datos');
+    console.log(this.datos);
+    if(this.datos){
+      console.log('editar');
+      this.todo = this.formBuilder.group({
+        nombre:[this.datos.nombre,Validators.required],      
+        raza:[this.datos.raza,Validators.required],
+        sexo:[this.datos.sexo,Validators.required],
+        color:[this.datos.color,Validators.required],
+        microchip:[this.datos.microchip,Validators.required],
+        vender:[this.datos.vender,Validators.required],
+        precio:[this.datos.precio,Validators.required],      
+        id:[this.datos.id]      
+      });
+    }else{
+      console.log('crear');
+      this.todo = this.formBuilder.group({
+        nombre:['',Validators.required],      
+        raza:['',Validators.required],
+        sexo:[2,Validators.required],
+        color:['',Validators.required],
+        microchip:['',Validators.required],
+        vender:[0,Validators.required],
+        precio:['',Validators.required],      
+        id:[0]      
+      });
+    }
+   
   }
 
   cancelar() {
@@ -72,13 +106,9 @@ export class NmascotaPage {
         });
       });
 
-    }, error => {
-      let err = error.json();
-      for (let i in err) {
-        if (err.hasOwnProperty(i)) {
-          this.toastmsj(err[i]);
-        }
-      }
+    }, (error) => {
+      console.log(error);
+      this.toastmsj(error['_body']);
     });
 
   }
@@ -191,5 +221,10 @@ export class NmascotaPage {
       position: 'bottom'
     });
     toast.present();
+  }
+
+  prueba(){
+    console.log(this.todo.value)
+
   }
 }
