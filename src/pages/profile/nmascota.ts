@@ -61,7 +61,7 @@ export class NmascotaPage {
         let mascosta = resp.json()[0];
         console.log('mascota', mascosta);
         this.authService.enviarimagen(element.ruta, mascosta).subscribe(() => {
-          if (init == cantidadimg) {
+          if (init == cantidadimg) { 
             this.viewCtrl.dismiss(true);
           }
         }, err => {

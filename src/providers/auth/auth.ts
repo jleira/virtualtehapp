@@ -290,15 +290,17 @@ export class AuthProvider {
     });
     loading.present();
     let datos={file:ruta};
-    console.log(datos);
-    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/photoupload?id=${pets.id}`,datos).map(data => {
+    console.log('prueba',`${SERVE_FILE_URI}public/api/photoupload?id=${pets.id}`);
+    console.log('dayos',pets,datos);
+    return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/photoupload?id=${pets.id}`,datos).finally(()=>
+    {loading.dismiss();}
+  ).map(data => {
       this.handleError('Foto enviada');
-      loading.dismiss();
       return true;
     }, err => {
+      console.log('error en el envio',JSON.stringify(err));
       this.handleError(JSON.stringify(err));
-      loading.dismiss();
-      return true;
+      return false;
     })    
 
   }
