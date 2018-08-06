@@ -21,6 +21,7 @@ export class PedigremetterPage {
   macho = 0;
   hembra = 0;
   msj = 'Escoger macho';
+  va_estado = '';
   unirpedi = false;
   constructor(
     public navCtrl: NavController,
@@ -37,39 +38,60 @@ export class PedigremetterPage {
     this.buscarporclave($event.target.value);
   }
   buscarporclave(clave) {
-    console.log('clave',clave);
+    console.log('clave', clave);
     if (!clave) {
+      this.va_estado = '';
       this.items = null;
       return "";
     }
     if (clave.length < 2) {
+      this.va_estado = '';
       this.items = null;
-      return "";
-    }
 
+      return "";
+
+    }
+    this.va_estado = 'Buscando...';
     if (this.unirpedi) {
       if (this.macho) {
         this.authservice.mascotasmetterhembra(clave).subscribe((data) => {
+          this.va_estado = '';
           this.items = data;
+          if (!this.items.length) {
+            this.va_estado = 'No se encontraron resultados';
+          }
           console.log('encontro');
-        },err=>{
+        }, err => {
           console.log('eror no encontro');
-                    console.log(err);
+          console.log(err);
+            this.va_estado = 'Error en la busqueda, intentelo mas tarde';
         });
       } else {
         this.authservice.mascotasmettermacho(clave).subscribe((data) => {
+          this.va_estado = '';
           this.items = data;
-        },err=>{
+          if (!this.items.length) {
+            this.va_estado = 'No se encontraron resultados';
+          }
+        }, err => {
           console.log('eror no encontro');
-                    console.log(err);
+          console.log(err);
+            this.va_estado = 'Error en la busqueda, intentelo mas tarde';
+
         });
       }
     } else {
       this.authservice.mascotasmetter(clave).subscribe((data) => {
+        this.va_estado = '';
         this.items = data;
-      },err=>{
+        if (!this.items.length) {
+          this.va_estado = 'No se encontraron resultados';
+        }
+      }, err => {
         console.log('eror no encontro');
-                  console.log(err);
+        console.log(err);
+          this.va_estado = 'Error en la busqueda, intentelo mas tarde';
+
       });
 
     }
@@ -96,6 +118,7 @@ export class PedigremetterPage {
 
     } else {
       this.authservice.pedigreemetter(parseInt(item.id)).subscribe((data) => {
+        console.log(data);
         this.modalCtrl.create(PedigremettereditPage, { data: data, unirp: false }).present();
       });
     }
@@ -103,7 +126,7 @@ export class PedigremetterPage {
   }
   nuevo() {
     let data = {
-      root_canine_1: {
+      root_canine: {
         "level": "0",
         "id": "454",
         "img": "/assets/placeholder2.png",
@@ -111,8 +134,10 @@ export class PedigremetterPage {
         "race": "",
         "sex": "1"
       },
+      canines: [],
       canes: []
     }
+    console.log(data);
     this.modalCtrl.create(PedigremettereditPage, { data: data, unirp: false }).present();
   }
 

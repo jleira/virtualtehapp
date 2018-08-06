@@ -16,7 +16,7 @@
 </ion-header>
 
 <ion-content>
-  <div *ngIf="unirpedi">
+  <div *ngIf="unirpedi" style="margin-top: 60%">
     <div style="text-align:center">
       <h3 style="color: #f59805">
         {{msj}}
@@ -25,7 +25,7 @@
       <button ion-button type="button" color="danger" outline (click)="cancelarunir()">Cancelar Unir pedigree</button>
     </div>
   </div>
-  <div *ngIf="!items">
+  <div *ngIf="!items" style="margin-top: 60%">
     <div *ngIf="!unirpedi">
       <div style="text-align:center">
         <button ion-button type="button" color="secondary-pets-l" outline (click)="unir()">Unir Pedigree</button>
@@ -36,6 +36,12 @@
     </div>
 
   </div>
+  <div style="text-align:center">
+    <h3 style="color: #f59805">
+      {{va_estado}}
+    </h3>
+  </div>
+
   <ion-grid>
     <ion-row>
       <ion-col col-6 *ngFor="let item of items" (click)="verpedigree(item)" style="

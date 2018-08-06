@@ -17,6 +17,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 })
 export class BuscadorPage {
   items;
+  va_estado = '';
   myInput;
   macho = 0;
   hembra = 0;
@@ -39,14 +40,25 @@ export class BuscadorPage {
   }
   buscarporclave(clave) {
     if (!clave) {
+      this.va_estado = '';
+      this.items = [];
       return "";
     }
     if (clave.length < 2) {
-      this.items = null;
+      this.va_estado = '';
+      this.items = [];
       return "";
     }
+    this.va_estado = 'Buscando...';
     this.authservice.mascotasmetter(clave).subscribe((data) => {
+      this.va_estado = '';
       this.items = data;
+      if (!this.items.length) {
+        this.va_estado = 'No se encontraron resultados';
+      }
+    },err=>{
+      this.va_estado = 'Error en la busqueda, intentelo mas tarde';
+
     });
   }
 

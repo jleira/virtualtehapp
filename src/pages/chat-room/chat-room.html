@@ -18,6 +18,7 @@
 
       <ion-col col-9 *ngIf="message.usuario_recibe !== id" class="message" [ngClass]="'other_message'">
         <div *ngIf="message.tipo==1" [innerHtml]="pruebaf(message.mensaje)" (click)="vermascota(message.mensaje)">
+
         </div>
         <div *ngIf="message.tipo==2" [innerHtml]="pruebap2(message.mensaje)" (click)="verproducto(message.mensaje)">
         </div>
@@ -29,6 +30,13 @@
         <div *ngIf="message.tipo==0">
           <span>{{ message.mensaje }}</span>
         </div>
+        <p style="    width: 30%;
+        float: right;
+        padding: 0;
+        margin: 0;">
+          {{message.creado.substring(10)}}
+        </p>
+
       </ion-col>
       <ion-col offset-3 col-9 *ngIf="message.usuario_recibe == id" class="message" [ngClass]="'my_message'">
         <div *ngIf="message.tipo==1" [innerHtml]="pruebaf(message.mensaje)" (click)="vermascota(message.mensaje)">
@@ -43,6 +51,13 @@
         <div *ngIf="message.tipo==0">
           <span>{{ message.mensaje }}</span>
         </div>
+        <p style="    width: 30%;
+        float: right;
+        padding: 0;
+        margin: 0;">
+          {{message.creado.substring(10)}}
+        </p>
+
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -52,15 +67,18 @@
 <ion-footer>
   <ion-toolbar>
     <ion-row class="message_row">
-      <ion-col col-9>
+      <ion-col col-10>
         <ion-item no-lines>
-          <ion-input type="text" placeholder="Message" [(ngModel)]="message"></ion-input>
+<!--           <ion-input type="text" ></ion-input>
+ -->          
+          <ion-textarea rows="1" #myInput placeholder="Escribir un mensaje" [(ngModel)]="message" maxLength="500" (keyup)="resize()"></ion-textarea>
+
         </ion-item>
       </ion-col>
-      <ion-col col-3>
-        <button ion-button clear color="primary" (click)="sendMessage()" [disabled]="message === ''">
-          Send
-        </button>
+      <ion-col col-2 >
+        <button ion-button icon-only  color="primary-pets"   (click)="sendMessage()" [disabled]="message === ''">
+            <ion-icon name="send" color="secondary-pets-l"></ion-icon>
+          </button>
       </ion-col>
     </ion-row>
   </ion-toolbar>

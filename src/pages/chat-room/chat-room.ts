@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component,ElementRef, ViewChild } from '@angular/core';
 import { NavController, IonicPage, NavParams, ToastController, Content, AlertController, ModalController, LoadingController } from 'ionic-angular';
 import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/Observable';
@@ -25,7 +25,7 @@ import { ImagenesPage } from "../profile/imagenes";
 })
 export class ChatRoomPage {
   @ViewChild('content', { read: Content }) content: Content;
-
+  @ViewChild('myInput') myInput: ElementRef;
   messages = [];
   nickname = '';
   message = '';
@@ -58,6 +58,7 @@ export class ChatRoomPage {
       let msjs = mensajes.json();
       console.log(msjs);
       this.messages = msjs.datos;
+      console.log(this.messages);
       setTimeout(() => {
         let dimensions = this.content.getContentDimensions();
         this.content.scrollTo(0, dimensions.scrollHeight + 100, 10)
@@ -346,4 +347,10 @@ export class ChatRoomPage {
     let imgnes=[pr.img];
     this.navCtrl.push(ImagenesPage, { datos: { imagenes: imgnes, path: pa, nombre: nom } });
   }
+  resize() {
+    var element = this.myInput['_elementRef'].nativeElement.getElementsByClassName("text-input")[0];
+    var scrollHeight = element.scrollHeight;
+    element.style.height = scrollHeight + 'px';
+    this.myInput['_elementRef'].nativeElement.style.height = (scrollHeight + 16) + 'px';
+}
 }

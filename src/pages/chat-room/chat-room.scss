@@ -8,6 +8,12 @@ page-buscador {
   }
 }
 page-chat-room {
+    #myInput {
+        width:100%;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+    }
     .toolbar-title {
         white-space: unset  !important;
     }
@@ -26,7 +32,7 @@ page-chat-room {
     }
     .other_message {
         background: #dcdcdc !important;
-        color: #000 !important;
+        color: #f59805 !important;
     }
     .time {
         color: #afafaf;
@@ -34,6 +40,6 @@ page-chat-room {
         font-size: small;
     }
     .message_row {
-        background-color: #fff;
+        background-color: white;
     }
 }

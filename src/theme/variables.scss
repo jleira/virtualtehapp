@@ -40,7 +40,7 @@ $colors: (
   light:         #f4f4f4,
   dark:          #222,
   primary-pets:  #041c3a,
-  secondary-pets:#264b65,
+  secondary-pets:#5885ce,
   secondary-pets-l:#f59805,
 );
 
@@ -48,11 +48,19 @@ $colors: (
 // App iOS Variables
 // --------------------------------------------------
 // iOS only Sass variables can go here
-$toolbar-md-title-text-color: map-get($colors, secondary-pets-l);
+ $toolbar-md-title-text-color: map-get($colors, secondary-pets-l);
 $toolbar-ios-title-text-color: map-get($colors, secondary-pets-l);
 $toolbar-wp-title-text-color: map-get($colors, secondary-pets-l);
 
 $tabs-ios-tab-text-color-active:map-get($colors, secondary-pets-l);
+
+/* $toolbar-md-title-text-color: red;
+$toolbar-ios-title-text-color: red;
+$toolbar-wp-title-text-color: red;
+
+$tabs-ios-tab-text-color-active:red;
+ */
+
 $searchbar-md-input-clear-icon-color:    red;
 
 $searchbar-md-input-search-icon-color:   map-get($colors, secondary-pets-l);

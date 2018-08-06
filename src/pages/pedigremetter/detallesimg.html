@@ -17,8 +17,11 @@
   </ion-list>
   <ion-grid>
     <ion-row justify-content-center>
-      <ion-col col-5>
-        <img src="{{imagen}}" *ngIf="imagen" />{{nombre}}</ion-col>
+      <ion-col col-10>
+        <img src="{{imagen}}" style="width: 100%" *ngIf="imagen" /></ion-col>
+        <ion-col>
+          {{nombre}}
+        </ion-col>
     </ion-row>
   </ion-grid>
 
