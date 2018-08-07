@@ -377,11 +377,15 @@ export class PedigremettereditPage {
   screenShot() {
     this.estado = false;
     setTimeout(() => {
-      this.screenshot.save('jpg', 100, `${this.linea0.nombre}${this.makeid()}`).then(res => {
+      this.screenshot.save('jpg', 100, `${this.linea0.nombre}${this.makeid()}.jpg`).then(res => {
         this.screen = res.filePath;
         this.state = true;
         this.toastmsj('Pedigree generado y guardado exitosamente');
         this.estado = true;
+      },err=>{
+        console.log(err)
+      }).catch((err)=>{
+        console.log('cat',err)
       })
     }, 1000);
   }
