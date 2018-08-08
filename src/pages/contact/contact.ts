@@ -47,7 +47,7 @@ export class ContactPage {
 
     }
     this.socket.connect();
-    this.navCtrl.setRoot(ChatRoomPage, {
+    this.navCtrl.push(ChatRoomPage, {
       caso: 1,
       miid: this.misdatos.id,
       nickname: this.misdatos.correo,
@@ -60,6 +60,13 @@ export class ContactPage {
   ionViewWillEnter() {
     this.authservice.traerchat().subscribe((data) => {
       this.chats = data.json().datos;
+      console.log(this.chats);
+      this.chats.forEach(element => {
+        if(element.msj.indexOf('{"id":"')>-1){
+          element.msj="Foto";
+        }
+        console.log(element.msj);
+      });
     });
 
   }
@@ -126,4 +133,5 @@ export class ContactPage {
     let nimag = `${SERVE_FILE_URI}storage/app/${img}`;
     return nimag;
   }
+  
 }

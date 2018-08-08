@@ -62,21 +62,28 @@ export class ChatRoomPage {
       setTimeout(() => {
         let dimensions = this.content.getContentDimensions();
         this.content.scrollTo(0, dimensions.scrollHeight + 100, 10)
-      }, 100);
+      }, 500);
     }, err => {
       this.showToast('No es posible acceder a los mensajes guardados');
     });
 
     this.getMessages().subscribe(message => {
       console.log(message);
-      if (message['usuario_envia'] == this.miid && message['usuario_recibe'] == this.id) {
-        this.messages.push({ usuario_envia: message['usuario_envia'], usuario_recibe: message['usuario_recibe'], mensaje: message['text'], tipo: message['tipo'] });
-        let dimensions = this.content.getContentDimensions();
-        this.content.scrollTo(0, dimensions.scrollHeight + 100, 100)
+      var f=new Date();
+      let cad='1111/11/11 '+f.getHours()+":"+f.getMinutes()+":"+f.getSeconds(); 
+      if (message['usuario_envia'] == this.miid && message['usuario_recibe'] == this.id) {        
+        this.messages.push({ usuario_envia: message['usuario_envia'], usuario_recibe: message['usuario_recibe'], mensaje: message['text'], tipo: message['tipo'], creado:cad });
+        setTimeout(()=>{
+          let dimensions = this.content.getContentDimensions();
+          this.content.scrollTo(0, dimensions.scrollHeight + 100, 100)  
+        },500)
       } if (message['usuario_envia'] == this.id && message['usuario_recibe'] == this.miid) {
-        this.messages.push({ usuario_envia: message['usuario_envia'], usuario_recibe: message['usuario_recibe'], mensaje: message['text'], tipo: message['tipo'] });
-        let dimensions = this.content.getContentDimensions();
-        this.content.scrollTo(0, dimensions.scrollHeight + 100, 100)
+        this.messages.push({ usuario_envia: message['usuario_envia'], usuario_recibe: message['usuario_recibe'], mensaje: message['text'], tipo: message['tipo'], creado:cad });
+        setTimeout(()=>{
+          let dimensions = this.content.getContentDimensions();
+          this.content.scrollTo(0, dimensions.scrollHeight + 100, 100)
+        },500)
+
       }
     });
 
@@ -298,9 +305,12 @@ export class ChatRoomPage {
       .then(imageData => {
         let image = "data:image/png;base64," + imageData;
 
-            this.authservice.enviarimagenchat(`${image}`).subscribe(nom => {
-              let nimagenn = nom;
-              let rimg = nimagenn['suceess'];
+            this.authservice.enviarimagenchat(`${image}`).subscribe((nom) => {
+              console.log(nom);              
+              let nimagenn = JSON.parse(nom['_body']);
+              let rimg = nimagenn.suceess;
+              console.log('rimg',rimg);              
+
               let dataenviar;
               if (this.chatid) {
                 dataenviar = { usuario_recibe: this.id, mensaje: JSON.stringify({ img: rimg }), id: this.chatid, tipo: 4 };

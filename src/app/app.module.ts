@@ -85,7 +85,9 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     HttpClientModule,
     HttpModule,
     IonicStorageModule.forRoot(),
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      backButtonText: ''
+     }),
     SocketIoModule.forRoot(config)
 
   ],

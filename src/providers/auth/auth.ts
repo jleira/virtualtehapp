@@ -254,7 +254,7 @@ export class AuthProvider {
     return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/fotochat`, datos).map(data => {
       this.handleError('Foto enviada');
       loading.dismiss();
-      return true;
+      return data;
     }, err => {
       this.handleError(JSON.stringify(err));
       loading.dismiss();
@@ -274,7 +274,7 @@ export class AuthProvider {
     return this.tokenhttp.post(`${SERVE_FILE_URI}public/api/fotousuario`, datos).map(data => {
       this.handleError('Foto enviada');
       loading.dismiss();
-      return true;
+      return data;
     }, err => {
       this.handleError(JSON.stringify(err));
       loading.dismiss();

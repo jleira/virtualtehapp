@@ -22,7 +22,12 @@ export class FinderPage {
   logeado = false;
   miid;
   clavet = '';
-  constructor(public navCtrl: NavController, public navParams: NavParams, private authservice: AuthProvider, private socket: Socket, private storage: Storage) {
+  constructor(
+    public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private authservice: AuthProvider, 
+    private socket: Socket, 
+    private storage: Storage) {
     this.caso = this.navParams.get('case');
     this.vacio = false;
     this.storage.get('jwt').then((jwt) => {
@@ -111,7 +116,7 @@ export class FinderPage {
     if (this.caso == 'chat') {
       key = 'people';
     }
-    return this.authservice.buscar(key, { clave: clave, cantidad: this.items.length }).subscribe((data) => {
+    return this.authservice.buscar(key, { clave: clave, cantidad: 0 }).subscribe((data) => {
       let datos;
       if (this.logeado) {
         datos = data.json();
