@@ -433,13 +433,11 @@ export class NewPedigreePage {
         if (caso == 'linea1') {
           casoaeditar = data.itemedited.caso;
           if (casoaeditar == 3) {//subir imagen
-            this.authservice.enviarimagenpedigree(data.itemedited.imagen).subscribe(nom => {
-              console.log('linea1 img',nom['response'],JSON.parse(nom['response']));
-              let nimagenn=JSON.parse(nom['response']);
+            this.authservice.enviarimagenpedigree(data.itemedited.imagen).subscribe((nom) => {
+              let nimagenn = JSON.parse(nom['_body']);
               this.linea1[posicion] = data.itemedited;  
               this.linea1[posicion]['imagen'] = SERVE_FILE_URI +'storage/app/'+ nimagenn.suceess;
               this.linea1[posicion]['caso'] = 2;
-              console.log('linea1',this.linea1[posicion]);
             });
           } else {
             this.linea1[posicion] = data.itemedited;
@@ -448,9 +446,9 @@ export class NewPedigreePage {
         if (caso == 'linea2') {
           casoaeditar = data.itemedited.caso;
           if (casoaeditar == 3) {//subir imagen
-            this.authservice.enviarimagenpedigree(data.itemedited.imagen).subscribe(nom => {
+            this.authservice.enviarimagenpedigree(data.itemedited.imagen).subscribe((nom) => {
               this.linea2[posicion] = data.itemedited;
-              let nimagenn=JSON.parse(nom['response']);
+              let nimagenn = JSON.parse(nom['_body']);
               this.linea2[posicion]['imagen'] = SERVE_FILE_URI +'storage/app/'+ nimagenn.suceess;
               this.linea2[posicion]['caso'] = 2;
             });
@@ -461,9 +459,9 @@ export class NewPedigreePage {
         if (caso == 'linea3') {
           casoaeditar = data.itemedited.caso;
           if (casoaeditar == 3) {//subir imagen
-            this.authservice.enviarimagenpedigree(data.itemedited.imagen).subscribe(nom => {
+            this.authservice.enviarimagenpedigree(data.itemedited.imagen).subscribe((nom) => {
               this.linea3[posicion] = data.itemedited;
-              let nimagenn=JSON.parse(nom['response']);
+              let nimagenn = JSON.parse(nom['_body']);
               this.linea3[posicion]['imagen'] =SERVE_FILE_URI +'storage/app/'+ nimagenn.suceess;
               this.linea3[posicion]['caso'] = 2;
             });
@@ -474,9 +472,9 @@ export class NewPedigreePage {
         if (caso == 'linea4') {
           casoaeditar = data.itemedited.caso;
           if (casoaeditar == 3) {//subir imagen
-            this.authservice.enviarimagenpedigree(data.itemedited.imagen).subscribe(nom => {
+            this.authservice.enviarimagenpedigree(data.itemedited.imagen).subscribe((nom) => {
               this.linea4[posicion] = data.itemedited;
-              let nimagenn=JSON.parse(nom['response']);
+              let nimagenn = JSON.parse(nom['_body']);
               this.linea4[posicion]['imagen'] = SERVE_FILE_URI +'storage/app/'+ nimagenn.suceess;
               this.linea4[posicion]['caso'] = 2;
             });

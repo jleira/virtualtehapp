@@ -34,8 +34,8 @@
         float: right;
         padding: 0;
         margin: 0;">
-          {{message.creado.substring(10)}}
-        </p>
+        {{horautc(message.creado)}}
+      </p>
 
       </ion-col>
       <ion-col offset-3 col-9 *ngIf="message.usuario_recibe == id" class="message" [ngClass]="'my_message'">
@@ -55,7 +55,7 @@
         float: right;
         padding: 0;
         margin: 0;">
-          {{message.creado.substring(10)}}
+          {{horautc(message.creado)}}
         </p>
 
       </ion-col>

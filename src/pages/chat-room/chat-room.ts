@@ -47,18 +47,15 @@ export class ChatRoomPage {
     public loadingCtrl: LoadingController) {
     this.nickname = this.navParams.get('nickname');
     this.id = this.navParams.get('user').id;
-    console.log(this.navParams.get('user'));
     this.name = this.navParams.get('user').first_name;
     this.miid = this.navParams.get('miid');
     this.chatid = this.navParams.get('chat');
 
-    console.log('chatid', this.chatid);
+
 
     this.authservice.mensajes(this.id).subscribe((mensajes) => {
       let msjs = mensajes.json();
-      console.log(msjs);
       this.messages = msjs.datos;
-      console.log(this.messages);
       setTimeout(() => {
         let dimensions = this.content.getContentDimensions();
         this.content.scrollTo(0, dimensions.scrollHeight + 100, 10)
@@ -70,7 +67,7 @@ export class ChatRoomPage {
     this.getMessages().subscribe(message => {
       console.log(message);
       var f=new Date();
-      let cad='1111/11/11 '+f.getHours()+":"+f.getMinutes()+":"+f.getSeconds(); 
+      let cad=`${f.getFullYear()}-${f.getMonth()+1}-${f.getDate()} ${f.getHours()}:${f.getMinutes()}:${f.getSeconds()}`
       if (message['usuario_envia'] == this.miid && message['usuario_recibe'] == this.id) {        
         this.messages.push({ usuario_envia: message['usuario_envia'], usuario_recibe: message['usuario_recibe'], mensaje: message['text'], tipo: message['tipo'], creado:cad });
         setTimeout(()=>{
@@ -98,7 +95,6 @@ export class ChatRoomPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ChatRoomPage');
   }
 
 
@@ -306,10 +302,8 @@ export class ChatRoomPage {
         let image = "data:image/png;base64," + imageData;
 
             this.authservice.enviarimagenchat(`${image}`).subscribe((nom) => {
-              console.log(nom);              
               let nimagenn = JSON.parse(nom['_body']);
               let rimg = nimagenn.suceess;
-              console.log('rimg',rimg);              
 
               let dataenviar;
               if (this.chatid) {
@@ -324,11 +318,9 @@ export class ChatRoomPage {
 
             })
           }, (e) => {
-            console.log(e, 'e1');
           }).catch(error => {
         this.handleError('No se cargo la imagen, verifique que el formato sea JPG o PNG');
         loading.dismiss();
-        console.log(error, 'errorimg');
       });
   }
 
@@ -363,4 +355,12 @@ export class ChatRoomPage {
     element.style.height = scrollHeight + 'px';
     this.myInput['_elementRef'].nativeElement.style.height = (scrollHeight + 16) + 'px';
 }
+
+horautc(fecha){
+  let fechaneuva=new Date(fecha);
+  let f2=fechaneuva.getTimezoneOffset();
+  fechaneuva.setMilliseconds(f2*60*1000);
+  return fechaneuva.getHours()+':'+fechaneuva.getMinutes()+':'+fechaneuva.getSeconds();
+}
+
 }
