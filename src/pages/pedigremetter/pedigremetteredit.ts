@@ -393,46 +393,21 @@ export class PedigremettereditPage {
     setTimeout(() => {
       this.screenshot.URI(100).then(res => {
         this.screen = res.URI;
-        console.log(res);
         this.state = true;
         this.estado = true;
-        this.base64ToGallery.base64ToGallery(res.URI.replace('data:image/jpeg;base64,','',),{ prefix: '_img',mediaScanner:true }).then((ok)=>{
-          console.log('exito1',ok);
-        },er=>{
-          console.log('err1',er);
-        });
-          
+
           this.base64ToGallery.base64ToGallery(res.URI.replace('data:image/jpeg;base64,','data:image/png;base64,'),{ prefix: '_img',mediaScanner:true }).then((ok)=>{
             this.toastmsj('Pedigree generado y guardado exitosamente');
-            console.log('exito2',ok);
           },er=>{
-            console.log('err2',er);
             this.toastmsj('Error guardando pedigree');
           });
-          this.base64ToGallery.base64ToGallery(res.URI.replace('data:image/jpeg;base64,','data:image/jpg;base64,'),{ prefix: '_img',mediaScanner:true }).then((ok)=>{
-            this.toastmsj('Pedigree generado y guardado exitosamente');
-            console.log('exito3',ok);
-            
-          },er=>{
-            console.log('err3',er);
-            this.toastmsj('Error guardando pedigree');
-          });
-
-        this.base64ToGallery.base64ToGallery(res.URI).then((respuesta)=>{
-          this.toastmsj('Pedigree generado y guardado exitosamente');
-          console.log(respuesta);
-        },error=>{
-          this.toastmsj('Error guardando pedigree');
-          console.log(error);
-
-        })
-        //, `${this.linea0.nombre}${this.makeid()}.jpg`
+ 
       },err=>{
-        console.log('se',err);
+        this.toastmsj('Error guardando pedigree');
       }).catch((err)=>{
-        console.log('cat',err);
+        this.toastmsj('Error guardando pedigree');
       })
-    }, 1000);
+    }, 500);
   }
 
   makeid() {
