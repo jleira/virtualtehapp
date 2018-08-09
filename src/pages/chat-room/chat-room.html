@@ -64,14 +64,14 @@
 
 </ion-content>
 
-<ion-footer>
+<ion-footer  style="background-color: white !important">
   <ion-toolbar>
     <ion-row class="message_row">
       <ion-col col-10>
-        <ion-item no-lines>
+        <ion-item no-lines  style="background-color: white !important">
 <!--           <ion-input type="text" ></ion-input>
  -->          
-          <ion-textarea rows="1" style="background-color: transparent !important" #myInput placeholder="Escribir un mensaje" [(ngModel)]="message" maxLength="500" (keyup)="resize()"></ion-textarea>
+ <ion-textarea type="text" rows="2" style="background-color: white !important" #myInput placeholder="Escribir un mensaje" [(ngModel)]="message" maxLength="500" (keyup)="resize()"></ion-textarea>
 
         </ion-item>
       </ion-col>
