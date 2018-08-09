@@ -28,6 +28,7 @@ import { DetallesimgPage } from '../pages/pedigremetter/detallesimg';
 import { BuscadorPage } from "../pages/chat-room/buscador";
 import { Screenshot } from '@ionic-native/screenshot';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Base64ToGallery } from '@ionic-native/base64-to-gallery';
 
 
 import { HttpClientModule } from '@angular/common/http';
@@ -125,6 +126,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions, stor
     HttpModule,
     SplashScreen,
     Screenshot,
+    Base64ToGallery,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
     JwtHelper, {

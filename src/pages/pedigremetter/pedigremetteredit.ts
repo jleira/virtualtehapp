@@ -3,6 +3,7 @@ import { NavController, PopoverController, NavParams, ViewController, ModalContr
 import { AuthProvider } from '../../providers/auth/auth';
 import { DetallesimgPage } from './detallesimg';
 import { Screenshot } from '@ionic-native/screenshot';
+import { Base64ToGallery } from '@ionic-native/base64-to-gallery';
 
 @Component({
   selector: 'page-colorpicker2',
@@ -223,7 +224,8 @@ export class PedigremettereditPage {
     public modal: ModalController,
     public popoverCtrl: PopoverController,
     public toastCtrl: ToastController,
-    public viewCtrl: ViewController
+    public viewCtrl: ViewController,
+    private base64ToGallery: Base64ToGallery
   ) {
     setTimeout(() => {
       this.content.nativeElement.style.backgroundColor = this.color;
@@ -377,15 +379,46 @@ export class PedigremettereditPage {
   screenShot() {
     this.estado = false;
     setTimeout(() => {
-      this.screenshot.save('jpg', 100, `${this.linea0.nombre}${this.makeid()}.jpg`).then(res => {
-        this.screen = res.filePath;
+      this.screenshot.URI(100).then(res => {
+        this.screen = res.URI;
+        console.log(res);
         this.state = true;
-        this.toastmsj('Pedigree generado y guardado exitosamente');
         this.estado = true;
+        this.base64ToGallery.base64ToGallery(res.URI.replace('data:image/jpeg;base64,','',),{ prefix: '_img',mediaScanner:true }).then((ok)=>{
+          console.log('exito1',ok);
+        },er=>{
+          console.log('err1',er);
+        });
+          
+          this.base64ToGallery.base64ToGallery(res.URI.replace('data:image/jpeg;base64,','data:image/png;base64,'),{ prefix: '_img',mediaScanner:true }).then((ok)=>{
+            this.toastmsj('Pedigree generado y guardado exitosamente');
+            console.log('exito2',ok);
+          },er=>{
+            console.log('err2',er);
+            this.toastmsj('Error guardando pedigree');
+          });
+          this.base64ToGallery.base64ToGallery(res.URI.replace('data:image/jpeg;base64,','data:image/jpg;base64,'),{ prefix: '_img',mediaScanner:true }).then((ok)=>{
+            this.toastmsj('Pedigree generado y guardado exitosamente');
+            console.log('exito3',ok);
+            
+          },er=>{
+            console.log('err3',er);
+            this.toastmsj('Error guardando pedigree');
+          });
+
+        this.base64ToGallery.base64ToGallery(res.URI).then((respuesta)=>{
+          this.toastmsj('Pedigree generado y guardado exitosamente');
+          console.log(respuesta);
+        },error=>{
+          this.toastmsj('Error guardando pedigree');
+          console.log(error);
+
+        })
+        //, `${this.linea0.nombre}${this.makeid()}.jpg`
       },err=>{
-        console.log(err)
+        console.log('se',err);
       }).catch((err)=>{
-        console.log('cat',err)
+        console.log('cat',err);
       })
     }, 1000);
   }
