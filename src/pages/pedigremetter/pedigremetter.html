@@ -7,9 +7,13 @@
 <ion-header>
 
   <ion-navbar hideBackButton="false">
-      <form action=".">
-    <ion-searchbar  placeholder="Buscar Mascota para editar"  [type]="search"  [showCancelButton]="shouldShowCancel" (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
-    </ion-searchbar>
+    <form action=".">
+      <ion-searchbar placeholder="Buscar Mascota para editar" *ngIf="!unirpedi" [type]="search" [showCancelButton]="shouldShowCancel"
+        (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
+      </ion-searchbar>
+      <ion-searchbar placeholder="Buscar" *ngIf="unirpedi" [type]="search" [showCancelButton]="shouldShowCancel"
+        (ionInput)="onInput($event)" (ionCancel)="onCancel($event)">
+      </ion-searchbar>
     </form>
   </ion-navbar>
 

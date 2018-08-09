@@ -24,7 +24,7 @@ export class DetallesimgPage {
   nombre;
   imagen;
   datos;
-
+  buscar='B';
   constructor(
     public navCtrl: NavController,
     private viewCtrl: ViewController,
@@ -36,6 +36,9 @@ export class DetallesimgPage {
     public toastCtrl: ToastController,
     public authservice: AuthProvider) {
     this.detalle = this.navParams.get('item');
+    if(this.navParams.get('sexo')){
+      this.buscar = this.navParams.get('sexo');
+    }
     console.log(this.detalle);
     this.nombre = this.detalle.nombre;
     this.imagen = this.detalle.imagen;
@@ -58,11 +61,24 @@ export class DetallesimgPage {
     if (clave.length < 2) {
       return "";
     }
-    this.authservice.mascotasmetter(clave).subscribe((data) => {
+    console.log(this.buscar);
+    if(this.buscar=='B'){
+      this.authservice.mascotasmetter(clave).subscribe((data) => {
+        this.items = data;
+        console.log(data);
+      });
+    }else if(this.buscar=='M'){
+      this.authservice.mascotasmettermacho(clave).subscribe((data) => {
+        this.items = data;
+        console.log(data);
+      });
+    }else if(this.buscar=='F'){
+      this.authservice.mascotasmetterhembra(clave).subscribe((data) => {
+        this.items = data;
+        console.log(data);
+      });
+    }
 
-      this.items = data;
-      console.log(data);
-    });
   }
 
 

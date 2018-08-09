@@ -351,8 +351,20 @@ export class PedigremettereditPage {
 
   editaritem(caso, posicion, item) {
     let modalp;
+    let sexo='B';
+    console.log('posicion',posicion);
+    console.log('caso',caso);
+    if(caso != 'linea0'){
+      console.log('xASO2',caso);
+      if(posicion==0 || posicion==2|| posicion==4 || posicion==6 || posicion==8 ||posicion==10){
+        sexo='M';
+      }else{
+        sexo='F';        
+      }
+    }
+    console.log('seo',sexo);
     modalp = this.modal.create(DetallesimgPage, {
-      item: item, caso: 1
+      item: item, caso: 1,sexo:sexo
     });
     modalp.present();
     modalp.onDidDismiss((data) => {
