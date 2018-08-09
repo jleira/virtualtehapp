@@ -66,7 +66,10 @@ export class ChatRoomPage {
 
     this.getMessages().subscribe(message => {
       console.log(message);
-      var f=new Date();
+      let f=new Date();
+      let f2=f.getTimezoneOffset();
+      f.setMilliseconds(-f2*60*1000);
+  
       let cad=`${f.getFullYear()}-${f.getMonth()+1}-${f.getDate()} ${f.getHours()}:${f.getMinutes()}:${f.getSeconds()}`
       if (message['usuario_envia'] == this.miid && message['usuario_recibe'] == this.id) {        
         this.messages.push({ usuario_envia: message['usuario_envia'], usuario_recibe: message['usuario_recibe'], mensaje: message['text'], tipo: message['tipo'], creado:cad });
