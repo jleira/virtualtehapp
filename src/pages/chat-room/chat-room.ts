@@ -65,24 +65,27 @@ export class ChatRoomPage {
     });
 
     this.getMessages().subscribe(message => {
-      console.log(message);
       let f=new Date();
       let f2=f.getTimezoneOffset();
-      f.setMilliseconds(-f2*60*1000);
+      f.setMilliseconds(f2*60*1000);
   
       let cad=`${f.getFullYear()}-${f.getMonth()+1}-${f.getDate()} ${f.getHours()}:${f.getMinutes()}:${f.getSeconds()}`
       if (message['usuario_envia'] == this.miid && message['usuario_recibe'] == this.id) {        
         this.messages.push({ usuario_envia: message['usuario_envia'], usuario_recibe: message['usuario_recibe'], mensaje: message['text'], tipo: message['tipo'], creado:cad });
         setTimeout(()=>{
           let dimensions = this.content.getContentDimensions();
-          this.content.scrollTo(0, dimensions.scrollHeight + 100, 100)  
-        },500)
+          console.log('paso 1');
+          this.content.scrollTo(0, dimensions.scrollHeight + 100, 100);
+          console.log('paso 2');
+        },1000)
       } if (message['usuario_envia'] == this.id && message['usuario_recibe'] == this.miid) {
         this.messages.push({ usuario_envia: message['usuario_envia'], usuario_recibe: message['usuario_recibe'], mensaje: message['text'], tipo: message['tipo'], creado:cad });
         setTimeout(()=>{
           let dimensions = this.content.getContentDimensions();
+          console.log('paso 1');
           this.content.scrollTo(0, dimensions.scrollHeight + 100, 100)
-        },500)
+          console.log('paso 2');
+        },1000)
 
       }
     });
@@ -360,9 +363,12 @@ export class ChatRoomPage {
 }
 
 horautc(fecha){
+  fecha=fecha.replace(/-/g,'/');
   let fechaneuva=new Date(fecha);
+
   let f2=fechaneuva.getTimezoneOffset();
-  fechaneuva.setMilliseconds(f2*60*1000);
+  fechaneuva.setMilliseconds(-f2*60*1000);
+
   return fechaneuva.getHours()+':'+fechaneuva.getMinutes()+':'+fechaneuva.getSeconds();
 }
 
