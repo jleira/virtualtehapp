@@ -74,18 +74,17 @@ export class ChatRoomPage {
         this.messages.push({ usuario_envia: message['usuario_envia'], usuario_recibe: message['usuario_recibe'], mensaje: message['text'], tipo: message['tipo'], creado:cad });
         setTimeout(()=>{
           let dimensions = this.content.getContentDimensions();
-          console.log('paso 1');
+    
           this.content.scrollTo(0, dimensions.scrollHeight + 100, 100);
-          console.log('paso 2');
+    
         },1000)
       } if (message['usuario_envia'] == this.id && message['usuario_recibe'] == this.miid) {
         this.messages.push({ usuario_envia: message['usuario_envia'], usuario_recibe: message['usuario_recibe'], mensaje: message['text'], tipo: message['tipo'], creado:cad });
         setTimeout(()=>{
           let dimensions = this.content.getContentDimensions();
-          console.log('paso 1');
-          this.content.scrollTo(0, dimensions.scrollHeight + 100, 100)
-          console.log('paso 2');
-        },1000)
+                    this.content.scrollTo(0, dimensions.scrollHeight + 100, 100)
+          
+                  },1000)
 
       }
     });
